@@ -1,0 +1,20 @@
+*{
+    background-color: aquamarine;
+}
+h1{
+    background-color: rgb(29, 127, 127);
+    font-size: 50px;
+}
+p{
+    background-color: skyblue;
+}
+.A{
+    background-color: blueviolet;
+}
+#para1{
+    color: #FF2453;
+}
+h2{
+    font-size: 75px;
+    background: linear-gradient(45deg ,red 0,green 10%,blue 50%,yellow 75%);
+}
