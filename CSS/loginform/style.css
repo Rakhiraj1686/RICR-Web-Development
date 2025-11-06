@@ -1,0 +1,85 @@
+body{
+    background-color: papayawhip;
+    background-size: cover;
+    background: url(./peacock.jpg);
+}
+
+#mainbox{
+    border: 1px solid black;
+    font-size: 25px;
+    width: 500px;
+    height: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color:   rgba(235, 226, 226,0.8);
+    border-radius: 10px;
+    box-shadow: 2px 2px 1px 1px rgba(199, 191, 191,0.8);
+}
+
+
+#formHeading{
+    text-align: center;
+    color: blue;
+}
+
+#loginform{
+    width: max-content;
+    margin: auto;
+    padding: 10px;
+}
+
+.formField{
+    padding: 10px;
+
+    label{
+        font-size: large;
+        color: black;
+    }
+}
+
+.formField input{
+    padding: 10px;
+    border-radius: 25px;
+    outline-color: rgb(17, 8, 8);
+    border: 1px solid grey;
+}
+
+#fromControl{
+    margin: auto;
+    width: fit-content;
+
+    button{
+        padding: 7px;
+        margin: 10px;
+        border-radius: 25px;
+    }
+
+}
+
+#submit{
+    background-color: green;
+    color: greenyellow;
+    border: 1px solid green;
+}
+
+#cancel{
+    background-color: brown;
+    color:white;
+    border: 1px solid white;
+}
+#submit:hover{
+    background: white;
+    color: green;
+}
+#cance:hover{
+    background-color: white;
+    color: red;
+}
+#submit:active{
+    background: blue;
+    color: white;
+}
+#cancel:active{
+    background-color: blue;
+    color: aliceblue;
+}

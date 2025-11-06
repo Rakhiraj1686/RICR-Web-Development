@@ -1,0 +1,21 @@
+.superDiv{
+       width: 1000px;
+        height: 1000px;
+        border: 1px solid black;
+        background-color: aqua;
+}
+
+#mainDiv{
+    display: grid;
+    grid-template-columns: 100px 250px 150px 200px;
+    justify-items: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.subDiv{
+    width: 80px;
+    height: 80px;
+    border: 1px solid black;
+    background-color: rgb(169, 158, 158);
+}
