@@ -1,0 +1,88 @@
+h1 {
+  width: 200px;
+  border: 1px solid rgb(57, 63, 43);
+  margin-left: 0px;
+}
+h1:hover {
+  width: 500px;
+  text-align: center;
+  color: rgb(224, 222, 181);
+  /* margin-left: 200px; */
+  background-color: rgb(0, 255, 204);
+  transition: width 400px ease-in-out 5s;
+}
+h2 {
+  width: 300px;
+  border: 1px solid black;
+  margin: 0px;
+}
+#box {
+  width: 400px;
+  height: 50px;
+  border: 1px solid black;
+  #blankBox {
+    width: 10px;
+    height: 50px;
+    background-color: rgb(211, 46, 46);
+  }
+}
+#box:hover {
+  #blankBox {
+    width: 100%;
+    background-color: green;
+    transition: width 5s ease-in-out, background-color 5s ease-in-out 2s e;
+    
+  }
+}
+
+
+#box1 {
+  width: 500px;
+  height: 50px;
+  border: 1px solid black;
+  #blankBox1 {
+    height: 50px;
+  }
+}
+#box1:hover {
+  #blankBox1 {
+    animation: myAnimation 5s linear; 
+  }
+}
+
+@keyframes myAnimation{
+    0%{
+        width: 0%;
+        background-color: red;
+    }
+    25%{
+        width: 25%;
+        background-color: aqua;
+    }
+    50%{
+        width: 50%;
+        background-color: yellow;
+    }
+    75%{
+        width: 75%;
+        background-color: chartreuse;
+    }
+    100%{
+        width: 100%;
+        background-color: green;
+    }
+
+}
+
+#d2{
+    height: 30px;
+    width: 50px;
+    font-size: large;
+    border: 1px solid black;
+}
+
+#d2:hover{
+    transform: rotateX(180deg);
+    transition: transforem 2s;
+
+}

@@ -9,7 +9,7 @@
     display: grid;
     grid-template-columns: 100px 250px 150px 200px;
     justify-items: center;
-    align-items: center;
+    align-items:center;
     gap: 10px;
 }
 

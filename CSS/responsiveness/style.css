@@ -1,0 +1,35 @@
+#mainDiv{
+    width: 90%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    gap: 10px;
+}
+
+.subdiv{
+    border: 3px solid #583333;
+    border-radius: 40px;
+    padding: 20px;
+    background-color: rgb(204, 220, 154);
+}
+
+/* responsive code */
+@media screen and(max-width: 1200px){
+    #mainDiv{
+        grid-template-columns: auto auto auto auto; 
+    }
+}
+
+@media screen and(max-width: 900px){
+     #mainDiv{
+        grid-template-columns: auto auto auto;
+    }
+}
+
+@media screen and(max-width: 700px){
+      #mainDiv{
+        grid-template-columns: auto auto;
+    }
+}
+
+

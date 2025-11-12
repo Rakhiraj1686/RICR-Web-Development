@@ -8,27 +8,28 @@
 </head>
 <body>
     <div id="mainbox">
-        <h1 id="fromHeading"><u>Lo</u>gin</h1>
+        <h1 id="fromHeading"><span>Lo</span>gin</h1>
         <div id="loginform">
-            <label for="loginform"></label>
-            <input type="text" name="loginform" id="loginform" placeholder="Enter your email"> 
+            <div id="fromField">
+               <label for="login"></label>
+               <span class="email">&#9993</span>
+               <input type="text" name="login" id="login" placeholder="Enter your email"> 
+               <br>
+               <label for="password"></label>
+               <span class="lock">&#128274</span>
+               <input type="text" name="password" id="password" placeholder="Confirm a password"> <span class="eye"> &#128065;</span>
+            </div>
         </div>
-        <div id="password">
-             <label for="password"></label>
-             <input type="text" name="password" id="password" placeholder="Confirm a password"> <span class="eye"> &#128065;</span>
-        </div>
-        <div>
-            <label for="remember">Remember me</label>
+        <div id="remember">
             <input type="checkbox" name="remember" id="remember">
-            <label for="forgot">Forgot Password?</label>
+            <label for="remember">Remember me</label>
+            <label for="forgetten" class="d3">Forgot Password?</label>
         </div>
-        <div>
-            <tr>
-                <th style="text-align: center;">Login Now</th>
-            </tr>
+        <div id="d1" style="text-align: center;">
+             <th>Login now </th>
         </div>
-        <div>
-            <td>Don't have an account? Singup now</td>
+        <div id="sign" style="text-align: center;">
+            <th>Don't have an account?<span> Signup now</span></td>
         </div>
     </div>
 </body>
