@@ -1,0 +1,393 @@
+*{
+    margin: 0px;
+    padding:0px;
+}
+#navBar{
+    position: sticky;
+    top: 0;
+    padding: 20px;
+    background-color: white;
+    font-size: xx-large;
+    display: flex;
+    justify-content: space-between;
+}
+#navDetail{
+    display: flex;
+    font-size: 25px;
+    padding: 10px 15px;
+    gap: 50px;
+    justify-content: space-between;
+
+}
+#signButton{
+    border: 0;
+    padding:  10px;
+    font-size: medium;
+    background-color: white;
+    border-radius: 15px;
+}
+#signButton:hover{
+    background-color: antiquewhite;
+}
+#blockButton{
+    border: 1px solid black;
+    padding: 10px 15px;
+    font-size: large;
+    border-radius: 10px;
+    background-color: rgb(9, 23, 23);
+    color: rgb(240, 236, 236);
+}
+#blockButton:hover{
+    background-color: gray;
+}
+#detail{
+    margin: 50px;
+    h1{
+        margin-top: 50px;
+        margin-left: 30px;
+        font-size: 50px;
+    }
+    h3{
+        margin: 10px;
+        padding: 20px;
+        font-size: 25px;
+        color: gray;
+    }
+}
+#innerDetail{
+    font-size: 15px;
+    color: gray;
+    margin-left: 50px ;
+}
+#email{
+    padding: 10px;
+    margin-left: 5px;
+
+    button{
+        padding: 10px;
+        background-color: black;
+        color: white;
+    }
+    button:hover{
+        background-color: gray;
+    }
+}
+.your{
+    margin: 25px;
+}
+img{
+    height: 650px;
+    width: 550px;
+    padding: auto;
+    display: flex;
+    margin: 40px;
+    border-radius: 15px;
+    justify-content: end;
+
+}
+#term{
+    margin-left: 20px;
+    color: gray;
+    font-size: 18px;
+}
+#portofolioForm{
+    display: flex;
+    justify-content: space-between;
+}
+#d1{
+    text-align: center;
+    font-size: large;
+    margin-top: 80px;
+}
+#icons{
+    display: flex;
+    img{
+        width: 120px;
+        height: 80px;
+        margin: 50px;
+    }
+}
+#skill{
+    margin: 10px;
+    h3{
+        font-size: 20px;
+        text-align: center;
+    }
+    h1{
+        margin: 10px;
+        font-size: 50px;
+        text-align: center;
+    }
+    p{
+        margin: 40px;
+        font-size: 20px;
+        color: gray;
+        text-align: center;
+        padding: auto;
+    }
+}
+/* #skillDetail{
+    display: flex;
+    justify-content: space-around;
+    app{
+        margin: 10px;
+        img{
+            width: 40px;
+            height: 50px;
+            border-radius: 50%;
+        }
+    }
+
+} */
+#skillDetails{
+    width: 1000px;
+    height: 1100px;
+    border: none;
+    margin: 50px 250px;
+    justify-items: center;
+    justify-content: space-between;
+    gap: 100px;
+}
+#subSkill{
+    display: flex;;
+    justify-items: center;
+    align-items: center;
+    gap: 30px;
+
+    .web{
+        img{
+            width: 40px;
+            height: 50px;
+            margin-left: 100px;
+            border-radius: 50px;
+        }
+
+    }
+
+    .app{
+        
+        img{
+            width: 40px;
+            height: 50px;
+            margin-left: 100px;
+            border-radius: 50%;
+        }
+    }
+    .technology{
+        
+    
+        h2{
+            margin-top: 50px;
+            
+        }
+        img{
+            width: 40px;
+            height: 50px;
+            margin: 40px 100px;
+            border-radius: 50%;
+        }
+        p{
+            padding: 10px;
+        }
+        h2{
+            margin: 20PX;
+        }
+    }
+}
+#skillBottom{
+    display: flex;
+    .webOptimization{
+        img{
+            width: 40px;
+            height: 50px;
+            border-radius: 50%;
+            margin-left: 120px;
+        }
+        h2{
+            padding: 10px;
+            margin-left: 50px;
+        }
+        
+    }
+    .centric{
+        img{
+            width: 40px;
+            height: 50px;
+            border-radius: 50%;
+            margin-left: 120px;
+        }
+        h2{
+            padding: 10px;
+            margin: 50px;
+        }
+    }
+    .testing{
+        img{
+            width: 40px;
+            height: 50px;
+            border-radius: 50%;
+            margin-left: 120px;
+        }
+    }
+}
+#icons{
+    margin-bottom: 80px;
+    padding: 30px;
+    justify-content: space-between;
+
+}
+#myProject{
+    margin-top: 80px;
+}
+#topProject{
+    display: flex;
+    margin: 10px;
+    padding: 10px;
+    
+    .mobile{
+        h2{
+            margin-left: 70px;
+        }
+        img{
+            width: 300px;
+            height: 200px;
+        }
+        .see{
+            margin-left: 60px;
+            padding: 10px;
+            border-radius: 15px;
+            background-color: black;
+            color: white;
+        }
+    }
+    .page{
+        h2{
+            margin-left: 70px;
+        }
+        img{
+            width: 300px;
+            height: 200px;
+        }
+        .see{
+            margin-left: 60px;
+            padding: 10px;
+            border-radius: 15px;
+            background-color: black;
+            color: white;
+        }
+    }
+    .app{
+        h2{
+            margin-left: 70px;
+        }
+        img{
+            width: 300px;
+            height: 200px;
+        }
+        .see{
+            margin-left: 60px;
+            padding: 10px;
+            border-radius: 15px;
+            background-color: black;
+            color: white;
+        }
+    }
+    .eCommerce{
+        h2{
+            margin-left: 70px;
+        }
+        img{
+            width: 300px;
+            height: 200px;
+        }
+        .see{
+            margin-left: 60px;
+            padding: 10px;
+            border-radius: 15px;
+            background-color: black;
+            color: white;
+        }
+    }
+}
+#bottomProject{
+        display: flex;
+    margin: 10px;
+    padding: 10px;
+    
+    .mobile1{
+        h2{
+            margin-left: 70px;
+        }
+        img{
+            width: 300px;
+            height: 200px;
+        }
+        .see{
+            margin-left: 60px;
+            padding: 10px;
+            border-radius: 15px;
+            background-color: black;
+            color: white;
+        }
+    }
+    .page1{
+        h2{
+            margin-left: 70px;
+        }
+        img{
+            width: 300px;
+            height: 200px;
+        }
+        .see{
+            margin-left: 60px;
+            padding: 10px;
+            border-radius: 15px;
+            background-color: black;
+            color: white;
+        }
+    }
+    .app1{
+        h2{
+            margin-left: 70px;
+        }
+        img{
+            width: 300px;
+            height: 200px;
+        }
+        .see{
+            margin-left: 60px;
+            padding: 10px;
+            border-radius: 15px;
+            background-color: black;
+            color: white;
+        }
+    }
+    .eCommerce1{
+        h2{
+            margin-left: 70px;
+        }
+        img{
+            width: 300px;
+            height: 200px;
+        }
+        .see{
+            margin-left: 60px;
+            padding: 10px;
+            border-radius: 15px;
+            background-color: black;
+            color: white;
+        }
+    }
+}
+#myResume{
+    margin: 30px;
+    display: flex;
+    justify-content: space-between;
+
+    .view{
+        background-color: white;
+        padding: 10px;
+        margin-left: 40px;
+        border: none;
+    }
+}
