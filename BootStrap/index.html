@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link  
+     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="box" class="d-flex justify-content-evenly py-5">
+        <div id="mianbox" class=" h-75 bottom-50 border rounded py-0 px-0 bg-light w-25 justify-content-center align-items-center d-grid">
+            <h1 id="formHeading" class="font px-2 py-4"><span>Lo</span>gin</h1>
+            <div id="loginForm">
+                <div id="fromField" class="px-4 py-2" >
+                    <label for="login"></label>
+                    <i class="bi bi-envelope"></i>
+                    <input type="text" 
+                            name="login" 
+                            id="login"  
+                            placeholder="Enter your email"
+                            style="border: none; border-bottom: 2px solid gray;" > <br>
+                </div>
+                <div id="fromField1" class="px-4 py-3">
+                    <label for="password"></label>
+                    <i class="bi bi-lock-fill"></i>
+                    <input type="text"
+                        name="password" 
+                        id="password" 
+                        placeholder="Confirm a password" 
+                        style="border: none; border-bottom: 2px solid gray; ">
+                        <i class="bi bi-eye"></i>
+                </div>
+                <div id="remember" class="px-4 py-3">
+                <input type="checkbox" 
+                    name="remember" 
+                    id="remember">
+                <label for="remember">Remember Me</label>
+                <label for="forgetten" class="text-primary gap-3">Forgot Password?</label>
+            </div>
+            <div id="loginNow" style="text-align: center; ">
+                <button class="border-2 py-2 px-xxl-5 bg-primary text-light rounded " style="border: none;">Login Now</button>
+            </div>
+            <div id="signup" style="text-align: center;" class="py-3">
+                <p>Don't have an account? <span class="text-primary">Sign Up</span></p>
+            </div>
+        </div>
+    </div>
+    <div id="registration" class=" rounded justify-content-between py-5 px-5 w-25 h-auto bg-light d-grid">
+        <div id="regHeading" class="py-4 px-3 ">
+            <h1 id="heading"><span>Re</span>gistration</h1>
+        </div>
+        <div id="regFeild" class=" px-4">
+            <div id="name" class="py-xl-4">
+               <label for="name" ></label>
+               <i class="bi bi-person"></i>
+               <input type="text" 
+                  name="person" 
+                  id="person" 
+                  placeholder="Enter your name" 
+                  style="border: none; border-bottom: 2px solid gray;">
+            </div>
+            <label for="email"></label>
+            <i class="bi bi-envelope"></i>
+            <input type="text" 
+                name="email" 
+                id="email" 
+                placeholder="Enter your email" 
+                style="border: none; border-bottom: 2px solid black;">
+            <br>
+            <br>
+            <label for="lock"></label>
+            <i class="bi bi-lock-fill"></i>
+            <input type="text" 
+                name="lock" 
+                id="lock" 
+                placeholder="Create a password" 
+                style="border: none; border-bottom: 2px solid black;">
+            <br>
+            <br>
+            <label for="lock1"></label>
+            <i class="bi bi-lock-fill"></i>
+            <input type="text"
+                name="lock1" 
+                id="lock1" 
+                placeholder="Confirm a password" 
+                style="border: none; border-bottom: 2px solid black;"> 
+                <i class="bi bi-eye"></i>
+        </div>
+        <div class="py-3 px-2">
+            <input type="checkbox" name="checkbox" id="checkbox">
+            <label for="checkbox">I accept all terms & conditions</label>
+        </div>
+        <div id="register" style="text-align: center;" class="py-2" >
+            <button class="border-2  rounded py-2 px-5 bg-primary text-light" style="border: none;" >Register Now</button>
+        </div>
+        <div id="formcontrol" style="text-align: center;" class="py-2">
+            <th>Already have an account? <span class="text-primary">Login now</span></th>
+        </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+</body>
+</html>

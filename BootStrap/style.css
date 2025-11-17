@@ -1,0 +1,18 @@
+body{
+    background-color: blue;
+}
+*{
+    margin: 0px !important;
+    padding: 0px !important;
+}
+#formHeading{
+    margin-left: 0px !important;
+    span{
+        border-bottom: 3px solid blue !important;
+    }
+}
+#regHeading{
+    span{
+        border-bottom: 3px solid blue !important;
+    }
+}
