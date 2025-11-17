@@ -126,19 +126,6 @@ img{
         padding: auto;
     }
 }
-/* #skillDetail{
-    display: flex;
-    justify-content: space-around;
-    app{
-        margin: 10px;
-        img{
-            width: 40px;
-            height: 50px;
-            border-radius: 50%;
-        }
-    }
-
-} */
 #skillDetails{
     width: 1000px;
     height: 1100px;
@@ -163,13 +150,12 @@ img{
         }
 
     }
-
     .app{
         
         img{
             width: 40px;
             height: 50px;
-            margin-left: 100px;
+            margin-left: 140px;
             border-radius: 50%;
         }
     }
@@ -391,3 +377,20 @@ img{
         border: none;
     }
 }
+#client{
+    margin: 50px;
+    padding: 20px;
+    text-align: center;
+    #clientHeader {
+        margin: auto;
+        padding: 20px;
+        font-size: 25px;
+    }
+
+    #clientWord{
+        margin:  20px 20%;
+        font-size: 35px;
+        color: gray;
+    }
+}
+
