@@ -4,7 +4,7 @@ function start() {
   document.getElementById("roll1").disabled = false;
   document.getElementById("restart").disabled = false;
   document.getElementById("start").disabled = true;
-//   document.getElementById("roll2").disabled = false;
+  //   document.getElementById("roll2").disabled = false;
 }
 function restart() {
   window.location.reload();
@@ -15,31 +15,31 @@ function p1Play() {
   let Score = Number(document.getElementById("score1").innerText);
 
   const DF = Math.floor(Math.random() * 6) + 1;
-  switch(DF){
+  switch (DF) {
     case 1: {
-        document.getElementById("pedice").src ="./image/1.png;"
-    break;
-    } 
+      document.getElementById("p1dice").src = "./dice1.jpg;";
+      break;
+    }
     case 2: {
-        document.getElementById("pedice").src ="./image/2.png;"
-    break;
-    } 
+      document.getElementById("p1dice").src = "./dice2.jpg;";
+      break;
+    }
     case 3: {
-        document.getElementById("pedice").src ="./image/3.png;"
-    break;
-    } 
+      document.getElementById("p1dice").src = "./dice3.jpg;";
+      break;
+    }
     case 4: {
-        document.getElementById("pedice").src ="./image/4.png;"
-    break;
-    } 
+      document.getElementById("p1dice").src = "./dice4.jpg;";
+      break;
+    }
     case 5: {
-        document.getElementById("pedice").src ="./image/5.png;"
-    break;
-    } 
+      document.getElementById("p1dice").src = "./dice5.jpg;";
+      break;
+    }
     case 6: {
-        document.getElementById("pedice").src ="./image/6.png;"
-    break;
-    } 
+      document.getElementById("p1dice").src = "./dice6.jpg;";
+      break;
+    }
   }
   if (DF === 6) {
     document.getElementById("roll1").disabled = true;
@@ -48,15 +48,15 @@ function p1Play() {
     Score = Score + DF;
     document.getElementById("score1").innerText = Score;
   }
-//   console.log(DF);
+  //   console.log(DF);
 }
 function p2Play() {
   console.log("Player2Playing");
   let Score = Number(document.getElementById("score2").innerText);
 
   const DF = Math.floor(Math.random() * 6) + 1;
-//   shortcut switch case 
-    document.getElementById("p1dice").src=`./image/$(DF).png`;
+  //   shortcut switch case
+  document.getElementById("p2dice").src = `./dice${DF}.jpg`;
   if (DF == 6) {
     document.getElementById("roll1").disabled = false;
     document.getElementById("roll2").disabled = true;
@@ -64,5 +64,5 @@ function p2Play() {
     Score = Score + DF;
     document.getElementById("score2").innerText = Score;
   }
-//   console.log(DF);
+  //   console.log(DF);
 }
