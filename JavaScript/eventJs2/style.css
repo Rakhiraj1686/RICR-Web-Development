@@ -1,0 +1,34 @@
+#mainbox{
+    border: 1px solid black;
+    margin: 20px;
+    display: flex;
+    height: 250px;
+    width: 800px;
+}
+#headingBox{
+    border: 1px solid black;
+    margin: 20px;
+    height: 200px;
+    width: 450px;
+}
+#heading{
+    margin: 20px;
+    justify-content: center;
+    text-align: center;
+}
+#behind{
+    margin: 20px;
+    #background{
+        margin-top: 30px;
+        border:  none;
+    }
+    #head{
+        margin-top: 30px;
+        border: none;
+    }
+    #para{
+        margin-top: 30px;
+        border:  none;
+    }
+
+}
