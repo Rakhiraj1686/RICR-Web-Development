@@ -109,7 +109,7 @@ function download() {
 
   const canvas = document.createElement("canvas");
 
-  const ctx = canvas.getContext("2D");
+  const ctx = canvas.getContext("2d");
 
   canvas.width = img.naturalWidth;
   canvas.height = img.naturatHeight;
