@@ -1,24 +1,74 @@
-body{
-    background-color: rgb(149, 207, 207);
+body {
+  background-color: rgb(221, 237, 237);
 }
-#bulb{
-    padding: 50px;
-    border: 1px solid #000;
-    border-radius: 50%;
-    width: fit-content;
+#bulb {
+  padding: 50px;
+  border: 1px solid #000;
+  border-radius: 50%;
+  width: fit-content;
+}
+button {
+  margin: 5px;
+}
 
+#smartBulb {
+  padding: 50px;
+  border: 1px solid #000;
+  border-radius: 50%;
+  width: fit-content;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
 }
-button{
-    margin: 5px;
+.On {
+  background-color: yellow;
+}
+#rainbowBulb {
+  padding: 50px;
+  border: 1px solid #000;
+  border-radius: 50%;
+  width: fit-content;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
 }
 
-#smartBulb{
-    padding: 50px;
-    border:  1px solid #000;
+#colorpalet{
+    display: flex;
+    margin: 10px;
+    gap: 10px;
     border-radius: 50%;
-    width: fit-content;
+}
+
+.color{
+    display: flex;
+    border: 1px solid black;
+    width: 30px;
+    height: 30px;
     justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: default;
 }
-.On{
+
+#c1{
+    background-color: violet;
+}
+#c2{
+    background-color: indigo;
+}
+#c3{
+    background-color: blue;
+}
+#c4{
+    background-color: green;
+}
+#c5{
     background-color: yellow;
+}
+#c6{
+    background-color: orange;
+}
+#c7{
+    background-color: red;
 }
