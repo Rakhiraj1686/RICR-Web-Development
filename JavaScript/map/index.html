@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="main">
+      <div class="container p-3 d-flex gap-2">
+        <select
+          name="state"
+          id="state"
+          class="w-50 border rounded"
+          onchange="search()"
+        >
+          <option value="">--Select state/UT--</option>
+          <option value="andhra Pradesh">andhra pradesh</option>
+          <option value="arunachal Pradesh">arunachal pradesh</option>
+          <option value="Assam">assam</option>
+          <option value="Bihar">bihar</option>
+          <option value="Chhatisgarh">chhatisgarh</option>
+          <option value="goa">goa</option>
+          <option value="gujarat">gujarat</option>
+          <option value="haryana">Haryana</option>
+          <option value="himachal pradesh">himachal pradesh</option>
+          <option value="jammu & kashmir">jammu & kashmir</option>
+          <option value="jharkhand">jharkhand</option>
+          <option value="karnataka">karnataka</option>
+          <option value="kerala">kerala</option>
+          <option value="madhya pradesh">madhya pradesh</option>
+          <option value="maharashtra">maharashtra</option>
+          <option value="manipur">manipur</option>
+          <option value="meghalaya">meghalaya</option>
+          <option value="mizoram">mizoram</option>
+          <option value="nagaland">nagaland</option>
+          <option value="odisha">odisha</option>
+          <option value="punjab">punjab</option>
+          <option value="rajasthan">Rajasthan</option>
+          <option value="sikkim">sikkim</option>
+          <option value="tamil nadu">tamil nadu</option>
+          <option value="telangana">telangana</option>
+          <option value="tripura">tripura</option>
+          <option value="uttar pradesh">uttar pradesh</option>
+          <option value="uttarakhand">uttarakhand</option>
+          <option value="west bengal">west bengal</option>
+        </select>
+
+        <button onclick="clearIcons()" class="btn btn-danger ">
+          Clear All
+        </button>
+      </div>
+    </div>
+
+    <div id="map" class="overflow-hidden" style="position: relative">
+        <img
+          src="./Map.jpg"
+          alt="map"
+          class="justify-content-center text-center"
+        />
+      </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+    <script src="script.js"></script>
+  </body>
+</html>
