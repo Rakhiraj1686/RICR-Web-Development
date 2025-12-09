@@ -177,3 +177,7 @@ function clearIcons() {
   document.querySelectorAll("#map i").forEach((el) => el.remove());
   window.location.reload();
 }
+function selectAll() {
+  const checkboxes = document.querySelectorAll(".state");
+  checkboxes.forEach((cb) => (cb.checked = true));
+}
