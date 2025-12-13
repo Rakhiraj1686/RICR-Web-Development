@@ -32,7 +32,7 @@
         <div class="justify-content-center">
           <div class="mb-2">Bill Amount</div>
           <input
-            type="text"
+            type="number"
             name="bill"
             id="bill"
             placeholder="Amount to be paid"
@@ -59,7 +59,7 @@
         <div>
           <div class="mb-3">Total number of persons</div>
           <input
-            type="text"
+            type="number"
             name="person"
             id="person"
             placeholder="Number of people sharing the bill"
@@ -67,6 +67,9 @@
           />
         </div>
         <button class="btn btn-primary w-50" onclick="calculateTip()">Calculate</button>
+
+        <div id="result" class="mt-3 fs-5 text-success text-center"></div>
+
       </div>
     </main>
 
