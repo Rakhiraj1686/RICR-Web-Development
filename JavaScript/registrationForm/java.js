@@ -1,13 +1,13 @@
 function submit() {
     console.log("Registration Successful")
 
-    const name = document.getElementById("fullName").value;
-    const em = document.getElementById("email").value;
-    const mob = document.getElementById("mobile").value;
-    const dob = document.getElementById("dob").value;
-    const quali = document.getElementById("quali").value;
-    const present = document.getElementById("score").value;
-    const course = document.getElementById("qualification").value;
+    const name = document.getElementById("fullName").value.trim();
+    const em = document.getElementById("email").value.trim();
+    const mob = document.getElementById("mobile").value.trim();
+    const dob = document.getElementById("dob").value.trim();
+    const quali = document.getElementById("quali").value.trim();
+    const present = document.getElementById("score").value.trim();
+    const course = document.getElementById("qualification").value.trim();
 
     console.log(name);
     console.log(em);
