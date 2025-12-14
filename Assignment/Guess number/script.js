@@ -9,8 +9,7 @@ function submit(){
     else if(guess<num){
         alert("OOPS SORRY!!! TRY LARGET NUMBER");
     }else{
-        alert("Correct.")
+        alert("😊 Well Done!! you guessed it right.")
     }
-
     document.getElementById("guessNum").value="";
 }
