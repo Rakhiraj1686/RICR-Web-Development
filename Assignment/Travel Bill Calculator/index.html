@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel Bill Calculator</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <header>
+      <div class="bg-primary fs-3 fw-bold text-light text-center p-2">
+        Travel Bill Calculator
+      </div>
+    </header>
+    <div class="card calculator-card">
+      <div class="card-header py-3">
+        <h4 class="mb-0">Travel Bill Calculator</h4>
+      </div>
+
+      <div class="card-body p-4">
+        <!-- input  -->
+        <div class="mb-3">
+          <label for="km" class="form-label fw-semibold">
+            Kilometers Covered
+          </label>
+          <input
+            type="number"
+            name="km"
+            id="km"
+            class="form-control"
+            placeholder="Enter Kilometers"
+            min="0"
+            step="0.1"
+          />
+          <div id="error" class="text-danger error-text mt-1 d-none">
+            Please enter a non-negative number of kilometers
+          </div>
+        </div>
+
+        <!-- Button  -->
+        <div class="d-grid mb-4">
+          <button class="btn btn-primary btn-calc" onclick="validateInput()">
+            Calculate Bill
+          </button>
+        </div>
+
+        <!-- output -->
+        <div class="text-center mb-3">
+          <div class="total-bill">Total Bill = Rs. 0</div>
+        </div>
+
+        <!-- Breakdown  -->
+        <div class="card">
+          <div class="card-header bg-light fw-semibold">
+            Calculation Breakdown
+          </div>
+          <div class="card-body">
+            <div class="breakdown-item">0 km x Rs. 11 = Rs.0</div>
+            <div class="breakdown-item">0 km x Rs. 10 = Rs.0</div>
+            <div class="breakdown-item">0 km x Rs. 9 = Rs.0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+    <script src="script.js"></script>
+  </body>
+</html>
