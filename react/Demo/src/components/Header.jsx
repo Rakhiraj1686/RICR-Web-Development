@@ -4,10 +4,7 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <>
-      <h1 id="head" className="text-center mt-5">
-        <i class="bi bi-symmetry-vertical"></i> Hello World
-      </h1>
-      <div className="d-flex gap-3 ">
+      <div className="d-flex gap-3 justify-content-end p-3 bg-primary">
         <Link to={"/"} className="text-decoration-none text-light">
           Home
         </Link>
@@ -21,6 +18,9 @@ const Header = () => {
           Contact
         </Link>
       </div>
+      <h1 id="head" className="text-center mt-5  ">
+        <i class="bi bi-symmetry-vertical"></i> Hello World
+      </h1>
     </>
   );
 };
