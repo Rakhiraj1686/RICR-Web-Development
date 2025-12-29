@@ -39,7 +39,7 @@ const Contact = () => {
 
   return (
     <>
-     <h5 className="text-center my-3">This is Contact</h5>
+      <h5 className="text-center my-3">This is Contact</h5>
       <div className="d-flex justify-content-center p-3">
         <div className=" border rounded border-secondary  p-5 w-50">
           <form onReset={handleClearForm} onSubmit={handleSubmit}>
