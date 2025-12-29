@@ -39,9 +39,9 @@ const Contact = () => {
 
   return (
     <>
-      <div className="text-center container border rounded border-secondary p-3">
-        <h5>This is Contact</h5>
-        <div className="container gap-3 ">
+     <h5 className="text-center my-3">This is Contact</h5>
+      <div className="d-flex justify-content-center p-3">
+        <div className=" border rounded border-secondary  p-5 w-50">
           <form onReset={handleClearForm} onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="fullName" className="w-25">
@@ -54,7 +54,7 @@ const Contact = () => {
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Enter your Name"
-                className="text-primary border rounded p-2 w-50"
+                className="text-primary border rounded p-2 w-75 "
                 required
               />
             </div>
@@ -69,7 +69,7 @@ const Contact = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter yout Email"
-                className="text-primary border rounded p-2 w-50"
+                className="text-primary border rounded p-2 w-75"
                 required
               />
             </div>
@@ -83,7 +83,7 @@ const Contact = () => {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Enter your Message"
-                className="text-primary border rounded p-2 w-50"
+                className="text-primary border rounded p-2 w-75"
                 required
               ></textarea>
             </div>
