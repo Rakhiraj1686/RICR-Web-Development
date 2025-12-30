@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 
 const Login = () => {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClearForm = () => {
-    setFullName("");
-    setEmail("");
+    setUserName("");
     setPassword("");
   };
 
@@ -45,33 +43,21 @@ const Login = () => {
           </h2>
           <form onSubmit={handleLoginNow} onReset={handleClearForm}>
             <div className="mt-6 flex ">
-              <label htmlFor="fullName" className="w-25 ">
-                Full Name:
+              <label htmlFor="userName" className="w-25 ">
+                UserName:
               </label>
               <input
                 type="text"
-                name="fullName"
-                id="fullName"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                placeholder="Enter your Full Name"
+                name="userName"
+                id="userName"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                placeholder="Enter your User Name"
                 className="border w-120 rounded-2xl p-1.5"
+                required
               />
             </div>
-            <div className="mt-6 flex">
-              <label htmlFor="email" className="w-25 ">
-                Email:
-              </label>
-              <input
-                type="text"
-                name="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter Your Email"
-                className="border w-120 rounded-2xl p-1.5"
-              />
-            </div>
+            
             <div className="mt-6 flex gap-7 mb-2">
               <label htmlFor="password">Password:</label>
               <input
@@ -82,6 +68,7 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter Your Password"
                 className="border w-120 rounded-2xl p-1.5"
+                required
               />
             </div>
             <div className="flex justify-center">
