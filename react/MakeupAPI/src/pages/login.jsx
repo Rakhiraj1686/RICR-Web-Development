@@ -19,8 +19,7 @@ const Login = () => {
       );
       setTimeout(() => {
         const data = {
-          fullName,
-          email,
+          userName,
           password,
         };
         console.log(data);

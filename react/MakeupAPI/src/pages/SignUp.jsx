@@ -6,6 +6,7 @@ const SignUp = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [religion,setReligion] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClearForm = () => {
@@ -14,6 +15,7 @@ const SignUp = () => {
     setUserName("");
     setPassword("");
     setConfirmPassword("");
+    setReligion("");
   };
 
   const handleSignUp = async (e) => {
@@ -30,6 +32,7 @@ const SignUp = () => {
           userName,
           password,
           confirmPassword,
+          religion,
         };
         console.log(data);
       }, 5000);
@@ -80,6 +83,19 @@ const SignUp = () => {
                 required
               />
             </div>
+
+            <div className="mt-6 flex">
+              <label htmlFor="religion" className="w-25">
+                Religion :
+              </label>
+              <select name="religion" id="religion" onChange={handleSignUp} className="border w-120 rounded-2xl p-1.5">
+                <option value="">--Select Religion--</option>
+                <option value="islam">Islam</option>
+                <option value="hinduism">Hinduism</option>
+                <option value="christian">Christian</option>
+              </select>
+            </div>
+
             <div className="mt-6 flex">
               <label htmlFor="userName" className="w-25">
                 User Name :

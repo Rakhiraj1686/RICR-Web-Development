@@ -7,6 +7,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Login from "./pages/login";
 import SignUp from "./pages/SignUp";
+import Contact1 from "./pages/Contact1";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<SignUp />} />
+          <Route path="/contact1" element={<Contact1/>} />
         </Routes>
         <Footer />
       </BrowserRouter>
