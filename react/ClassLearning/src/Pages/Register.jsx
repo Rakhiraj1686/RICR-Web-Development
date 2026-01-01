@@ -1,278 +1,361 @@
 import React, { useState } from "react";
-// import toast from "react-hot-toast";
+import toast from "react-hot-toast";
 
 const Register = () => {
-    // const [formData,setFormData] = useState();
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    mobileNumber: "",
+    dateOfBirth: "",
+    lastQualification: "",
+    percentageGrade: "",
+    preferredCourse: "",
+    batchTiming: "",
+    residentialAddress: "",
+    city: "",
+    pinCode: "",
+    guardianName: "",
+    guardianContact: "",
+    hearAboutUs: "",
+    specialRequirements: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [validationError, setValidationError] = useState({});
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
+  const handleClearForm = () => {
+    setFormData({
+      fullName: "",
+      email: "",
+      mobileNumber: "",
+      dateOfBirth: "",
+      lastQualification: "",
+      percentageGrade: "",
+      preferredCourse: "",
+      batchTiming: "",
+      residentialAddress: "",
+      city: "",
+      pinCode: "",
+      guardianName: "",
+      guardianContact: "",
+      hearAboutUs: "",
+      specialRequirements: "",
+    });
+  };
 
+  const validate = () => {
+    let Error = {};
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     isLoading(true);
-    //     try{
-    //         console.log(formData);
-    //         toast.success("Registation Successfull")
-    //         handle
-    //     }
-    // }
+    if (formData.fullName.length < 3) {
+      Error.fullName = "Name should be More Than 3 Characters";
+    } else {
+      if (!/^[A-Za-z ]+$/.test(formData.fullName)) {
+        Error.fullName = "Only Contain A-Z , a-z and space";
+      }
+    }
+
+    if (
+      !/^[\w\.]+@(gmail|outlook|ricr|yahoo)\.(com|in|co.in)$/.test(
+        formData.email
+      )
+    ) {
+      Error.email = "Use Proper Email Format";
+    }
+
+    if (!/^[6-9]\d{9}$/.test(formData.mobileNumber)) {
+      Error.mobileNumber = "Only Indian Mobile Number allowed";
+    }
+
+    setValidationError(Error);
+
+    return Object.keys(Error).length > 0 ? false : true;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    if (!validate()) {
+      setIsLoading(false);
+      toast.error("Fill the Form Correctly");
+      return;
+    }
+
+    try {
+      console.log(formData);
+      toast.success("Regisrtation Successfull");
+      handleClearForm();
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
-      <div className="flex justify-center p-2 text-blue-900 mt-6">
-        <h1 className="text-4xl font-bold ">Registation Form</h1>
-      </div>
-      <div className="p-10">
-        <div>
-          <div className="border border-blue-600 rounded shadow mx-3 pt-5 mt-4 pb-2 ">
-            <span className="px-2 text-blue-500 ">Personal Information</span>z
-            <div className="mx-2 flex gap-4 pt-3 ">
-              <label htmlFor="FullName" className="w-60 gap-3">
-                FullName :
-              </label>
-              <input
-                type="text"
-                name="fullName"
-                id="fullName"
-                className="border border-gray-300 rounded shadow-2xs w-7xl focus:ring focus:outline-none focus:border-indigo-500"
-              />
-            </div>
-            <div className="mx-2 flex gap-4 pt-3 ">
-              <label htmlFor="email" className="gap-3 w-60">
-                Email :
-              </label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                className="border border-gray-300 rounded shadow-2xs w-7xl"
-              />
-            </div>
-            <div className="mx-2 flex gap-4 pt-3">
-              <label htmlFor="mobileNumber" className="gap-3 w-60 ">
-                Mobile Number :
-              </label>
-              <input
-                type="text"
-                name="mobileNumber"
-                id="mobileNumber"
-                className="border border-gray-300 rounded shadow-2xs w-7xl"
-              />
-            </div>
-            <div className="mx-2 flex gap-4 pt-3 ">
-              <label htmlFor="D.O.B" className="gap-3 w-60">
-                D.O.B :
-              </label>
-              <input
-                type="date"
-                name="D.O.B"
-                id="D.O.B"
-                className="border border-gray-300 rounded shadow-2xs w-7xl"
-              />
-            </div>
+      <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 py-6 px-4">
+        <div className="max-w-4xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+              Student Registration
+            </h1>
+            <p className="text-lg text-gray-600">
+              Join our academy and start your learning journey
+            </p>
           </div>
-        </div>
 
-        {/* Academic Details */}
-
-        <div className="border border-blue-600 rounded shadow p-3 pt-5 mx-3 mt-4">
-          <span className="px-2 text-blue-500">Academic Details</span>
-
-          <div className="mx-2 flex gap-4 pt-3 ">
-            <label htmlFor="qualification" className="gap-3 w-60">
-              Qualification :
-            </label>
-            <select
-              name="qualification"
-              id="qualification"
-              className="border border-gray-300 rounded shadow-2xs w-7xl"
+          {/* Form Container */}
+          <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+            <form
+              onSubmit={handleSubmit}
+              onReset={handleClearForm}
+              className="p-8"
             >
-              <option value="">--Select Qualification</option>
-              <option value="10">Secondary Schooling</option>
-              <option value="12">Senior Secondary Schooling</option>
-              <option value="UG">Graduation</option>
-              <option value="PG">Post Graduation</option>
-              <option value="PHD">P.hd</option>
-            </select>
-          </div>
-          <div className="mx-2 flex gap-4 pt-3 ">
-            <label htmlFor="score" className="gap-3 w-60">
-              Percentage / Grade :
-            </label>
-            <input
-              type="text"
-              name="score"
-              id="score"
-              className="border border-gray-300 rounded shadow-2xs w-7xl"
-            />
-          </div>
-        </div>
-
-        {/* course Information */}
-        <div className="border border-blue-600 rounded shadow p-3 mx-3 pt-5 mt-3">
-          <span className="px-2 text-blue-500">Course Information</span>
-
-          <div className="mx-2 flex gap-4 pt-3 ">
-            <label htmlFor="course" className="gap-3 w-60">
-              Available Courses :
-            </label>
-            <select
-              name="course"
-              id="course"
-              className="border border-gray-300 rounded shadow-2xs w-7xl"
-            >
-              <option value="">--Select Course</option>
-              <option value="FSD">Full Stack Development</option>
-              <option value="DS">Data Science</option>
-              <option value="DA">Data Analytics</option>
-              <option value="J-DSA">Java DSA</option>
-              <option value="P-DSA">Python DSA</option>
-            </select>
-          </div>
-          <div className="mx-2 flex  gap-4 pt-3 ">
-            <label htmlFor="batch" className="gap-3 w-60">
-              Perfered Batch :
-            </label>
-            <div className="flex gap-3">
-              <div className="flex gap-2">
-                <input
-                  type="checkbox"
-                  name="morning"
-                  id="morning"
-                  value="morning"
-                />
-                <span>Morning</span>
+              {/* Personal Information */}
+              <div className="mb-10">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 pb-3 border-b-2 border-indigo-500">
+                  Personal Information
+                </h2>
+                <div className="grid grid-cols-2 gap-6">
+                  <div>
+                    <input
+                      type="text"
+                      name="fullName"
+                      placeholder="Full Name"
+                      value={formData.fullName}
+                      onChange={handleChange}
+                      required
+                      className="w-full h-fit px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition"
+                    />
+                    {validationError.fullName && (
+                      <span className="text-xs text-red-500">
+                        {validationError.fullName}
+                      </span>
+                    )}
+                  </div>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email Address"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full h-fit px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition"
+                  />
+                  <input
+                    type="tel"
+                    name="mobileNumber"
+                    placeholder="Mobile Number"
+                    maxLength="10"
+                    value={formData.mobileNumber}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition"
+                  />
+                  <input
+                    type="date"
+                    name="dateOfBirth"
+                    value={formData.dateOfBirth}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition"
+                  />
+                </div>
               </div>
-              <div className="flex gap-2">
-                <input
-                  type="checkbox"
-                  name="afternoon"
-                  id="afternoon"
-                  value="afternoon"
-                />
-                <span>Afternoon</span>
+
+              {/* Academic Details */}
+              <div className="mb-10">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 pb-3 border-b-2 border-indigo-500">
+                  Academic Details
+                </h2>
+                <div className="grid grid-cols-2 gap-6">
+                  <select
+                    name="lastQualification"
+                    value={formData.lastQualification}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition bg-white"
+                  >
+                    <option value="">Select Qualification</option>
+                    <option value="10th">10th</option>
+                    <option value="12th">12th</option>
+                    <option value="Graduate">Graduate</option>
+                    <option value="Postgraduate">Postgraduate</option>
+                  </select>
+                  <input
+                    type="text"
+                    name="percentageGrade"
+                    placeholder="Percentage/Grade"
+                    value={formData.percentageGrade}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition"
+                  />
+                </div>
               </div>
-              <div className="flex gap-2">
-                <input
-                  type="checkbox"
-                  name="evening"
-                  id="evening"
-                  value="evening"
-                />
-                <span>Evening</span>
+
+              {/* Course Information */}
+              <div className="mb-10">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 pb-3 border-b-2 border-indigo-500">
+                  Course Information
+                </h2>
+                <div className="grid grid-cols-2 gap-6">
+                  <select
+                    name="preferredCourse"
+                    value={formData.preferredCourse}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition bg-white"
+                  >
+                    <option value="">Select Course</option>
+                    <option value="IIT-JEE">IIT-JEE</option>
+                    <option value="NEET">NEET</option>
+                    <option value="Banking Exams">Banking Exams</option>
+                    <option value="UPSC">UPSC</option>
+                  </select>
+                  <select
+                    name="batchTiming"
+                    value={formData.batchTiming}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition bg-white"
+                  >
+                    <option value="">Select Batch Timing</option>
+                    <option value="Morning">Morning</option>
+                    <option value="Afternoon">Afternoon</option>
+                    <option value="Evening">Evening</option>
+                    <option value="Weekend">Weekend</option>
+                  </select>
+                </div>
               </div>
-              <div className="flex gap-2">
-                <input
-                  type="checkbox"
-                  name="weekends"
-                  id="weekends"
-                  value="weekends"
-                />
-                <span>Weekends</span>
+
+              {/* Address */}
+              <div className="mb-10">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 pb-3 border-b-2 border-indigo-500">
+                  Address
+                </h2>
+                <div className="space-y-6">
+                  <textarea
+                    name="residentialAddress"
+                    placeholder="Residential Address"
+                    rows="3"
+                    value={formData.residentialAddress}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition resize-none"
+                  ></textarea>
+                  <div className="grid grid-cols-2 gap-6">
+                    <input
+                      type="text"
+                      name="city"
+                      placeholder="City"
+                      value={formData.city}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition"
+                    />
+                    <input
+                      type="text"
+                      name="pinCode"
+                      placeholder="Pin Code"
+                      maxLength="6"
+                      value={formData.pinCode}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition"
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
+
+              {/* Guardian Details */}
+              <div className="mb-10">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 pb-3 border-b-2 border-indigo-500">
+                  Guardian Details
+                </h2>
+                <div className="grid grid-cols-2 gap-6">
+                  <input
+                    type="text"
+                    name="guardianName"
+                    placeholder="Guardian's Full Name"
+                    value={formData.guardianName}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition"
+                  />
+                  <input
+                    type="tel"
+                    name="guardianContact"
+                    placeholder="Guardian's Contact Number"
+                    maxLength="10"
+                    value={formData.guardianContact}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition"
+                  />
+                </div>
+              </div>
+
+              {/* Additional Information */}
+              <div className="mb-10">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 pb-3 border-b-2 border-indigo-500">
+                  Additional Information
+                </h2>
+                <div className="space-y-6">
+                  <select
+                    name="hearAboutUs"
+                    value={formData.hearAboutUs}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition bg-white"
+                  >
+                    <option value="">How did you hear about us?</option>
+                    <option value="Friends">Friends</option>
+                    <option value="Online Ad">Online Ad</option>
+                    <option value="Newspaper">Newspaper</option>
+                    <option value="Social Media">Social Media</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <textarea
+                    name="specialRequirements"
+                    placeholder="Special Requirements (optional)"
+                    rows="3"
+                    value={formData.specialRequirements}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition resize-none"
+                  ></textarea>
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <div className="flex gap-4 pt-8 border-t-2 border-gray-200">
+                <button
+                  type="submit"
+                  className="flex-1 bg-linear-to-r from-indigo-600 to-indigo-700 text-white font-bold py-4 px-6 rounded-lg hover:from-indigo-700 hover:to-indigo-800 transition duration-300 transform hover:scale-105 shadow-lg"
+                >
+                  Submit Registration
+                </button>
+                <button
+                  type="reset"
+                  className="flex-1 bg-gray-300 text-gray-800 font-bold py-4 px-6 rounded-lg hover:bg-gray-400 transition duration-300 transform hover:scale-105"
+                >
+                  Clear Form
+                </button>
+              </div>
+            </form>
           </div>
-        </div>
 
-        {/* Address */}
-        <div className="border border-blue-600 rounded mx-3 shadow p-3 pt-5 mt-3">
-          <span className="px-2 text-blue-500">Address</span>
-
-          <div className="mx-2 flex  gap-4 pt-3 ">
-            <label htmlFor="address" className="gap-3 w-60 ">
-              Residentail Address :
-            </label>
-            <input
-              type="text"
-              name="address"
-              id="address"
-              className="border border-gray-300 rounded shadow-2xs w-7xl"
-            />
-          </div>
-          <div className="mx-2 flex  gap-4 pt-3 ">
-            <label htmlFor="city" className="gap-3 w-60">
-              City :
-            </label>
-            <input
-              type="text"
-              name="city"
-              id="city"
-              className="border border-gray-300 rounded shadow-2xs w-7xl"
-            />
-          </div>
-          <div className="mx-2 flex  gap-4 pt-3 ">
-            <label htmlFor="Pincode" className="gap-3 w-60">
-              Pin Code:
-            </label>
-            <input
-              type="tel"
-              name="pinCode"
-              id="pinCode"
-              className="border border-gray-300 rounded shadow-2xs w-7xl"
-            />
-          </div>
-        </div>
-
-        {/* Graduation Details */}
-        <div className="border border-blue-600 rounded mx-3 shadow p-3 pt-5 mt-3">
-          <span className="px-2 text-blue-500">Graduation Details</span>
-
-          <div className="mx-2 flex  gap-4 pt-3 ">
-            <label htmlFor="graduationName" className="gap-3 w-60">
-              Graduation Name:
-            </label>
-            <input
-              type="text"
-              name="graduationName"
-              id="graduationName"
-              className="border border-gray-300 rounded shadow-2xs w-7xl"
-            />
-          </div>
-          <div className="mx-2 flex  gap-4 pt-3 ">
-            <label htmlFor="graduationNumber" className="gap-3 w-60">
-              Graduation Number:
-            </label>
-            <input
-              type="text"
-              name="graduationNumber"
-              id="graduationNumber"
-              className="border border-gray-300 rounded shadow-2xs w-7xl"
-            />
-          </div>
-        </div>
-
-        {/* Additional Information */}
-        <div className="border border-blue-600 rounded mx-3 shadow p-3 pt-5 mt-3">
-          <span className="px-2 text-blue-500">Additional Information</span>
-
-          <div className="mx-2 flex  gap-4 pt-3 ">
-            <label htmlFor="coachingInfo" className="gap-3 w-60">
-              How did you hear about us?:
-            </label>
-            <select
-              name="coachingInfo"
-              id="coachingInfo"
-              className="border border-gray-300 rounded shadow-2xs w-7xl"
-            >
-              <option value="">--Select</option>
-              <option value="Friend">Friends</option>
-              <option value="ads">Online Ads</option>
-              <option value="newspaper">Newspaper</option>
-              <option value="socialMedia">Social Media</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Button */}
-
-        <div className="text-center p-3 mt-2">
-          <button
-            className="border px-5 pt-2 py-2 rounded-xl bg-blue-400 text-white"
-            type="submit"
-          >
-            Sumbit
-          </button>
+          {/* Footer Note */}
+          <p className="text-center text-gray-600 mt-8 text-sm">
+            All fields marked are mandatory. We respect your privacy.
+          </p>
         </div>
       </div>
     </>
