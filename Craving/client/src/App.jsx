@@ -5,12 +5,14 @@ import Home from "./Pages/Home";
 import Contact from "./Pages/Contact";
 import About from "./Pages/About";
 import Login from "./Pages/Login";
-import Register from "./Pages/Register";
+import Register from "./Pages/register";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
     <>
       <BrowserRouter>
+      <Toaster />
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
