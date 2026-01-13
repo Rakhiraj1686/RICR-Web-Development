@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 
-export const UserRegister = async (req,res ,next) => {
+export const UserRegister = async (req, res, next) => {
   try {
     const { fullName, email, mobileNumber, password } = req.body;
 
@@ -11,8 +11,8 @@ export const UserRegister = async (req,res ,next) => {
       return next(error);
     }
 
-    // console.log({ fullName, email, mobileNumber, password } );
-    
+    console.log({ fullName, email, mobileNumber, password });
+
     //check for duplicate user before registration
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -42,7 +42,7 @@ export const UserRegister = async (req,res ,next) => {
   }
 };
 
-export const UserLogin = async (res, req, next) => {
+export const UserLogin = async (req, res, next) => {
   try {
     //fetch data from frontend
     const { email, password } = req.body;
@@ -56,7 +56,7 @@ export const UserLogin = async (res, req, next) => {
 
     //check for if user is registred or not
     const existingUser = await User.findOne({ email });
-    if (existingUser) {
+    if (!existingUser) {
       const error = new error("Email not registered");
       error.statusCode = 402;
       return next(error);
@@ -77,7 +77,7 @@ export const UserLogin = async (res, req, next) => {
   }
 };
 
-export const UserLogout = async (res, req, next) => {
+export const UserLogout = async (req, res, next) => {
   try {
     res.status(200).json({ message: "Logout Successfull", data: existingUser });
   } catch (error) {

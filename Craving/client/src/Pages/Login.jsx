@@ -1,73 +1,100 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
+import api from "../Config/Api";
 
 const Login = () => {
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  // const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
   const [isLoading, setIsLoading] = useState(false);
+  const [validationError, setValidationError] = useState({});
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleClearForm = () => {
-    setUserName("");
-    setPassword("");
+    setFormData({
+      email: "",
+      password: "",
+    });
+  };
+
+  const validate = () => {
+    let Error = {};
+
+    if (
+      !/^[\w\.]+@(gmail|outlook|ricr|yahoo)\.(com|in|co.in)$/.test(
+        formData.email
+      )
+    ) {
+      Error.email = "Use Proper Email Format";
+    }
+
+    setValidationError(Error);
+
+    return Object.keys(Error).length > 0 ? false : true;
   };
 
   const handleLoginNow = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+    if (!validate()) {
+      setIsLoading(false);
+      toast.error("Fill the Form Correctly");
+      return;
+    }
+
     try {
-      const response = await fetch(
-        "https://official-joke-api.appspot.com/jokes/random"
-      );
-      setTimeout(() => {
-        const data = {
-          userName,
-          password,
-        };
-        console.log(data);
-      }, 5000);
+      const res = await api.post("/auth/login", formData);
+      toast.success(res.data.message);
+      handleClearForm();
     } catch (error) {
-      console.log(error.message);
+      console.log(error);error.responce.data.message || "Unknown error"
+      toast.error(error.responce.data.message || "Unknown error");
     } finally {
       setIsLoading(false);
     }
-    handleClearForm();
   };
 
   return (
     <>
-      <div className="min-h-screen bg-linear-to-br  from-(--color-background)  to-indigo-100 py-6 px-4">
+      <div className="min-h-screen bg-linear-to-br  from-(--color-background)  to-indigo-100 py-6 px-4 ">
         <div className="max-w-xl mx-auto">
-          {/* Header  */}
-          <div className="text-center mb-10">
-            <h1 className="text-4xl font-bold text-gray-900">Login Now</h1>
-          </div>
-
           {/* From Container  */}
-          <div className="bg-white rounded-xl shadow-2xl overflow-hidden ">
-            <form
-              onSubmit={handleLoginNow}
-              className="p-8"
-            >
+          <div className="bg-white rounded-xl shadow-2xl overflow-hidden mt-20">
+            <form onSubmit={handleLoginNow} className="p-8">
               <div className="mb-5">
+                <div className="text-center mb-10">
+                  <h1 className="text-4xl font-bold text-gray-900">
+                    Login Now
+                  </h1>
+                </div>
                 <div className="space-y-4 ">
-                  <div>
+                  <div className="space-y-4">
                     <input
-                      type="text"
-                      name="userName"
-                      placeholder="User Name"
-                      value={userName}
+                      type="email"
+                      name="email"
+                      placeholder="Enter Your Email Address"
+                      value={formData.email}
+                      onChange={handleChange}
                       disabled={isLoading}
-                      onChange={(e) => setUserName(e.target.value)}
                       required
-                      className="w-full h-fit px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-(--color-text) transition mb-5 disabled:cursor-not-allowed"
+                      className="w-full h-fit px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-(--color-text) transition disabled:cursor-not-allowed"
                     />
                     <input
                       type="password"
                       name="password"
-                      placeholder="Enter your Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      value={formData.password}
+                      placeholder="Enter Your Create Password"
+                      onChange={handleChange}
+                      disabled={isLoading}
                       required
-                      className="w-full h-fit px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-(--color-text) transition mb-5 disabled:cursor-not-allowed"
+                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-(--color-text) transition disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
@@ -80,12 +107,12 @@ const Login = () => {
                     type="submit"
                     className="flex-1 bg-linear-to-r bg-(--color secondary)  font-bold py-4 px-6 rounded-lg bg-(--color-secondary) hover:-text-(--color-text)  transition duration-300 transform hover:scale-105 shadow-lg disabled:cursor-not-allowed"
                   >
-                    {isLoading ? "Laoding..":"Login Now"}
+                    {isLoading ? "Laoding.." : "Login Now"}
                   </button>
                 </div>
                 <div className="flex justify-between mt-5">
                   <p>Didn't Have Account ?</p>
-                  <p>Register Now</p>
+                  <button >Register Now</button>
                 </div>
               </div>
             </form>

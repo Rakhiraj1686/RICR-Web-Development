@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import api from "../config/Api";
+import api from "../Config/Api"
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -72,7 +72,7 @@ const Register = () => {
       handleClearForm();
     } catch (error) {
       console.log(error);
-      toast.error(error.message);
+      toast.error(error.response.data.message || "Unknown Error" );
     } finally {
       setIsLoading(false);
     }
