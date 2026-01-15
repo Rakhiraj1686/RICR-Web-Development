@@ -23,14 +23,14 @@ const Header = () => {
             Home
           </Link>
           <Link
-            to={"/"}
+            to={"/about"}
             className="text-decoration-none text-white hover:text-(--color-accent)"
           >
             {" "}
             About
           </Link>
           <Link
-            to={"/"}
+            to={"/contact"}
             className="text-decoration-none text-white hover:text-(--color-accent)"
           >
             {" "}
