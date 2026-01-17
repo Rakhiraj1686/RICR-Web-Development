@@ -24,56 +24,15 @@ const Contact = () => {
     });
   };
   const [isLoading, setIsLoading] = useState(false);
-  const [validError, setValidError] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setContactUs((prev) => ({ ...prev, [name]: value }));
   };
-  const validate = () => {
-    let Error = {};
-
-    // Name validation
-
-    if (contactUs.fullName.length == 0) {
-      Error.fullName = "Please Enter your name here";
-    } else {
-      if (contactUs.fullName.length < 3) {
-        Error.fullName = "Name should contain atleast three letters.";
-      } else {
-        if (!/^[A-z ]+$/.test(contactUs.fullName)) {
-          Error.fullName = "Name should contains only A-Z, a-z and space.";
-        }
-      }
-    }
-
-    // email validation
-
-    if (contactUs.email.length == 0) {
-      Error.email = "Please enter your email first.";
-    } else {
-      if (
-        !/^[\w.+-]+@(gmail|outlook|ricr|yahoo)\.(com|in|co\.in)$/.test(
-          contactUs.email
-        )
-      ) {
-        Error.email = "Use registered email only.";
-      }
-    }
-
-    setValidError(Error);
-    return Object.keys(Error).length > 0 ? true : false;
-  };
-
-  const submitRegister = async (e) => {
+  
+  const submitContact = async (e) => {
     e.preventDefault();
 
-    // Checks Any missing fields
-    if (validate()) {
-      toast.error("Fill the message correctly.");
-
-      return;
-    }
     try {
       const res = await Api.post("/public/new-contact",contactUs)
       toast.success(res.data.message);
@@ -108,7 +67,7 @@ const Contact = () => {
 
               <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
                 <form
-                  onSubmit={submitRegister}
+                  onSubmit={submitContact}
                   onReset={handleClear}
                   className="p-8"
                 >
@@ -135,11 +94,6 @@ const Contact = () => {
                           className="w-full h-fit px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition disabled:cursor-not-allowed disabled:bg-gray-200"
                         />
                       </div>
-                      {validError.fullName && (
-                        <span className="text-xs text-red-500">
-                          {validError.fullName}
-                        </span>
-                      )}
                     </div>
 
                     {/* Contact email */}
@@ -161,11 +115,6 @@ const Contact = () => {
                           className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition disabled:cursor-not-allowed disabled:bg-gray-200"
                         />
                       </div>
-                      {validError.email && (
-                        <span className="text-xs text-red-500">
-                          {validError.email}
-                        </span>
-                      )}
                     </div>
 
                     {/* Contact subject/topic */}

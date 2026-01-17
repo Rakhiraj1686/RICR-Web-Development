@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import api from "../Config/Api";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [validationError, setValidationError] = useState({});
-
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -23,38 +23,19 @@ const Login = () => {
     });
   };
 
-  const validate = () => {
-    let Error = {};
-
-    if (
-      !/^[\w\.]+@(gmail|outlook|ricr|yahoo)\.(com|in|co.in)$/.test(
-        formData.email
-      )
-    ) {
-      Error.email = "Use Proper Email Format";
-    }
-
-    setValidationError(Error);
-
-    return Object.keys(Error).length > 0 ? false : true;
-  };
 
   const handleLoginNow = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    if (!validate()) {
-      setIsLoading(false);
-      toast.error("Fill the Form Correctly");
-      return;
-    }
-
     try {
       const res = await api.post("/auth/login", formData);
       toast.success(res.data.message);
       handleClearForm();
+      navigate("/userDashboard");
     } catch (error) {
-      console.log(error);error.responce.data.message || "Unknown error"
+      console.log(error);
+      error.responce.data.message || "Unknown error";
       toast.error(error.responce.data.message || "Unknown error");
     } finally {
       setIsLoading(false);
@@ -112,7 +93,7 @@ const Login = () => {
                 </div>
                 <div className="flex justify-between mt-5">
                   <p>Didn't Have Account ?</p>
-                  <button >Register Now</button>
+                  <button>Register Now</button>
                 </div>
               </div>
             </form>
