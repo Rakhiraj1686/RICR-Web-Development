@@ -25,7 +25,7 @@ const UserSidebar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
             <GiHamburgerMenu />
           </button>
           {!isCollapsed && (
-            <span className="overflow-hidden text-nowrap">User Dashboard </span>
+            <span className="overflow-hidden text-nowrap">USER DASHBOARD</span>
           )}
         </div>
         <hr />
