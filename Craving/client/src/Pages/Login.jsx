@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import api from "../Config/Api";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
+  const {setUser, setIsLogin} = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
- 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -23,7 +25,6 @@ const Login = () => {
     });
   };
 
-
   const handleLoginNow = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -31,6 +32,9 @@ const Login = () => {
     try {
       const res = await api.post("/auth/login", formData);
       toast.success(res.data.message);
+      setUser(res.data.data);
+      setIsLogin(true);
+      sessionStorage.setItem("CravingUser",JSON.stringify(res.data.data))
       handleClearForm();
       navigate("/userDashboard");
     } catch (error) {

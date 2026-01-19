@@ -17,7 +17,7 @@ const UserSidebar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
   return (
     <>
       <div className="p-3">
-        <div className="h-10 text-2xl font-bold flex items-center gap-8 p-1">
+        <div className="h-10 text-2xl font-bold flex items-center gap-2 p-1">
           <button
             className="hover:scale-105 px-3"
             onClick={() => setIsCollapsed(!isCollapsed)}
