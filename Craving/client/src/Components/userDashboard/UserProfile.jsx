@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import EditProfileModal from "./modals/EditProfileModal";
 
-
 const UserProfile = () => {
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
   const { user } = useAuth();
@@ -25,7 +24,7 @@ const UserProfile = () => {
             <span>{user.fullName}</span>
           </div>
           <div>
-            <span className="text-gray-600 font-bold" >Email : </span>
+            <span className="text-gray-600 font-bold">Email : </span>
             <span>{user.email}</span>
           </div>
           <div>
