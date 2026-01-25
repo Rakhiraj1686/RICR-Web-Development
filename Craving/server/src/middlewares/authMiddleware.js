@@ -3,8 +3,15 @@ import User from "../models/userModel.js";
 
 export const protect = async (req, res, next) => {
   try {
-    const biscut = req.cookie.parleG;
+    const biscut = req.cookies.parleG;
     console.log("Token recived in cookies:", biscut);
+
+    if (!biscut) {
+      const error = new Error("Unauthorized! No token found");
+      error.statusCode = 401;
+      return next(error);
+    }
+
     const tea = jwt.verify(biscut, process.env.JWT_SECRET);
     console.log(tea);
     if (!tea) {
@@ -13,16 +20,15 @@ export const protect = async (req, res, next) => {
       return next(error);
     }
 
-    const verifiedUser = await findByID(tea.id);
+    const verifiedUser = await User.findById(tea.id);
     if (!verifiedUser) {
       const error = new Error("Unauthorized! Please Login Again");
       error.statusCode = 401;
       return next(error);
     }
-    next();
-
     req.user = verifiedUser;
 
+    next();
   } catch (error) {
     next(error);
   }

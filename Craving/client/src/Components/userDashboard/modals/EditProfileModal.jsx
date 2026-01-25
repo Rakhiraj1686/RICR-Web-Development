@@ -1,154 +1,109 @@
 import React, { useState } from "react";
-import { MdOutlineCancel } from "react-icons/md";
 import { useAuth } from "../../../context/AuthContext";
-import api from "../../../Config/Api";
+import api from "../../../config/Api";
 
 const EditProfileModal = ({ onClose }) => {
   const { user, setUser } = useAuth();
-  const [editProfileModal, setEditProfileModal] = useState({
-    fullName: "",
-    contact: "",
+  const [formData, setFormData] = useState({
+    fullName: user.fullName,
+    email: user.email,
+    mobileNumber: user.mobileNumber,
   });
 
-  const handleClear = () => {
-    setEditProfileModal({
-      fullName: user.fullName,
-      contact: user.contact,
-    });
-  };
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditProfileModal((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const submitEditProfile = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted");
-    console.log(editProfileModal);
+    console.log("form Submitted");
+    console.log(formData);
 
     try {
-      const res = await api.put("/user/update", editProfileModal);
-      setUser(res.data.data);
-      setIsLoading(true);
+      const res = await api.put("/user/update", formData);
       sessionStorage.setItem("CravingUser", JSON.stringify(res.data.data));
+      setUser(res.data.data);
+      setIsLogin(true);
+      // sessionStorage.setItem("CravingUser", JSON.stringify(res.data.data));
     } catch (error) {
       console.log(error);
     } finally {
-      setIsLoading(false);
+      onClose();
     }
   };
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/80 flex justify-center items-center z-100">
-        <div className="bg-white w-5xl max-h-85vh overflow-y-auto p-5">
-          <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
-            <form
-              onSubmit={submitEditProfile}
-              onReset={handleClear}
-              className="p-8"
+      <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-100">
+        <div className="bg-white w-5xl max-h-[85vh] overflow-y-auto">
+          <div className="flex justify-between px-5 py-3 border-b border-gray-300 items-center">
+            <div>EditProfileModal</div>
+            <button
+              onClick={() => onClose()}
+              className="text-red-600 hover:text-red-900 text-2xl"
             >
-              <h1 className="text-2xl font-bold mx-2 ">Edit Profile</h1>
-              <div className="flex justify-end">
+              ⊗
+            </button>
+          </div>
+          <div>
+            <form onSubmit={handleSubmit}>
+              <div className="p-6 space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, fullName: e.target.value })
+                    }
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 cursor-not-allowed "
+                    disabled
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Mobile Number
+                  </label>
+                  <input
+                    type="text"
+                    name="mobileNumber"
+                    value={formData.mobileNumber}
+                    onChange={(e) =>
+                      setFormData({ ...formData, mobileNumber: e.target.value })
+                    }
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                  />
+                </div>
+              </div>
+              <div className="px-6 py-6 flex justify-end space-x-4 border-t border-gray-300">
                 <button
-                  className=" px-5 py-2 text-2xl text-red-600 font-bold mt-3 rounded"
+                  type="button"
                   onClick={() => onClose()}
+                  className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 transition"
                 >
-                  <MdOutlineCancel />
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                >
+                  Save Changes
                 </button>
               </div>
-
-              <div className="space-y-3">
-                {/* Contact name */}
-
-                <div>
-                  <div className="flex flex-row gap-2">
-                    <label
-                      htmlFor="fullName"
-                      name="fullName"
-                      id="fullName"
-                      className="w-40"
-                    >
-                      Full Name :
-                    </label>
-                    <input
-                      type="text"
-                      name="fullName"
-                      placeholder="Enter your full Name"
-                      value={editProfileModal.fullName}
-                      onChange={handleChange}
-                      disabled={isLoading}
-                      required
-                      className="w-full h-fit px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition disabled:cursor-not-allowed disabled:bg-gray-200"
-                    />
-                  </div>
-                </div>
-
-                {/* Contact email */}
-                <div>
-                  <div className="flex flex-row gap-2">
-                    <label
-                      htmlFor="email"
-                      name="email"
-                      id="email"
-                      className="w-40"
-                    >
-                      Email :
-                    </label>
-                    <input
-                      type="text"
-                      name="email"
-                      id="email"
-                      value={editProfileModal.email}
-                      placeholder="Enter your Email"
-                      onChange={handleChange}
-                      disabled={isLoading}
-                      required
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition disabled:cursor-not-allowed disabled:bg-gray-200"
-                    />
-                  </div>
-                </div>
-
-                {/* Mobile Number */}
-                <div>
-                  <div className="flex flex-row gap-2">
-                    <label
-                      htmlFor="mobileNumber"
-                      name="mobileNumber"
-                      id="mobileNumber"
-                      className="w-40"
-                    >
-                      Mobile Number:
-                    </label>
-                    <input
-                      type="number"
-                      name="mobileNumber"
-                      id="mobileNumber"
-                      value={editProfileModal.mobileNumber}
-                      placeholder="Enter your mobile number"
-                      onChange={handleChange}
-                      disabled={isLoading}
-                      required
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition disabled:cursor-not-allowed disabled:bg-gray-200"
-                    />
-                  </div>
-                </div>
-              </div>
             </form>
-          </div>
-
-          <div className="flex justify-center gap-5 mt-3">
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="border font-bold bg-(--color-secondary) py-3 px-6 rounded-lg hover:bg-(--color-secondary-hover) shadow-lg) disabled:cursor-not-allowed disabled:bg-(--color-secondary)"
-            >
-              <div className="flex gap-2 items-center justify-center">
-                <span>Submit</span>
-              </div>
-            </button>
           </div>
         </div>
       </div>

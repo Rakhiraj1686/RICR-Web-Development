@@ -19,8 +19,120 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      enum: ["admin", "manager", "partner", "customer"],
+      required: true,
+      default: "customer",
+      // default: "N/A",
+    },
+    dob: {
+      type: String,
+      required: true,
+      default: "N/A",
+    },
+    gender: {
+      type: String,
+      enum: ["male", "female", "another", "N/A"],
+      required: true,
+      default: "N/A",
+    },
+    address: {
+      type: String,
+      required: true,
+      default: "N/A",
+    },
+    pin: {
+      type: String,
+      required: true,
+      default: "N/A",
+    },
+    photo: {
+      url: {
+        type: String,
+        default: "",
+      },
+      publicID: {
+        type: String,
+        default: "",
+      },
+    },
+    geolocation: {
+      lat: {
+        type: String,
+        required: true,
+        default: "N/A",
+      },
+      lon: {
+        type: String,
+        required: true,
+        default: "N/A",
+      },
+    },
+    paymentDetails: {
+      UPI: {
+        type: String,
+        required: true,
+        default: "N/A",
+      },
+      account_number: {
+        type: String,
+        required: true,
+        default: "N/A",
+      },
+      IFSC: {
+        type: String,
+        required: true,
+        default: "N/A",
+      },
+    },
+    restaurantName: {
+      type: String,
+      required() {
+        return this.role === "manager";
+      },
+      default() {
+        return this.true === "manager" ? "N/A" : null;
+      },
+    },
+    cuisine: {
+      type: String,
+      required() {
+        return this.role === "manager";
+      },
+      default() {
+        return this.true === "manager" ? "N/A" : null;
+      },
+    },
+    document: {
+      gst:{
+        type:String,
+        required:true,
+        default:"N/A",
+      },
+      dl:{
+        type:String,
+        required:true,
+        default:"N/A",
+      },
+      fssai:{
+        type:String,
+        required:true,
+        default:"N/A",
+      },
+      uidai:{
+        type:String,
+        required:true,
+        default:"N/A",
+      },
+      pan:{
+        type:String,
+        required:true,
+        default:"N/A",
+      },
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const User = mongoose.model("User", userSchema);

@@ -1,33 +1,34 @@
 import React from "react";
-import Header from "./Components/Header";
+import Header from "./components/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./Pages/Home";
-import Contact from "./Pages/Contact";
-import About from "./Pages/About";
-import Login from "./Pages/Login";
-import Register from "./Pages/Register";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 import { Toaster } from "react-hot-toast";
-import UserDashboard from "./Pages/Dashboards/UserDashboard";
-import AdminDashboard from "./Pages/Dashboards/AdminDashboard"
-import RestaurantDashboard from "./Pages/Dashboards/RestaurantDashboard"
-import RiderDashboard from "./Pages/Dashboards/RiderDashboard"
+import UserDashboard from "./pages/dashboards/UserDashboard";
+import RiderDashboard from "./Pages/Dashboards/RiderDashboard";
+import RestaurantDashboard from "./Pages/Dashboards/RestaurantDashboard";
+import AdminDashboard from "./pages/dashboards/AdminDashboard";
 
 const App = () => {
   return (
     <>
       <BrowserRouter>
-      <Toaster />
+        <Toaster />
         <Header />
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/userDashboard" element={<UserDashboard />} />
-          <Route path="/adminDashboard" element={<AdminDashboard />} />
-          <Route path="/restaurantDashboard" element={<RestaurantDashboard />} />
-          <Route path="/riderDashboard" element={<RiderDashboard/>} />
+          <Route path="/userdashboard" element={<UserDashboard />} />
+          <Route path="/riderdashboard" element={<RiderDashboard />} />
+          <Route path="/resturantdashboard" element={<RestaurantDashboard />} />
+          <Route path="/admindashboard" element={<AdminDashboard />} />
         </Routes>
       </BrowserRouter>
     </>
