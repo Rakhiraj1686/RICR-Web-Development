@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import api from "../Config/Api";
+import api from "../Config/Api"
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -63,8 +63,7 @@ const Login = () => {
       }
     } catch (error) {
       console.log(error);
-      error.responce.data.message || "Unknown error";
-      toast.error(error.responce.data.message || "Unknown error");
+      toast.error(error?.responce?.data?.message || "Unknown error");
     } finally {
       setIsLoading(false);
     }

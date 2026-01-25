@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
-import api from "../../../config/Api";
+import api from "../../../Config/Api"
 
 const EditProfileModal = ({ onClose }) => {
   const { user, setUser } = useAuth();
@@ -30,13 +30,13 @@ const EditProfileModal = ({ onClose }) => {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-100">
-        <div className="bg-white w-5xl max-h-[85vh] overflow-y-auto">
+      <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-100 ">
+        <div className="bg-white w-5xl max-h-[85vh] overflow-y-auto ">
           <div className="flex justify-between px-5 py-3 border-b border-gray-300 items-center">
-            <div>EditProfileModal</div>
+            <div className="text-shadow-lg">Edit Profile Details</div>
             <button
               onClick={() => onClose()}
-              className="text-red-600 hover:text-red-900 text-2xl"
+              className="text-red-600 hover:text-red-700 text-3xl"
             >
               ⊗
             </button>
@@ -92,13 +92,13 @@ const EditProfileModal = ({ onClose }) => {
                 <button
                   type="button"
                   onClick={() => onClose()}
-                  className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 transition"
+                  className="px-4 py-2 bg-(--color-background) text-gray-800 rounded-md hover:bg-(--color-background) transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                  className="px-4 py-2 bg-(--color-secondary) text-white rounded-md hover:bg-(--color-secondary-hover) transition"
                 >
                   Save Changes
                 </button>
