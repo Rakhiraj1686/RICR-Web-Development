@@ -79,7 +79,7 @@ const Login = () => {
               <div className="mb-5">
                 <div className="text-center mb-10">
                   <h1 className="text-4xl font-bold text-gray-900">
-                    Login Now
+                    Login Now 
                   </h1>
                 </div>
                 <div className="space-y-4 ">
