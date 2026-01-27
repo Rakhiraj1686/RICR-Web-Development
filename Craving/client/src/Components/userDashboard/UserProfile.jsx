@@ -1,46 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import EditProfileModal from "./modals/EditProfileModal";
-import UserImage from "../../assets/images.png"
-import {FaCamera} from "react-icons/fa"
-import api from "../../Config/Api"
-import toast from "react-hot-toast"
+import UserImage from "../../assets/images.png";
+import { FaCamera } from "react-icons/fa";
+import api from "../../Config/Api";
+import toast from "react-hot-toast";
 
 const UserProfile = () => {
   const { user } = useAuth();
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
-  const [preview,setPreview] = useState("")
-  const [ photo,setPhoto] = useState("")
+  const [preview, setPreview] = useState("");
+  const [photo, setPhoto] = useState("");
 
-  const changePhoto = async() => {
+  const changePhoto = async (photo) => {
     const form_Data = new FormData();
 
-    form_Data.append("image",photo);
-    form_Data.append("imageURL",preview)
+    form_Data.append("image", photo);
+    // form_Data.append("imageURL", preview);
 
     try {
-      const res= await api.post("/user/changePhoto",form_Data)
+      const res = await api.post("/user/changePhoto", form_Data);
+
       toast.success(res.data.message);
+
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Unknown Error")
+      toast.error(error?.response?.data?.message || "Unknown Error");
     }
   };
-  
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
-    const newPhotoURL = URL.createObjectURL(file).
+    const newPhotoURL = URL.createObjectURL(file);
     // console.log(newPhotoURL);
     setPreview(newPhotoURL);
-    setTimeout(()=>{
-      setPhoto(newPhotoURL);
+    setTimeout(() => {
+      setPhoto(file);
       changePhoto();
-    },5000);
+    }, 5000);
   };
 
   return (
     <>
-       <div className="bg-(--color-primary)/10 rounded-lg shadow-md p-6 md:p-8 h-full">
+      <div className="bg-(--color-primary)/10 rounded-lg shadow-md p-6 md:p-8 h-full">
         <div className="flex justify-between border p-3 rounded-3xl items-center border-gray-300 bg-white">
           <div className="flex gap-5 items-center">
             <div className="relative">
