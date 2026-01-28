@@ -23,7 +23,7 @@ const UserSidebar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
 
   const handleLogout = async () => {
     try {
-      const res = await api.get("./auth/logout");
+      const res = await api.get("/auth/logout");
       toast.success(res.data.message);
       setUser("");
       setIsLogin(false);
