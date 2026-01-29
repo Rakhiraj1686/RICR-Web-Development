@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
-import api from "../../../Config/Api"
+import api from "../../../Config/Api";
 
 const EditProfileModal = ({ onClose }) => {
   const { user, setUser } = useAuth();
@@ -8,6 +8,24 @@ const EditProfileModal = ({ onClose }) => {
     fullName: user.fullName,
     email: user.email,
     mobileNumber: user.mobileNumber,
+    gender: user.gender,
+    dob: user.dob,
+    address: user.address,
+    city: user.city,
+    pin: user.pin,
+    documents: {
+      uidai: user.documents.uidai,
+      pan: user.documents.pan,
+    },
+    paymentDetails: {
+      upi: user.paymentDetails.upi,
+      account_number: user.paymentDetails.account_number,
+      IFSC: user.paymentDetails.IFSC,
+    },
+    geolocation: {
+      lat: user.geolocation.lat,
+      lon: user.geolocation.lon,
+    },
   });
 
   const handleSubmit = async (e) => {

@@ -19,10 +19,12 @@ const UserProfile = () => {
     // form_Data.append("imageURL", preview);
 
     try {
-      const res = await api.post("/user/changePhoto", form_Data);
+      const res = await api.patch("/user/changePhoto", form_Data);
 
       toast.success(res.data.message);
 
+      setUser(res.data.data);
+      sessionStorage.setItem("CravingUser", JSON.stringify(res.data.data));
     } catch (error) {
       toast.error(error?.response?.data?.message || "Unknown Error");
     }
@@ -33,10 +35,11 @@ const UserProfile = () => {
     const newPhotoURL = URL.createObjectURL(file);
     // console.log(newPhotoURL);
     setPreview(newPhotoURL);
-    setTimeout(() => {
-      setPhoto(file);
-      changePhoto();
-    }, 5000);
+    changePhoto(file);
+    // setTimeout(() => {
+    //   setPhoto(file);
+    //   changePhoto();
+    // }, 5000);
   };
 
   return (
@@ -81,7 +84,10 @@ const UserProfile = () => {
             </div>
           </div>
           <div className="flex flex-col gap-2">
-            <button className="px-4 py-2 rounded bg-(--color-secondary) text-white">
+            <button
+              className="px-4 py-2 rounded bg-(--color-secondary) text-white"
+              onClick={setIsEditProfileModalOpen}
+            >
               Edit
             </button>
             <button className="px-4 py-2 rounded bg-(--color-secondary) text-white">

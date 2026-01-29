@@ -64,10 +64,10 @@ export const UserChangePhoto = async (req, res, next) => {
     const b64 = Buffer.from(dp.buffer).toString("base64");
     // console.log(b64.slice(0.100));
     const dataURI = `data:${dp.mimetype}; base64,${b64}`;
-    console.log("Data URI :", dataURI.slice(0.1));
+    console.log("DataURI :", dataURI.slice(0,100));
 
     const result = await cloudinary.uploader.upload(dataURI, {
-      folder: "Craving/USer",
+      folder: "Craving/User",
       width: 500,
       height: 500,
       crop: "fill",
