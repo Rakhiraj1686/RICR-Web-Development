@@ -7,15 +7,17 @@ import api from "../../Config/Api";
 import toast from "react-hot-toast";
 
 const UserProfile = () => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
+  console.log(user);
+
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
   const [preview, setPreview] = useState("");
-  const [photo, setPhoto] = useState("");
+  // const [photo, setPhoto] = useState("");
 
   const changePhoto = async (photo) => {
     const form_Data = new FormData();
 
-    form_Data.append("image", photo);
+    form_Data.append("photo", photo);
     // form_Data.append("imageURL", preview);
 
     try {
@@ -33,13 +35,13 @@ const UserProfile = () => {
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     const newPhotoURL = URL.createObjectURL(file);
-    // console.log(newPhotoURL);
+    console.log(newPhotoURL);
     setPreview(newPhotoURL);
     changePhoto(file);
-    // setTimeout(() => {
-    //   setPhoto(file);
-    //   changePhoto();
-    // }, 5000);
+    setTimeout(() => {
+      // setPhoto(file);
+      changePhoto();
+    }, 5000);
   };
 
   return (
@@ -50,7 +52,7 @@ const UserProfile = () => {
             <div className="relative">
               <div className=" border rounded-full w-36 h-36 overflow-hidden">
                 <img
-                  src={preview || user.photo.url || UserImage}
+                  src={preview || user?.photo?.url || UserImage}
                   alt=""
                   className="w-full h-full object-cover"
                 />
@@ -73,13 +75,13 @@ const UserProfile = () => {
             </div>
             <div>
               <div className="text-3xl text-(--color-primary) font-bold">
-                {user.fullName}
+                {user.fullName || "User Name"}
               </div>
               <div className="text-gray-600 text-lg font-semibold">
-                {user.email}
+                {user.email || "user@example.com"}
               </div>
               <div className="text-gray-600 text-lg font-semibold">
-                {user.mobileNumber}
+                {user.mobileNumber || "XXXXXXXXXX"}
               </div>
             </div>
           </div>

@@ -57,14 +57,14 @@ export const UserChangePhoto = async (req, res, next) => {
     }
     console.log(dp);
 
-    if (currentUser.photo.publicID) {
+    if (currentUser.photo && currentUser.photo.publicID) {
       await cloudinary.uploader.destroy(currentUser.photo.publicID);
     }
 
     const b64 = Buffer.from(dp.buffer).toString("base64");
     // console.log(b64.slice(0.100));
     const dataURI = `data:${dp.mimetype}; base64,${b64}`;
-    console.log("DataURI :", dataURI.slice(0,100));
+    console.log("DataURI :", dataURI.slice(0, 100));
 
     const result = await cloudinary.uploader.upload(dataURI, {
       folder: "Craving/User",
