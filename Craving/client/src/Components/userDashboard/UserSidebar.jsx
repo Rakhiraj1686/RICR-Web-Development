@@ -9,9 +9,11 @@ import { LuLogOut } from "react-icons/lu";
 import api from "../../Config/Api";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const UserSidebar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
   const {setUser,setIsLogin} = useAuth();
+  const navigate = useNavigate();
 
   const menuItems = [
     { key: "overview", title: "overview", icon: <PiSquaresFourBold /> },
@@ -27,6 +29,7 @@ const UserSidebar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
       toast.success(res.data.message);
       setUser("");
       setIsLogin(false);
+      navigate("/Home")
       sessionStorage.removeItem("CravingUser");
     } catch (error) {
       toast.error(error?.response?.data?.message || "Unknown error");

@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
+// import { protect } from "../middlewares/authMiddleware.js";
+
 
 export const protect = async (req, res, next) => {
   try {

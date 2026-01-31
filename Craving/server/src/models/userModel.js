@@ -105,31 +105,37 @@ const userSchema = mongoose.Schema(
       },
     },
     document: {
-      gst:{
-        type:String,
-        required:true,
-        default:"N/A",
+      gst: {
+        type: String,
+        required: true,
+        default: "N/A",
       },
-      dl:{
-        type:String,
-        required:true,
-        default:"N/A",
+      dl: {
+        type: String,
+        required: true,
+        default: "N/A",
       },
-      fssai:{
-        type:String,
-        required:true,
-        default:"N/A",
+      fssai: {
+        type: String,
+        required: true,
+        default: "N/A",
       },
-      uidai:{
-        type:String,
-        required:true,
-        default:"N/A",
+      uidai: {
+        type: String,
+        required: true,
+        default: "N/A",
       },
-      pan:{
-        type:String,
-        required:true,
-        default:"N/A",
+      pan: {
+        type: String,
+        required: true,
+        default: "N/A",
       },
+    },
+    isActive: {
+      type: String,
+      enum: ["active", "inactive", "blocked"],
+      required: true,
+      default: "active",
     },
   },
   { timestamps: true },
