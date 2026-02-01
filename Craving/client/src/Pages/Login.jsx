@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import api from "../Config/Api"
+import api from "../Config/Api";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import ForgetPasswordModal from "../Components/publicModals/ForgetPasswordModal";
 
 const Login = () => {
-  const {setUser, setIsLogin, setRole} = useAuth();
+  const { setUser, setIsLogin, setRole } = useAuth();
   const navigate = useNavigate();
+  const [isForgetPasswordModalOpen, setIsForgetPasswordOpen] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -34,29 +36,29 @@ const Login = () => {
       toast.success(res.data.message);
       setUser(res.data.data);
       setIsLogin(true);
-      sessionStorage.setItem("CravingUser",JSON.stringify(res.data.data))
+      sessionStorage.setItem("CravingUser", JSON.stringify(res.data.data));
       handleClearForm();
       switch (res.data.data.role) {
-        case "manager":{
-          setRole("manager")
-          navigate("/restaurantDashboard")
+        case "manager": {
+          setRole("manager");
+          navigate("/restaurantDashboard");
           break;
         }
-          case "partner":{
-            setRole("partner")
-            navigate("/riderDashboard")
-            break;
-          }
-          case "customer":{
-            setRole("customer")
-            navigate("/userDashboard")
-            break;
-          }
-          case "admin":{
-            setRole("admin")
-            navigate("/adminDashboard")
-            break
-          }
+        case "partner": {
+          setRole("partner");
+          navigate("/riderDashboard");
+          break;
+        }
+        case "customer": {
+          setRole("customer");
+          navigate("/userDashboard");
+          break;
+        }
+        case "admin": {
+          setRole("admin");
+          navigate("/adminDashboard");
+          break;
+        }
 
         default:
           break;
@@ -79,7 +81,7 @@ const Login = () => {
               <div className="mb-5">
                 <div className="text-center mb-10">
                   <h1 className="text-4xl font-bold text-gray-900">
-                    Login Now 
+                    Login Now
                   </h1>
                 </div>
                 <div className="space-y-4 ">
@@ -98,12 +100,23 @@ const Login = () => {
                       type="password"
                       name="password"
                       value={formData.password}
-                      placeholder="Enter Your Create Password"
+                      placeholder="Enter Your Password"
                       onChange={handleChange}
                       disabled={isLoading}
                       required
                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-(--color-text) transition disabled:cursor-not-allowed"
                     />
+                  </div>
+                  <div className="w-full flex justify-end">
+                    <button
+                      className="text-(--color-primary) hover:text-(--color-secondary) cursor-pointer"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setIsForgetPasswordOpen(true);
+                      }}
+                    >
+                      Forget Password ?
+                    </button>
                   </div>
                 </div>
 
@@ -127,6 +140,10 @@ const Login = () => {
           </div>
         </div>
       </div>
+      {isForgetPasswordModalOpen && (
+        <ForgetPasswordModal onClose={() => setIsForgetPasswordOpen(false)} />
+      )}
+      ;
     </>
   );
 };

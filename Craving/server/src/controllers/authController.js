@@ -1,12 +1,14 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import { genToken } from "../utils/authToken.js";
+import OTP from "../models/otpModal.js";
+import { sendOTPEmail } from "../utils/emailService.js";
 
 export const UserRegister = async (req, res, next) => {
   try {
     console.log(req.body);
     //accept data from Fronted
-    const { fullName, email, mobileNumber, password ,role} = req.body;
+    const { fullName, email, mobileNumber, password, role } = req.body;
 
     //Verify that all data exist
     if (!fullName || !email || !mobileNumber || !password) {
@@ -32,16 +34,16 @@ export const UserRegister = async (req, res, next) => {
     const hashPassword = await bcrypt.hash(password, salt);
 
     console.log("password hashing done, hashPassword = ", hashPassword);
-    
+
     const photoURL = `https://placehold.co/600x400?text=${fullName.charAt(0).toUpperCase()}`;
     const photo = {
-      url: photoURL
-    }
+      url: photoURL,
+    };
 
     //save data to database
     const newUser = await User.create({
       fullName,
-      email:email.toLowerCase(),
+      email: email.toLowerCase(),
       mobileNumber,
       password: hashPassword,
       role,
@@ -96,12 +98,52 @@ export const UserLogin = async (req, res, next) => {
 
 export const UserLogout = async (req, res, next) => {
   try {
-    res.clearCookie("parleG")
-    res.status(200).json({ message: "Logout Successfull"});
+    res.clearCookie("parleG");
+    res.status(200).json({ message: "Logout Successfull" });
   } catch (error) {
     next(error);
   }
 };
 
+export const UserGenOTP = async (req, res, next) => {
+  try {
+    //fetch data from frontend
+    const { email } = req.body;
 
+    //verify that all data exist
+    if (!email) {
+      const error = new Error("All fields required");
+      error.statusCode = 400;
+      return next(error);
+    }
 
+    //check if user is registred or not
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      const error = new error("Email not registered");
+      error.statusCode = 401;
+      return next(error);
+    }
+
+    const otp = Math.floor(Math.random() * 1000000).toString();
+    console.log(typeof otp);
+
+    // encrypt the opt
+    const salt = await bcrypt.genSalt(10);
+    const hashOTP = await bcrypt.hash(otp, salt);
+
+    console.log(hashOTP);
+
+    await OTP.create({
+      email,
+      otp: hashOTP,
+      createdAt: new Date(),
+    });
+
+    await sendOTPEmail(email, otp);
+
+    res.status(200).json({ message: "OTP send on registered email" });
+  } catch (error) {
+    next(error);
+  }
+};
