@@ -4,7 +4,7 @@ import { BsArrowClockwise } from "react-icons/bs";
 import api from "../../Config/Api";
 import toast from "react-hot-toast";
 
-const ForgetPasswordModal = () => {
+const ForgetPasswordModal = ({ onClose }) => {
   const [formData, setFormData] = useState({
     email: "",
     otp: "",
@@ -135,9 +135,9 @@ const ForgetPasswordModal = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="px-6 py-2 bg-(--color-secondary) text-white rounded-md hover:bg-(--color-background) transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
-                {loading? (
+                {loading ? (
                   <>
                     <span className="animate-spin">
                       <BsArrowClockwise />

@@ -3,7 +3,7 @@ import { useState } from "react";
 import api from "../../../Config/Api";
 import toast from "react-hot-toast";
 
-const ResetPasswordModal = ({onClose}) => {
+const ResetPasswordModal = ({ onClose }) => {
   const [formData, setFormData] = useState({
     oldPassword: "",
     newPassword: "",
@@ -18,8 +18,8 @@ const ResetPasswordModal = ({onClose}) => {
     console.log(formData);
 
     //validation code
-    if(formData.newPassword !== formData.cfNewPassword){
-      toast.error("Password do not match")
+    if (formData.newPassword !== formData.cfNewPassword) {
+      toast.error("Password do not match");
       setLoading(false);
       return;
     }
@@ -131,14 +131,14 @@ const ResetPasswordModal = ({onClose}) => {
                 type="button"
                 onClick={() => onClose()}
                 disabled={loading}
-                className="px-6 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 transition disabled:opacity-50"
+                className="px-6 py-2 bg-(--color-background) text-gray-800 rounded-md hover:bg-(--color-background) transition disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="px-6 py-2 bg-(--color-secondary) text-white rounded-md hover:bg-(--color-secondary) transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 {loading ? (
                   <>
