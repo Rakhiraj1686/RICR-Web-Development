@@ -40,9 +40,9 @@ const UserSidebar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
     <>
       <div className="p-2 flex flex-col justify-between h-full">
         <div className="p-3">
-          <div className="h-10 text-2xl font-bold flex items-center gap-2 p-1">
+          <div className="h-10 text-2xl font-bold flex items-center gap-1 p-1">
             <button
-              className="hover:scale-105 px-3"
+              className="hover:scale-105 px-2"
               onClick={() => setIsCollapsed(!isCollapsed)}
             >
               <GiHamburgerMenu />

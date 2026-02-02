@@ -91,18 +91,14 @@ const userSchema = mongoose.Schema(
       required() {
         return this.role === "manager";
       },
-      default() {
-        return this.true === "manager" ? "N/A" : null;
-      },
+      default:"N/A",
     },
     cuisine: {
       type: String,
       required() {
         return this.role === "manager";
       },
-      default() {
-        return this.true === "manager" ? "N/A" : null;
-      },
+      default:"N/A",
     },
     document: {
       gst: {

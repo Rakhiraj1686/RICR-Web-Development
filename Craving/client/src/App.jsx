@@ -12,6 +12,7 @@ import RiderDashboard from "./Pages/Dashboards/RiderDashboard";
 import RestaurantDashboard from "./Pages/Dashboards/RestaurantDashboard";
 import AdminDashboard from "./pages/dashboards/AdminDashboard";
 
+
 const App = () => {
   return (
     <>
@@ -27,7 +28,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/userdashboard" element={<UserDashboard />} />
           <Route path="/riderdashboard" element={<RiderDashboard />} />
-          <Route path="/resturantdashboard" element={<RestaurantDashboard />} />
+          <Route path="/restaurantdashboard" element={<RestaurantDashboard />} />
           <Route path="/admindashboard" element={<AdminDashboard />} />
         </Routes>
       </BrowserRouter>
