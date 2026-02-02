@@ -28,7 +28,9 @@ const ForgetPasswordModal = ({ onClose }) => {
           console.log("OTP already verify now update passsword");
           onClose();
         } else {
-          console.log("OTP already Sent now Verify It");
+          res = await api.post("auth/verifyOtp",formData);
+          toast.success(res.data.message);
+          setIsOtpSent(true);
           setIsOtpVerified(true);
         }
       } else {
