@@ -22,7 +22,7 @@ const ForgetPasswordModal = ({ onClose }) => {
 
     if(formData.newPassword !== formData.cfNewPassword){
       toast.error("New Password and Confirm Password must be same");
-      setLoading(false);
+      setLoading(false)
       return;
     }
 

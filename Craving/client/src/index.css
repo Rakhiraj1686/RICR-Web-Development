@@ -2,18 +2,17 @@
 
 :root {
   /* Primary */
-  --color-primary: #670D2F;          /* Deep wine */
-  --color-primary-hover: #3A0519;    /* Dark plum */
+  --color-primary: #161E54;
+  --color-primary-hover: #0F163F;
 
   /* Secondary */
-  --color-secondary: #A53860;        /* Rose magenta */
-  --color-secondary-hover: #8F2F53;  /* Deeper rose */
+  --color-secondary: #F16D34;
+  --color-secondary-hover: #D85F2E;
 
   /* Background & Text */
-  --color-background: #F8D3DF;       /* Soft blush (derived) */
-  --color-text: #3A0519;             /* Near-black wine */
+  --color-background: #BBE0EF;
+  --color-text: #161E54;
 
   /* Accent */
-  --color-accent: #EF88AD;            /* Soft pink */
+  --color-accent: #FF986A;
 }
-

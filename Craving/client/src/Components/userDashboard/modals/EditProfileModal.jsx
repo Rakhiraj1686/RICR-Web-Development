@@ -160,11 +160,13 @@ const EditProfileModal = ({ onClose }) => {
     <>
       <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-100 ">
         <div className="bg-white w-5xl max-h-[85vh] overflow-y-auto ">
-          <div className="flex justify-between px-5 py-3 border-b border-gray-300 items-center">
-            <h2 className="text-shadow-lg">Edit Profile Details</h2>
+          <div className="flex justify-between px-5 py-3 border-b border-gray-300 ">
+            <div>
+              <h2 className="text-shadow-lg">Edit Profile Details</h2>
+            </div>
             <button
               onClick={() => onClose()}
-              className="text-red-600 hover:text-red-700 text-3xl"
+              className="text-red-600 hover:text-red-700 text-3xl "
             >
               ⊗
             </button>
