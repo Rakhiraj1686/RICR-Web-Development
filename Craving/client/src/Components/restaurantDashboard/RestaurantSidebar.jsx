@@ -1,29 +1,27 @@
 import React from "react";
-import {
-  FaUtensils,
-  FaClipboardList,
-  FaDollarSign,
-  FaUsers,
-  FaUser,
-} from "react-icons/fa";
+import { TbChartTreemap } from "react-icons/tb";
+import { ImProfile } from "react-icons/im";
+import { BiSolidFoodMenu } from "react-icons/bi";
+import { TiShoppingCart } from "react-icons/ti";
+import { FaMoneyBillWave } from "react-icons/fa";
+import { RiCustomerService2Fill } from "react-icons/ri";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { FaSignOutAlt } from "react-icons/fa";
-import { AiFillAppstore } from "react-icons/ai";
+import { MdLogout } from "react-icons/md";
 import api from "../../Config/Api";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const SideBar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
+const RestaurantSideBar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
   const navigate = useNavigate();
   const { setUser, setIsLogin } = useAuth();
   const menuItems = [
-    { key: "manager", title: "Manager", icon: <FaUser /> },
-    { key: "menu", title: "Menu", icon: <FaUtensils /> },
-    { key: "order", title: "Orders", icon: <FaClipboardList /> },
-    { key: "sales", title: "Total Sale", icon: <FaDollarSign /> },
-    { key: "stock", title: "Stock", icon: <AiFillAppstore/> },
-    { key: "customer", title: "Customer", icon: <FaUsers /> },
+    { key: "overview", title: "Overview", icon: <TbChartTreemap/> },
+    { key: "profile", title: "Profile", icon: <ImProfile /> },
+    { key: "menu", title: "Menu", icon: <BiSolidFoodMenu /> },
+    { key: "orders", title: "Orders", icon: <TiShoppingCart /> },
+    { key: "earnings", title: "Earnings", icon: <FaMoneyBillWave /> },
+    { key: "helpdesk", title: "Help Desk", icon: <RiCustomerService2Fill /> },
   ];
   const handleLogout = async () => {
     try {
@@ -39,34 +37,33 @@ const SideBar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
   };
   return (
     <>
-      <div className="p-3 flex flex-col gap-60">
+      <div className="p-2 flex flex-col justify-between h-full">
         <div>
-          <div className="h-10 text-md text-(--color-primary) font-bold flex gap-1 items-center">
-            {!isCollapsed && (
-              <span className="overflow-hidden text-nowrap text-bold">
-                Resturant Dashboard
-              </span>
-            )}
+          <div className="h-10 text-xl font-bold flex gap-5 items-center mb-3">
             <button
-              className="cursor-pointer px-3 hover:scale-125 hover:duration-200"
-              onClick={() => {
-                setIsCollapsed(!isCollapsed);
-              }}
+              className="ms-2 hover:scale-105"
+              onClick={() => setIsCollapsed(!isCollapsed)}
             >
               <GiHamburgerMenu />
             </button>
+            {!isCollapsed && (
+              <span className="overflow-hidden text-nowrap">
+                Restaurant Dashboard
+              </span>
+            )}
           </div>
-
           <hr />
 
-          <div className="grid gap-3 py-6">
+          <div className="py-6 space-y-5 w-full">
             {menuItems.map((item, idx) => (
               <button
-                className={`flex gap-6 items-center cursor-pointer text-nowrap h-12 px-3 rounded-xl text-base ${
+                className={`flex gap-3 items-center text-lg ps-2 rounded-xl h-10 w-full text-nowrap overflow-hidden duration-300
+                ${
                   active === item.key
                     ? "bg-(--color-secondary) text-white"
-                    : "hover:bg-gray-100"
-                }`}
+                    : "hover:bg-gray-100/70"
+                } 
+              `}
                 onClick={() => setActive(item.key)}
                 key={idx}
               >
@@ -76,13 +73,13 @@ const SideBar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
             ))}
           </div>
         </div>
+
         <div>
           <button
-            className={`flex gap-6 items-center cursor-pointer text-nowrap h-12 px-3 rounded-xl text-base text-red-700 
-                  `}
+            className="flex gap-3 items-center text-lg ps-2 rounded-xl h-10 w-full text-nowrap overflow-hidden duration-300 hover:bg-red-500 hover:text-white text-red-600"
             onClick={handleLogout}
           >
-            <FaSignOutAlt />
+            <MdLogout />
             {!isCollapsed && "Logout"}
           </button>
         </div>
@@ -91,4 +88,4 @@ const SideBar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
   );
 };
 
-export default SideBar;
+export default RestaurantSideBar;

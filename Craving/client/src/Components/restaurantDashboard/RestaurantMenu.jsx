@@ -1,8 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import { MdAddCircleOutline } from "react-icons/md";
-import AddItemMenuModal from '../userDashboard/modals/AddItemMenuModal';
-
+import AdditemMenuModal from './modals/AddMenuItemModal';
 
 const RestaurantMenu = () => {
   const[isAddItem,setIsAddItem] = useState(false)
@@ -10,7 +9,7 @@ const RestaurantMenu = () => {
     <>
       <div className='w-full p-6 '>
         <div className='flex justify-between items-center shadow-md border p-5 rounded-3xl border-gray-50'>
-          <div className='text-lg font-bold'>
+          <div className='text-2xl font-bold text-gray-800 mb-4'>
             <h1>Menu Management</h1>
           </div>
           <div>
@@ -20,7 +19,7 @@ const RestaurantMenu = () => {
       </div>
 
       {isAddItem && (
-        <AddItemMenuModal
+        <AdditemMenuModal
           onClose={() => setIsAddItem(false)}
         />
       )}

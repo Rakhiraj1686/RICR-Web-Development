@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import RestaurantSidebar from "../../Components/restaurantDashboard/RestaurantSidebar";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import RestaurantOverview from "../../Components/restaurantDashboard/RestaurantOverview";
+import RestaurantProfile from "../../Components/restaurantDashboard/RestaurantProfile";
 import RestaurantMenu from "../../Components/restaurantDashboard/RestaurantMenu";
 import RestaurantOrders from "../../Components/restaurantDashboard/RestaurantOrders";
-import RestaurantTotalSale from "../../Components/restaurantDashboard/RestaurantTotalSale";
-import RestaurantStock from "../../components/restaurantDashboard/RestaurantStock";
-import RestaurantCustomer from "../../components/restaurantDashboard/RestaurantCustomer";
-import RestaurantManager from "../../Components/restaurantDashboard/RestaurantManager";
+import RestaurantEarnings from "../../Components/restaurantDashboard/RestaurantEarnings";
+import RestaurantHelpDesk from "../../components/restaurantDashboard/RestaurantHelpDesk";
 
 
 const ResturantDashboard = () => {
@@ -51,12 +51,12 @@ const ResturantDashboard = () => {
         <div
           className={`bg-(--color-primary)/10 duration-300 ${isCollapsed ? "w-57/60" : " w-50/60"}`}
         >
+          {active === "overview" && <RestaurantOverview />}
+          {active === "profile" && <RestaurantProfile />}
           {active === "menu" && <RestaurantMenu />}
           {active === "orders" && <RestaurantOrders />}
-          {active === "sale" && <RestaurantTotalSale />}
-          {active === "stock" && <RestaurantStock />}
-          {active === "customer" && <RestaurantCustomer />}
-          {active === "manager" && <RestaurantManager />}
+          {active === "earnings" && <RestaurantEarnings />}
+          {active === "helpdesk" && <RestaurantHelpDesk />}
         </div>
       </div>
     </>
