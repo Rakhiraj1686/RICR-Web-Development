@@ -4,14 +4,14 @@ import {
   UserChangePhoto,
   UserResetPassword,
 } from "../controllers/userController.js";
-import { protect } from "../middlewares/authMiddleware.js";
+import { Protect } from "../middlewares/authMiddleware.js";
 import multer from "multer";
 
 const router = express.Router();
 const Uploads = multer();
 
-router.put("/update", protect, UserUpdate);
-router.patch("/changePhoto", protect, Uploads.single("photo"), UserChangePhoto);
-router.patch("/resetPassword", protect, UserResetPassword);
+router.put("/update", Protect, UserUpdate);
+router.patch("/changePhoto", Protect, Uploads.single("photo"), UserChangePhoto);
+router.patch("/resetPassword", Protect, UserResetPassword);
 
 export default router;

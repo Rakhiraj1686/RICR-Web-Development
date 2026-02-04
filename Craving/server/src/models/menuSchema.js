@@ -15,6 +15,14 @@ const menuSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    servingSize:{
+      type:String,
+      required:true,
+    },
+    preparationTime:{
+      type:String,
+      required:true,
+    },
     type: {
       type: String,
       enum: [
@@ -34,6 +42,10 @@ const menuSchema = mongoose.Schema(
     description: {
       type: String,
       required: true,
+    },
+    price:{
+      type:String,
+      required:true,
     },
     availability: {
       type: String,

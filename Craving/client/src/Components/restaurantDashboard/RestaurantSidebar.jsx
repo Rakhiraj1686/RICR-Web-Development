@@ -39,7 +39,7 @@ const RestaurantSideBar = ({ active, setActive, isCollapsed, setIsCollapsed }) =
     <>
       <div className="p-2 flex flex-col justify-between h-full">
         <div>
-          <div className="h-10 text-xl font-bold flex gap-5 items-center mb-3">
+          <div className="h-10 text-lg font-bold flex gap-2 items-center mb-3">
             <button
               className="ms-2 hover:scale-105"
               onClick={() => setIsCollapsed(!isCollapsed)}

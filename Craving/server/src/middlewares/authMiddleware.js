@@ -3,7 +3,7 @@ import User from "../models/userModel.js";
 // import OtpProtect from "../middlewares/authMiddleware.js"
 
 
-export const protect = async (req, res, next) => {
+export const Protect = async (req, res, next) => {
   try {
     const biscut = req.cookies.parleG;
     console.log("Token recived in cookies:", biscut);
@@ -36,6 +36,55 @@ export const protect = async (req, res, next) => {
   }
 };
 
+export const AdminProtect = async(req,res,next) =>{
+  try {
+    if(req.user.role !== "admin") {
+      const error = new Error("Unauthorized! only admin can do this");
+      error.statusCode= 401;
+      return next(error);
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+export const PartnerProtect = async(req,res,next) =>{
+  try {
+    if(req.user.role !== "partener") {
+      const error = new Error("Unauthorized! only partener can do this");
+      error.statusCode= 401;
+      return next(error);
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+export const ManagerProtect = async(req,res,next) =>{
+  try {
+    if(req.user.role !== "manager") {
+      const error = new Error("Unauthorized! only manager can do this");
+      error.statusCode= 401;
+      return next(error);
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+export const CustomerProtect = async(req,res,next) =>{
+  try {
+    if(req.user.role !== "customer") {
+      const error = new Error("Unauthorized! only customer can do this");
+      error.statusCode= 401;
+      return next(error);
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
 export const OtpProtect = async (req, res, next) => {
   try {
     const token = req.cookies.otpToken;
