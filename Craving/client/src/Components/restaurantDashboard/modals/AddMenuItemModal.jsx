@@ -107,13 +107,13 @@ const AdditemMenuModal = ({ onClose }) => {
         <div className="bg-white w-5xl max-h-[85vh] overflow-y-auto rounded">
           <div className="flex justify-between px-5 py-3 border-b border-gray-300 ">
             <div>
-              <h1 className="text-shadow-lg text-lg font-bold">
+              <h1 className="text-shadow-lg text-lg font-seminold text-gray-800">
                 Add New Menu Items
               </h1>
             </div>
             <button
-              onClick={() => onClose()}
-              className="text-red-600 hover:text-red-700 text-3xl "
+              onClick={handleClose}
+              className="text-gray-600 hover:text-red-700 text-3xl "
             >
               ⊗
             </button>
@@ -125,7 +125,7 @@ const AdditemMenuModal = ({ onClose }) => {
               <h3 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b border-gray-200">
                 Item Image
               </h3>
-              <div className="flex text-center gap-2">
+              <div className="flex text-end gap-2">
                 <label
                   htmlFor="image"
                   className="px-6 py-2 w-fit  bg-(--color-secondary) text-white rounded-md hover:bg-(--color-secondary-hover) cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
@@ -151,10 +151,22 @@ const AdditemMenuModal = ({ onClose }) => {
                   multiple
                 />
               </div>
-              {/* {imagePreviews.length !== 0 && (
-                <div className="mt-3 grid grid-cols-5 gap-1">{imagePreviews.map((itemImag,idx)=>(
-                  <div></div></div>
-              )} */}
+              {imagePreviews.length !== 0 && (
+                <div className="mt-3 grid grid-cols-5 gap-1">
+                  {imagePreviews.map((itemImg, idx) => (
+                    <div
+                      className="border rounded-md w-30 h-30 overflow-hidden"
+                      key={idx}
+                    >
+                      <img
+                        src={itemImg}
+                        alt=""
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Basic Information Section */}
