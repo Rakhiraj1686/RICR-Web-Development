@@ -8,7 +8,7 @@ const router = express.Router();
 const upload = multer();
 
 router.post(
-  "./addMenuITerm",
+  "/addMenuItem",
   Protect,
   ManagerProtect,
   upload.array("itemImages", 5),

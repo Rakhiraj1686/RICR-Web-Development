@@ -7,7 +7,7 @@ const menuSchema = mongoose.Schema(
       ref: "User",
       required: true,
     },
-    dishName: {
+    itemName: {
       type: String,
       required: true,
     },
@@ -30,8 +30,6 @@ const menuSchema = mongoose.Schema(
         "non-veg",
         "egg",
         "jain",
-        "Spicy",
-        "sweet",
         "dairy",
         "gluten-free",
         "contains-nuts",

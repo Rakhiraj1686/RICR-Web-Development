@@ -9,7 +9,7 @@ const AdditemMenuModal = ({ onClose }) => {
     itemName: "",
     description: "",
     price: "",
-    category: "",
+    servingSize: "",
     cuisine: "",
     type: "",
     preparationTime: "",
@@ -87,7 +87,7 @@ const AdditemMenuModal = ({ onClose }) => {
       itemName: "",
       description: "",
       price: "",
-      category: "",
+      servingSize: "",
       cuisine: "",
       type: "",
       preparationTime: "",
@@ -95,7 +95,7 @@ const AdditemMenuModal = ({ onClose }) => {
     });
     setImagePreviews([]);
     setImages([]);
-    setErrors("");
+    setErrors({});
     setLoading(false);
 
     onClose();
@@ -248,21 +248,21 @@ const AdditemMenuModal = ({ onClose }) => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Category *
+                    Serving Size *
                   </label>
                   <input
                     type="text"
-                    name="category"
-                    value={formData.category}
+                    name="servingSize"
+                    value={formData.servingSize}
                     onChange={handleInputChange}
                     className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      errors.category ? "border-red-500" : "border-gray-300"
+                      errors.servingSize ? "border-red-500" : "border-gray-300"
                     }`}
                     placeholder="e.g., Main Course, Appetizer"
                   />
-                  {errors.category && (
+                  {errors.servingSize && (
                     <p className="text-red-600 text-xs mt-1">
-                      {errors.category}
+                      {errors.servingSize}
                     </p>
                   )}
                 </div>
@@ -359,7 +359,7 @@ const AdditemMenuModal = ({ onClose }) => {
             <div className="flex justify-end space-x-4 pt-6 border-t border-gray-300">
               <button
                 type="button"
-                onClick={() => onClose()}
+                onClick={handleClose}
                 disabled={loading}
                 className="px-6 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 transition disabled:opacity-50"
               >

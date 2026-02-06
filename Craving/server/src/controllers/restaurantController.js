@@ -59,8 +59,8 @@ export const RestaurantAddMenuItem = async (req, res, next) => {
 export const GetRestaurantMenuItem = async (req, res, next) => {
   try {
     const CurrentUser = req.user;
-
-    const menuItems = await Menu.find({ resturantID: CurrentUser._id });
+    const resturantID = CurrentUser._id
+    const menuItems = await Menu.find({ resturantID});
 
     res.status(200).json({
       message: "Menu Items Fetched Successfully",

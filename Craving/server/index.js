@@ -30,7 +30,7 @@ app.use((err, req, res, next) => {
   const StatusCode = err.statusCode || 500;
   console.log("Error Found", {ErrorMessage,StatusCode});
 
-  res.status(StatusCode).json({ message: ErrorMessage });
+  res.status(200).json({ message: ErrorMessage });
 });
 
 const port = process.env.PORT || 5000;
