@@ -139,7 +139,7 @@ const EditRestaurantProfileModal = ({ onClose }) => {
     setMessage({ type: "", text: "" });
 
     try {
-      const res = await api.put("/user/update", formData);
+      const res = await api.put("/restaurant/update", formData);
       if (res.data?.data) {
         sessionStorage.setItem("CravingUser", JSON.stringify(res.data.data));
         setUser(res.data.data);

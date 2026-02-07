@@ -11,6 +11,7 @@ import UserDashboard from "./pages/dashboards/UserDashboard";
 import RiderDashboard from "./Pages/Dashboards/RiderDashboard";
 import RestaurantDashboard from "./Pages/Dashboards/RestaurantDashboard";
 import AdminDashboard from "./pages/dashboards/AdminDashboard";
+import OrderNow from "./Pages/OrderNow"
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/riderdashboard" element={<RiderDashboard />} />
           <Route path="/restaurantdashboard" element={<RestaurantDashboard />} />
           <Route path="/admindashboard" element={<AdminDashboard />} />
+          <Route path="order-now" element={<OrderNow/>}/>
         </Routes>
       </BrowserRouter>
     </>
