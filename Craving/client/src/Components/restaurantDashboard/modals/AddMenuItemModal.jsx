@@ -71,8 +71,8 @@ const AdditemMenuModal = ({ onClose }) => {
 
       //trasnfer MenuData to formData
       const res = await api.post("/restaurant/addMenuItem", form_data);
-      toast.success(res.data.message);
-      console.log(res.data.data);
+      toast.success(res?.data?.message || "Menu item added successfully");
+      console.log(res.data.data || "Saved Item");
       setTimeout(handleClose, 1500);
     } catch (error) {
       console.log(error);

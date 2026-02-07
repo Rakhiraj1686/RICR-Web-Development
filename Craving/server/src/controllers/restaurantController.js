@@ -12,7 +12,6 @@ export const RestaurantAddMenuItem = async (req, res, next) => {
       availability,
       servingSize,
       cuisine,
-      restaurantID,
     } = req.body;
 
     const CurrentUser = req.user;
@@ -25,8 +24,7 @@ export const RestaurantAddMenuItem = async (req, res, next) => {
       !preparationTime ||
       !availability ||
       !servingSize ||
-      !cuisine||
-      !restaurantID
+      !cuisine
     ) {
       const error = new Error("All Fields are Required");
       error.statusCode = 400;
@@ -46,7 +44,7 @@ export const RestaurantAddMenuItem = async (req, res, next) => {
       servingSize,
       cuisine,
       images,
-      resturantID: CurrentUser._id,
+      restaurantID: CurrentUser._id,
     });
 
     res.status(201).json({
@@ -139,7 +137,9 @@ export const RestaurantUpdate = async (req, res, next) => {
 
     // Validation for required fields
     if (!fullName || !email || !mobileNumber) {
-      const error = new Error("Full Name, Email, and Mobile Number are required");
+      const error = new Error(
+        "Full Name, Email, and Mobile Number are required",
+      );
       error.statusCode = 400;
       return next(error);
     }
