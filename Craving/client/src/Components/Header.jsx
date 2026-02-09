@@ -6,6 +6,31 @@ import { useAuth } from "../context/AuthContext";
 const Header = () => {
   const { user, isLogin } = useAuth();
   const navigate = useNavigate();
+
+   const handleNavigate = () => {
+    switch (role) {
+      case "manager": {
+        navigate("/resturant-dashboard");
+        break;
+      }
+      case "partner": {
+        navigate("/rider-dashboard");
+        break;
+      }
+      case "customer": {
+        navigate("/user-dashboard");
+        break;
+      }
+      case "admin": {
+        navigate("/admin-dashboard");
+        break;
+      }
+      default:
+        break;
+    }
+  };
+
+
   return (
     <>
       <div className="bg-(--color-primary) px-4 py-2 flex justify-between items-center">
@@ -21,29 +46,26 @@ const Header = () => {
             to={"/"}
             className="text-decoration-none text-white hover:text-(--color-accent)"
           >
-            {" "}
             Home
           </Link>
           <Link
             to={"/about"}
             className="text-decoration-none text-white hover:text-(--color-accent)"
           >
-            {" "}
             About
           </Link>
           <Link
             to={"/contact"}
             className="text-decoration-none text-white hover:text-(--color-accent)"
           >
-            {" "}
             Contact
           </Link>
         </div>
-        <div className="flex gap-4 cursor-pointer ">
+        <div className="flex gap-4">
           {isLogin ? (
             <div
-              className="text-red-400"
-              onClick={() => navigate("/userDashboard")}
+              className="text-red-500 cursor-pointer"
+              onClick={handleNavigate}
             >
               {user.fullName}
             </div>
@@ -51,13 +73,13 @@ const Header = () => {
             <>
               <button
                 onClick={() => navigate("/login")}
-                className="bg-(--color-secondary)  py-2 px-4 font-bold hover:bg-(--color-secondary-hover) hover:text-white rounded "
+                className="bg-(--color-secondary) py-2 px-4 font-bold hover:bg-(--color-secondary-hover) hover:text-white rounded "
               >
                 Login
               </button>
               <button
                 onClick={() => navigate("/register")}
-                className="bg-(--color-secondary)  py-2 px-4 font-bold hover:bg-(--color-secondary-hover) hover:text-white rounded "
+                className="bg-(--color-secondary) py-2 px-4 font-bold hover:bg-(--color-secondary-hover) hover:text-white rounded "
               >
                 Register
               </button>

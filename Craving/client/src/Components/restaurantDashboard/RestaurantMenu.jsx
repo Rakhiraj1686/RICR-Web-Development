@@ -57,7 +57,7 @@ const RestaurantMenu = () => {
               ))}
             </div>
           )} */}
-        <div className="border mt-3">
+        <div className=" mt-3">
           <div>
             <table className="w-full mt-3">
               <thead>
@@ -138,7 +138,7 @@ const RestaurantMenu = () => {
         />
       )}
       {isEditItemModalOpen && (
-        <EditItemModal
+        <EditItemsModal
           onClose={() => setIsEditItemModalOpen(false)}
           selectedItem={selectedItem}
         />

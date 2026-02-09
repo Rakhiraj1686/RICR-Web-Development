@@ -3,7 +3,7 @@ import { useAuth } from "../../../context/AuthContext";
 import api from "../../../Config/Api";
 import toast from "react-hot-toast";
 
-const AdditemMenuModal = ({ onClose }) => {
+const AddItemMenuModal = ({ onClose }) => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
     itemName: "",
@@ -72,7 +72,7 @@ const AdditemMenuModal = ({ onClose }) => {
       //trasnfer MenuData to formData
       const res = await api.post("/restaurant/addMenuItem", form_data);
       toast.success(res?.data?.message || "Menu item added successfully");
-      console.log(res.data.data || "Saved Item");
+      // console.log(res.data);
       setTimeout(handleClose, 1500);
     } catch (error) {
       console.log(error);
@@ -386,4 +386,4 @@ const AdditemMenuModal = ({ onClose }) => {
   );
 };
 
-export default AdditemMenuModal;
+export default AddItemMenuModal;
