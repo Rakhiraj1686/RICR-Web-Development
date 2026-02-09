@@ -2,7 +2,7 @@ import React from "react";
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-linear-to-b from-(--color-background) to-white">
+    <div className="min-h-screen bg-linear-to-br from-(--color-background) to-white ">
 
       {/* HERO SECTION */}
       <section className="py-24 px-6 text-center">
@@ -88,3 +88,5 @@ const About = () => {
 };
 
 export default About;
+
+

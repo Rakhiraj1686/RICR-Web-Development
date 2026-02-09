@@ -24,9 +24,9 @@ const EditRestaurantProfileModal = ({ onClose }) => {
       pan: user?.documents?.pan || "",
     },
     paymentDetails: {
-      upi: user?.paymentDetails?.upi || "",
+      UPI: user?.paymentDetails?.UPI || "",
       account_number: user?.paymentDetails?.account_number || "",
-      ifs_Code: user?.paymentDetails?.ifs_Code || "",
+      IFSC: user?.paymentDetails?.IFSC || "",
     },
     geoLocation: {
       lat: user?.geoLocation?.lat || "",
@@ -275,7 +275,7 @@ const EditRestaurantProfileModal = ({ onClose }) => {
                   <input
                     type="date"
                     name="dob"
-                    value={formData.dob ||""}
+                    value={formData.dob}
                     onChange={handleInputChange}
                     className="w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
@@ -521,21 +521,21 @@ const EditRestaurantProfileModal = ({ onClose }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.paymentDetails.upi}
+                    value={formData.paymentDetails.UPI}
                     onChange={(e) =>
                       handleNestedChange(
                         "paymentDetails",
-                        "upi",
+                        "UPI",
                         e.target.value,
                       )
                     }
                     className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      errors.upi ? "border-red-500" : "border-gray-300"
+                      errors.UPI ? "border-red-500" : "border-gray-300"
                     }`}
                     placeholder="username@bank"
                   />
-                  {errors.upi && (
-                    <p className="text-red-600 text-xs mt-1">{errors.upi}</p>
+                  {errors.UPI && (
+                    <p className="text-red-600 text-xs mt-1">{errors.UPI}</p>
                   )}
                 </div>
 
@@ -564,11 +564,11 @@ const EditRestaurantProfileModal = ({ onClose }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.paymentDetails.ifs_Code}
+                    value={formData.paymentDetails.IFSC}
                     onChange={(e) =>
                       handleNestedChange(
                         "paymentDetails",
-                        "ifs_Code",
+                        "IFSC",
                         e.target.value,
                       )
                     }
