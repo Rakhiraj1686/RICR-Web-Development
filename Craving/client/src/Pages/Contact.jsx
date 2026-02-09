@@ -8,12 +8,18 @@ import { FiSend } from "react-icons/fi";
 // import { FaWhatsapp } from "react-icons/fa";
 
 const Contact = () => {
-  const [contactUs, setContactUs] = useState({
+  const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     subject: "",
     query: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setContactUs((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleClear = () => {
     setContactUs({
@@ -23,18 +29,14 @@ const Contact = () => {
       query: "",
     });
   };
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setContactUs((prev) => ({ ...prev, [name]: value }));
-  };
-  
   const submitContact = async (e) => {
     e.preventDefault();
+    setIsLoading(true)
+    console.log(formData)
 
     try {
-      const res = await Api.post("/public/new-contact",contactUs)
+      const res = await Api.post("/public/new-contact",formData)
       toast.success(res.data.message);
       setIsLoading(true);
       handleClear();
@@ -51,8 +53,8 @@ const Contact = () => {
       <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 py-5 px-4">
         {/* This isi Header */}
 
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-(--color-text)">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-(--color-text) mb-2">
             Contact Us{" "}
           </h1>
         </div>
@@ -87,7 +89,7 @@ const Contact = () => {
                           type="text"
                           name="fullName"
                           placeholder="Enter Name"
-                          value={contactUs.fullName}
+                          value={formData.fullName}
                           onChange={handleChange}
                           disabled={isLoading}
                           required
@@ -107,7 +109,7 @@ const Contact = () => {
                           type="text"
                           name="email"
                           id="email"
-                          value={contactUs.email}
+                          value={formData.email}
                           placeholder="Enter Email"
                           onChange={handleChange}
                           disabled={isLoading}
@@ -127,7 +129,7 @@ const Contact = () => {
                         type="text"
                         name="subject"
                         id="subject"
-                        value={contactUs.subject}
+                        value={formData.subject}
                         placeholder="Request Help"
                         onChange={handleChange}
                         disabled={isLoading}
@@ -146,7 +148,7 @@ const Contact = () => {
                         type="text"
                         name="query"
                         id="query"
-                        value={contactUs.query}
+                        value={formData.query}
                         placeholder="Please describe your query in detail.."
                         onChange={handleChange}
                         disabled={isLoading}
