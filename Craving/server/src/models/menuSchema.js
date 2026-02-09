@@ -48,7 +48,7 @@ const menuSchema = mongoose.Schema(
     availability: {
       type: String,
       required: true,
-      enum: ["available", "unAvailable", "removed"],
+      enum: ["available", "unavailable", "removed"],
       default: "available",
     },
     servingSize: {

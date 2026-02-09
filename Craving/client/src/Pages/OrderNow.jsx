@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import api from "../Config/Api"
+import api from "../Config/Api";
+import { useNavigate } from "react-router-dom";
 
 const OrderNow = () => {
+  const navigate = useNavigate();
   const [restaurants, setRestaurants] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -22,7 +24,14 @@ const OrderNow = () => {
     fetchAllRestaurant();
   }, []);
 
-  console.log(restaurants);
+  const handleRestaurantClick = (restaurantID) => {
+    console.log("restaurant Clicked");
+    console.log("Order Now Page", restaurantID);
+
+    navigate(`/restaurant/${restaurantID}`);
+  };
+
+  // console.log(restaurants);
 
   return (
     <>
@@ -35,10 +44,27 @@ const OrderNow = () => {
         </div>
 
         {restaurants ? (
-          <div>
+          <div className="grid grid-cols-4 gap-3">
             {restaurants.map((restaurant, idx) => (
-              <div key={idx} className="border">
-                {restaurant.restaurantName}
+              <div
+                key={idx}
+                className="rounded h-100 hover:shadow-lg p-3"
+                onClick={() => {
+                  handleRestaurantClick(restaurant.id);
+                }}
+              >
+                <div>{restaurant.restaurantName}</div>
+                <div className="flex gap-2">
+                  {restaurant.cuisine
+                    .split(", ")
+                    .slice(0, 2)
+                    .map((cuisne, idx) => (
+                      <span
+                        key={idx}
+                        className="py-1 px-2 bg-amber-200 rounded-2xl capitalize"
+                      >{cuisne.toLowerCase()}</span>
+                    ))}
+                </div>
               </div>
             ))}
           </div>
