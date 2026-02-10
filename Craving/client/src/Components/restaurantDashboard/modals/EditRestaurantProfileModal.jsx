@@ -28,7 +28,7 @@ const EditRestaurantProfileModal = ({ onClose }) => {
       account_number: user?.paymentDetails?.account_number || "",
       IFSC: user?.paymentDetails?.IFSC || "",
     },
-    geoLocation: {
+    geolocation: {
       lat: user?.geoLocation?.lat || "",
       lon: user?.geoLocation?.lon || "",
     },
@@ -395,8 +395,8 @@ const EditRestaurantProfileModal = ({ onClose }) => {
                       >
                         Get Live Location
                       </button>
-                      {formData.geoLocation.lat !== "N/A" &&
-                      formData.geoLocation.lon !== "N/A"
+                      {formData.geolocation.lat !== "N/A" &&
+                      formData.geolocation.lon !== "N/A"
                         ? "✅"
                         : "❌"}
                     </div>
