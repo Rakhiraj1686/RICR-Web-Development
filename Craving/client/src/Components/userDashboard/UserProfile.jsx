@@ -76,7 +76,7 @@ const UserProfile = () => {
               </div>
             </div>
             <div>
-              <div className="text-3xl text-(--color-primary) font-bold">
+              <div className="text-3xl text-(--color-primary) font-semibold">
                 {user.fullName || "User Name"}
               </div>
               <div className="text-gray-600 text-lg font-semibold">
@@ -87,7 +87,7 @@ const UserProfile = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
             <button
               className="px-4 py-2 rounded bg-(--color-secondary) text-white"
               onClick={setIsEditProfileModalOpen}
