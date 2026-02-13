@@ -229,14 +229,14 @@ export const RestaurantUpdate = async (req, res, next) => {
     // Update payment details
     if (paymentDetails) {
       currentUser.paymentDetails = {
-        upi: paymentDetails.upi || currentUser.paymentDetails?.upi || "N/A",
+        UPI: paymentDetails.upi || currentUser.paymentDetails?.UPI || "N/A",
         account_number:
           paymentDetails.account_number ||
           currentUser.paymentDetails?.account_number ||
           "N/A",
-        ifs_Code:
+        IFSC:
           paymentDetails.ifs_Code ||
-          currentUser.paymentDetails?.ifs_Code ||
+          currentUser.paymentDetails?.IFSC ||
           "N/A",
       };
     }
