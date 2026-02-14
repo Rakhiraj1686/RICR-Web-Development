@@ -65,8 +65,8 @@ const Login = () => {
           break;
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error?.responsee?.data?.message || "Unknown error");
+      // console.log(error);
+      toast.error(error?.response?.data?.message || "Unknown error");
     } finally {
       setIsLoading(false);
     }
