@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../Config/Api";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast"
 
 const OrderNow = () => {
   const navigate = useNavigate();

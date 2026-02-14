@@ -1,52 +1,73 @@
-import { dotenv } from "dotenv";
+import dotenv from "dotenv";
 dotenv.config();
-import connectDB from "../config/db";
+import connectDB from "../config/db.js";
 import bcrypt, { genSalt } from "bcrypt";
-import { DummyManagers, DummyParteners, DummyUsers } from "./dummy.js";
+import { DummyManagers, DummyPartners, DummyUsers } from "./dummy.js";
 import User from "../models/userModel.js";
 
 const seedManager = async () => {
-  const salt = await bcrypt.genSalt();
+  const salt = await bcrypt.genSalt(10);
 
   console.log("Adding Dummy Restaurants");
-  DummyManagers.forEach(async (manager) => {
-    await User.create({
+  // DummyManagers.forEach(async (manager) => {
+  //   await User.create({
+  //     ...manager,
+  //     password: await bcrypt.hash(manager.password, salt),
+  //   });
+  // });
+
+  const DummyManagersWithHashedPassword = await Promise.all(
+    DummyManagers.map(async (manager) => ({
       ...manager,
       password: await bcrypt.hash(manager.password, salt),
-    });
-  });
+    })),
+  );
+
+  await User.insertMany(DummyManagersWithHashedPassword);
+
   console.log("Dummy Restaurants Added");
 };
 
 const seedCustomer = async () => {
-  const salt = await bcrypt.genSalt();
+  const salt = await bcrypt.genSalt(10);
   console.log("Adding Dummy customer");
-  DummyUsers.forEach(async (customer) => {
-    await User.create({
+  // DummyUsers.forEach(async (customer) => {
+  //   await User.create({
+  //     ...customer,
+  //     password: await bcrypt.hash(customer.password, salt),
+  //   });
+  // });
+    const DummyCustomerWithHashedPassword = await Promise.all(
+    DummyManagers.map(async (customer) => ({
       ...customer,
       password: await bcrypt.hash(customer.password, salt),
-    });
-  });
+    })),
+  );
+
+  await User.insertMany(DummyCustomerWithHashedPassword);
   console.log("Dummy customer Added");
 };
 
 const seedRider = async () => {
-  const salt = await bcrypt.genSalt();
+  const salt = await bcrypt.genSalt(10);
 
   console.log("Adding Dummy Rider");
-  DummyParteners.forEach(async (rider) => {
-    await User.create({
+   const DummyRiderWithHashedPassword = await Promise.all(
+    DummyManagers.map(async (rider) => ({
       ...rider,
       password: await bcrypt.hash(rider.password, salt),
-    });
-  });
+    })),
+  );
+
+  await User.insertMany(DummyRiderWithHashedPassword);
+  
   console.log("Dummy Rider Added");
 };
 
-
 const seedUser = async () => {
   try {
-    const salt = await bcrypt.genSalt();
+    await connectDB();
+    const salt = await bcrypt.genSalt(10);
     const existingUsers = await User.find();
     if (existingUsers) {
       existingUsers.forEach(async (existingUser) => {
@@ -63,7 +84,7 @@ const seedUser = async () => {
     console.log(error);
     console.log("Error in adding Dummy User");
   }
-  process.exit(1);
+  // process.exit(1);
 };
 
 seedUser();
