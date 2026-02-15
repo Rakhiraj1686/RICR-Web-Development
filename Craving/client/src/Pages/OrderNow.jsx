@@ -3,6 +3,8 @@ import api from "../Config/Api";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Loading from "./Loading";
+import { MdOutlineDoubleArrow } from "react-icons/md";
+
 
 const OrderNow = () => {
   const navigate = useNavigate();
@@ -106,7 +108,7 @@ const OrderNow = () => {
               <div>{EachRestaurant.pin}</div>
               <div>{EachRestaurant.mobileNumber}</div>
               <div className="flex float-end items-center text-(--color-secondary) gap-2 group-hover:border-b-2 w-fit">
-                Explore Menu 
+                Explore Menu <MdOutlineDoubleArrow/>
               </div>
             </div>
           ))}
