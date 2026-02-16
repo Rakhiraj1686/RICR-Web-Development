@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.post("/new-contact", NewContact);
 router.get("/allRestaurants", GetAllRestaurants);
-router.get("/restaurant-menu/:id/:page", GetAllRestaurantMenuData);
+router.get("/restaurant/menu/:id", GetAllRestaurantMenuData);
 
 export default router;

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const menuSchema = mongoose.Schema(
   {
-    restaurantID: {
+    resturantID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
@@ -15,25 +15,25 @@ const menuSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    servingSize:{
-      type:String,
-      required:true,
+    servingSize: {
+      type: String,
+      required: true,
     },
-    preparationTime:{
-      type:String,
-      required:true,
+    preparationTime: {
+      type: String,
+      required: true,
     },
     type: {
       type: String,
       enum: [
         "veg",
         "non-veg",
+        "vegan",
         "egg",
         "jain",
-        "dairy",
         "gluten-free",
         "contains-nuts",
-        "vegan",
+        "dairy",
       ],
       required: true,
     },
@@ -41,9 +41,9 @@ const menuSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    price:{
-      type:String,
-      required:true,
+    price: {
+      type: String,
+      required: true,
     },
     availability: {
       type: String,
@@ -51,14 +51,11 @@ const menuSchema = mongoose.Schema(
       enum: ["available", "unavailable", "removed"],
       default: "available",
     },
-    servingSize: {
-      type: String,
-    },
-    Image: {
+    images: {
       type: [
         {
           url: { type: String, required: true },
-          publicID: { type: String, required: true },
+          publicID: { type: String },
         },
       ],
       required: true,

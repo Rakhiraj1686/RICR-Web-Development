@@ -45,8 +45,7 @@ export const GetAllRestaurants = async (req, res, next) => {
 
 export const GetAllRestaurantMenuData = async (req, res, next) => {
   try {
-    const { id, page } = req.params;
-    console.log(page);
+    const { id } = req.params;
 
     if (!id) {
       const error = new Error("All Fields required");
@@ -58,11 +57,9 @@ export const GetAllRestaurantMenuData = async (req, res, next) => {
       restaurantID: id,
     })
       .sort({ updateAt: -1 })
-      .skip(1)
-      .limit(2)
       .populate("restaurantID");
 
-    res.status.json({
+    res.status(200).json({
       message: "Menu fetched Successfully",
       data: restaurantMenuData,
     });
