@@ -1,11 +1,11 @@
 import React from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import api from "../Config/Api";
 import Loading from "./Loading";
 import { useEffect } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import api from "../config/Api";
 
 const OrderNow = () => {
   const navigate = useNavigate();
@@ -24,6 +24,7 @@ const OrderNow = () => {
       setLoading(false);
     }
   };
+// console.log(fetctAllRestaurants)
 
   useEffect(() => {
     fetctAllRestaurants();
@@ -33,6 +34,8 @@ const OrderNow = () => {
     console.log("Restaurant Clicked");
     navigate("/restaurantMenu", { state: restaurantinfo });
   };
+
+  console.log("restaurant Menu");
 
   if (loading) {
     return (

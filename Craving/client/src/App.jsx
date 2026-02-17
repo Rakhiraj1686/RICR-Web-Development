@@ -11,11 +11,11 @@ import UserDashboard from "./pages/dashboards/UserDashboard";
 import RiderDashboard from "./Pages/Dashboards/RiderDashboard";
 import RestaurantDashboard from "./Pages/Dashboards/RestaurantDashboard";
 import AdminDashboard from "./pages/dashboards/AdminDashboard";
-import OrderNow from "./Pages/OrderNow"
+import OrderNow from "./Pages/OrderNow";
 import RestaurantDisplayMenu from "./pages/RestaurantDisplayMenu";
 import NotFound from "./Pages/NotFound";
 // import Header from "./components/Header";
-
+import CheckoutPage from "./Pages/CheckoutPage";
 
 const App = () => {
   return (
@@ -32,13 +32,16 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/userdashboard" element={<UserDashboard />} />
           <Route path="/riderdashboard" element={<RiderDashboard />} />
-          <Route path="/restaurantdashboard" element={<RestaurantDashboard />} />
+          <Route
+            path="/restaurantdashboard"
+            element={<RestaurantDashboard />}
+          />
           <Route path="/admindashboard" element={<AdminDashboard />} />
-          <Route path="/order-now" element={<OrderNow/>}/>
-          <Route path="/retaurantMenu" element={<RestaurantDisplayMenu/>} />
+          <Route path="/order-now" element={<OrderNow />} />
+          <Route path="/restaurantMenu" element={<RestaurantDisplayMenu />} />
+          <Route path="/checkout-page" element={<CheckoutPage />} />
 
-          
-          <Route path="*" element={<NotFound/>}/>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </>

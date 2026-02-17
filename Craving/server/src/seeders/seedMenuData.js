@@ -1,20 +1,22 @@
 import dotenv from "dotenv";
 dotenv.config();
 import connectDB from "../config/db.js";
-import bcrypt, { genSalt } from "bcrypt";
+import bcrypt from "bcrypt";
+import { DummyMenu } from "./dummy.js";
 import Menu from "../models/menuSchema.js";
-import { DummyMenus } from "./dummy.js";
+import User from "../models/userModel.js";
 
 const seedMenu = async () => {
   try {
-    await connectDB();
-    //Delete old Menu Data
+    connectDB();
+    //Delete Old Menu Data
     console.log("Deleting old Menu Data");
 
-    const existingMenuData = await Menu.find();
-    if (existingMenuData.length > 0) {
+    const existingMenudata = await Menu.find();
+    if (existingMenudata.length > 0) {
       await Menu.deleteMany({});
     }
+
     const existingRestaurant = await User.find({ role: "manager" });
 
     console.log("Adding New Menu Data");
@@ -22,23 +24,20 @@ const seedMenu = async () => {
     const MenuItems = [];
 
     existingRestaurant.forEach((restaurant) => {
-      DummyMenus.forEach((menuItems) => {
-        MenuItems.push({ ...menuItems, restaurantID: restaurant._id });
+      DummyMenu.forEach((menuItem) => {
+        MenuItems.push({ ...menuItem, resturantID: restaurant._id });
       });
     });
 
-    await Menu.insetMany(MenuItems);
-    console.log("Menu data added Successfull");
+    await Menu.insertMany(MenuItems);
+    console.log("Menu Data added Successfully");
   } catch (error) {
     console.log(error);
-    console.log("Error sending Menu");
+
+    console.error("Error Seeding Menu");
   } finally {
     process.exit(1);
   }
-
-  //   await Promise.all(()=>{
-  //     existingRestaurant.map
-  //   })
 };
 
 seedMenu();
