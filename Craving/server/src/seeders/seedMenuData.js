@@ -8,7 +8,7 @@ import User from "../models/userModel.js";
 
 const seedMenu = async () => {
   try {
-    connectDB();
+    await connectDB();
     //Delete Old Menu Data
     console.log("Deleting old Menu Data");
 
@@ -18,6 +18,8 @@ const seedMenu = async () => {
     }
 
     const existingRestaurant = await User.find({ role: "manager" });
+    console.log("Managers Found:", existingRestaurant.length);
+
 
     console.log("Adding New Menu Data");
 
@@ -25,9 +27,11 @@ const seedMenu = async () => {
 
     existingRestaurant.forEach((restaurant) => {
       DummyMenu.forEach((menuItem) => {
-        MenuItems.push({ ...menuItem, resturantID: restaurant._id });
+        MenuItems.push({ ...menuItem, restaurantID: restaurant._id });
       });
     });
+
+    console.log("Total MenuItems:", MenuItems.length);
 
     await Menu.insertMany(MenuItems);
     console.log("Menu Data added Successfully");
@@ -36,7 +40,7 @@ const seedMenu = async () => {
 
     console.error("Error Seeding Menu");
   } finally {
-    process.exit(1);
+    process.exit(0);
   }
 };
 

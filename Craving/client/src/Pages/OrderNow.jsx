@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import Loading from "./Loading";
+import Loading from "../Components/Loading";
 import { useEffect } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +24,6 @@ const OrderNow = () => {
       setLoading(false);
     }
   };
-// console.log(fetctAllRestaurants)
 
   useEffect(() => {
     fetctAllRestaurants();
@@ -34,8 +33,6 @@ const OrderNow = () => {
     console.log("Restaurant Clicked");
     navigate("/restaurantMenu", { state: restaurantinfo });
   };
-
-  console.log("restaurant Menu");
 
   if (loading) {
     return (
@@ -55,7 +52,7 @@ const OrderNow = () => {
               onClick={() => handleRestaurantClick(EachRestaurant)}
             >
               <img
-                src={EachRestaurant.url}
+                src={EachRestaurant.photo.url}
                 alt=""
                 className="w-full h-[50%] object-cover rounded-t-xl"
               />
@@ -78,3 +75,5 @@ const OrderNow = () => {
 };
 
 export default OrderNow;
+
+

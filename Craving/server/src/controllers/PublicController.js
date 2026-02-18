@@ -46,9 +46,9 @@ export const GetAllRestaurants = async (req, res, next) => {
 export const GetAllRestaurantMenuData = async (req, res, next) => {
   try {
     const { id } = req.params;
-
+console.log("Requested Restaurant ID:", id);
     if (!id) {
-      const error = new Error("All Fields required");
+      const error = new Error("Restaurant ID is required");
       error.statusCode = 400;
       return next(error);
     }
@@ -56,7 +56,7 @@ export const GetAllRestaurantMenuData = async (req, res, next) => {
     const restaurantMenuData = await Menu.find({
       restaurantID: id,
     })
-      .sort({ updateAt: -1 })
+      .sort({ updatedAt: -1 })
       .populate("restaurantID");
 
     res.status(200).json({
