@@ -1,200 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import { useLocation, useNavigate } from "react-router-dom";
-// import { useAuth } from "../context/AuthContext";
-// import api from "../config/Api";
-// import toast from "react-hot-toast";
-
-// const RestaurantDisplayMenu = () => {
-//   const { isLogin, role } = useAuth();
-//   const navigate = useNavigate();
-//   const data = useLocation().state;
-//   // console.log("Resturant Menu Page", data);
-
-//   const [loading, setLoading] = useState(false);
-//   const [menuItems, setMenuItems] = useState();
-//   const [cart, setCart] = useState(JSON.parse(localStorage.getItem("cart")));
-//   const [cartFlag, setCartFlag] = useState([]);
-
-//   const fetchMenuItems = async () => {
-//     setLoading(true);
-//     try {
-//       const res = await api.get(`/public/restaurant/menu/${data._id}`);
-//       setMenuItems(res.data.data);
-//     } catch (error) {
-//       console.log(error);
-//       toast.error(error?.response?.data?.message || "Unknown Error");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   // console.log("Data fetched");
-
-//   const handleAddToCart = (NewItem) => {
-//     if (cart) {
-//       if (cart.resturantID === NewItem.resturantID._id) {
-//         setCart((prev) => ({
-//           ...prev,
-//           cartItem: [...prev.cartItem, { ...NewItem, quantity: 1 }],
-//           cartValue: Number(prev.cartValue) + Number(NewItem.price),
-//         }));
-//         setCartFlag((prev) => [...prev, NewItem._id]);
-//       } else {
-//         toast.error("Clear the cart first");
-//       }
-//     } else {
-//       setCart({
-//         resturantID: NewItem.resturantID._id,
-//         cartItem: [{ ...NewItem, quantity: 1 }],
-//         cartValue: Number(NewItem.price),
-//       });
-//       setCartFlag((prev) => [...prev, NewItem._id]);
-//     }
-//   };
-
-//   const handleCheckout = () => {
-//     isLogin && role === "customer"
-//       ? (localStorage.setItem("cart", JSON.stringify(cart)),
-//         navigate("/checkout-page"))
-//       : (toast.error("Please Login as Customer"), navigate("/login"));
-//   };
-
-//   // console.log(cart);
-
-//   useEffect(() => {
-//     cart && localStorage.setItem("cart", JSON.stringify(cart));
-//   }, [cart]);
-
-//   useEffect(() => {
-//     fetchMenuItems();
-//   }, [data]);
-
-//   return (
-//     <>
-//       <div className="w-7xl p-3 rounded shadow mx-auto mt-2 ">
-//         <img
-//           src={data.photo.url}
-//           alt=""
-//           className="w-48 h-48 object-cover rounded"
-//         />
-//       </div>
-//       <div className="w-7xl p-3 rounded shadow mx-auto mt-2 ">
-//         <div className="text-(--color-secondary) font-bold text-2xl text-center">
-//           Menu
-//         </div>
-
-//         <div className="space-y-3">
-//           {menuItems &&
-//             menuItems.map((EachItem, idx) => (
-//               <div
-//                 className="border border-gray-100 hover:shadow-lg  p-4 rounded"
-//                 key={EachItem._id}
-//               >
-//                 <div className="flex gap-4">
-//                   <img
-//                     src={EachItem.images[0].url}
-//                     alt=""
-//                     className="w-40 h-40 object-cover rounded "
-//                   />
-
-//                   <div className="flex justify-between border-red-500 w-full">
-//                     <div>
-//                       <div className="text-(--color-primary) text-lg font-bold">
-//                         {EachItem.itemName}
-//                       </div>
-//                       <div className="text-sm text-gray-600 mt-1">
-//                         {EachItem.description}
-//                       </div>
-//                       <div className="mt-3 space-y-1 text-sm">
-//                         <div>
-//                           <span className="font-semibold">Cuisine:</span>{" "}
-//                           {EachItem.cuisine}
-//                         </div>
-//                         <div>
-//                           <span className="font-semibold">Type:</span>{" "}
-//                           <span
-//                             className="capitalize px-2 py-1 rounded text-white"
-//                             style={{
-//                               backgroundColor:
-//                                 EachItem.type === "veg" ? "#22c55e" : "#ef4444",
-//                             }}
-//                           >
-//                             {EachItem.type}
-//                           </span>
-//                         </div>
-//                         <div>
-//                           <span className="font-semibold">Serving Size:</span>{" "}
-//                           {EachItem.servingSize}
-//                         </div>
-//                         <div>
-//                           <span className="font-semibold">
-//                             Preparation Time:
-//                           </span>{" "}
-//                           {EachItem.preparationTime}
-//                         </div>
-//                       </div>
-//                     </div>
-
-//                     <div className="space-y-5">
-//                       <div>
-//                         <span className="font-semibold">Availability:</span>{" "}
-//                         <span
-//                           className={`capitalize px-2 py-1 rounded ${EachItem.availability === "available" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
-//                         >
-//                           {EachItem.availability}
-//                         </span>
-//                       </div>
-//                       <div className="text-(--color-primary) text-2xl font-bold">
-//                         ₹{EachItem.price}
-//                       </div>
-//                       <button
-//                         className="bg-(--color-primary) text-white px-6 py-2 rounded hover:bg-(--color-primary-hover) transition disabled:bg-gray-300"
-//                         onClick={() => handleAddToCart(EachItem)}
-//                         disabled={cartFlag.includes(EachItem._id)}
-//                       >
-//                         {/* {console.log(
-//                           "cartFlag",
-//                           cartFlag.includes(EachItem._id),
-//                         )} */}
-//                         {cartFlag.includes(EachItem._id)
-//                           ? "Added"
-//                           : "Add to Cart"}
-//                       </button>
-//                     </div>
-//                   </div>
-//                 </div>
-//               </div>
-//             ))}
-//         </div>
-//       </div>
-
-//       {cart && (
-//         <div className="fixed w-full bottom-5 flex items-center justify-center">
-//           <div className="bg-(--color-secondary) rounded-3xl w-2xl py-2 px-5">
-//             <div className="flex items-center justify-between">
-//               <div className="text-white font-bold">
-//                 Items : {cart.cartItem.length}
-//               </div>
-//               <div className="text-white font-bold flex gap-4 items-center">
-//                 <span>₹ : {cart.cartValue}</span>
-//                 <button
-//                   className="bg-(--color-primary) text-white px-6 py-2 rounded hover:bg-(--color-primary-hover) transition disabled:bg-gray-300"
-//                   onClick={handleCheckout}
-//                 >
-//                   Proceed to Checkout
-//                 </button>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//     </>
-//   );
-// };
-
-// export default RestaurantDisplayMenu;
-
-
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -273,218 +76,163 @@ const RestaurantDisplayMenu = () => {
     fetchMenuItems();
   }, [data]);
 
-  return (
-    <>
-      <div className="w-7xl p-3 rounded shadow mx-auto mt-2 ">
-        <img
-          src={data.photo.url}
-          alt=""
-          className="w-48 h-48 object-cover rounded"
-        />
+ return (
+  <>
+    {/* ================= HEADER ================= */}
+    <div className="relative w-full h-80 overflow-hidden">
+      <img
+        src={data.photo.url}
+        alt=""
+        className="w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
+
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-center text-white">
+        <h1 className="text-4xl md:text-5xl font-bold">
+          {data.restaurantName}
+        </h1>
+        <p className="mt-2 text-gray-300">{data.city}</p>
       </div>
-      <div className="w-7xl p-3 rounded shadow mx-auto mt-2 ">
-        <div className="text-(--color-secondary) font-bold text-2xl text-center">
-          Menu
-        </div>
-{/* 
-        <div className="space-y-3">
+    </div>
+
+    {/* ================= MENU SECTION ================= */}
+    <div className="bg-gray-50 min-h-screen py-14">
+      <div className="max-w-6xl mx-auto px-6">
+        <h2 className="text-3xl font-bold text-(--color-secondary) mb-10 text-center">
+          Our Menu
+        </h2>
+
+        <div className="grid md:grid-cols-2 gap-10">
           {menuItems &&
             menuItems.map((EachItem, idx) => (
               <div
-                className="border border-gray-100 hover:shadow-lg  p-4 rounded"
                 key={idx}
+                className="bg-white rounded-2xl shadow-md hover:shadow-2xl transition duration-300 overflow-hidden h-full"
               >
-                <div className="flex gap-4">
-                  <img
-                    src={EachItem.images[0].url}
-                    alt=""
-                    className="w-40 h-40 object-cover rounded "
-                  />
-
-                  <div className="flex justify-between border-red-500 w-full">
-                    <div>
-                      <div className="text-(--color-primary) text-lg font-bold">
-                        {EachItem.itemName}
-                      </div>
-                      <div className="text-sm text-gray-600 mt-1">
-                        {EachItem.description}
-                      </div>
-                      <div className="mt-3 space-y-1 text-sm">
-                        <div>
-                          <span className="font-semibold">Cuisine:</span>{" "}
-                          {EachItem.cuisine}
-                        </div>
-                        <div>
-                          <span className="font-semibold">Type:</span>{" "}
-                          <span
-                            className="capitalize px-2 py-1 rounded text-white"
-                            style={{
-                              backgroundColor:
-                                EachItem.type === "veg" ? "#22c55e" : "#ef4444",
-                            }}
-                          >
-                            {EachItem.type}
-                          </span>
-                        </div>
-                        <div>
-                          <span className="font-semibold">Serving Size:</span>{" "}
-                          {EachItem.servingSize}
-                        </div>
-                        <div>
-                          <span className="font-semibold">
-                            Preparation Time:
-                          </span>{" "}
-                          {EachItem.preparationTime}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="space-y-5">
-                      <div>
-                        <span className="font-semibold">Availability:</span>{" "}
-                        <span
-                          className={`capitalize px-2 py-1 rounded ${EachItem.availability === "available" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
-                        >
-                          {EachItem.availability}
-                        </span>
-                      </div>
-                      <div className="text-(--color-primary) text-2xl font-bold">
-                        ₹{EachItem.price}
-                      </div>
-                      <button
-                        className="bg-(--color-primary) text-white px-6 py-2 rounded hover:bg-(--color-primary-hover) transition disabled:bg-gray-300"
-                        onClick={() => handleAddToCart(EachItem)}
-                        disabled={cartFlag.includes(EachItem._id)}
-                      >
-                        {console.log(
-                          "cartFlag",
-                          cartFlag.includes(EachItem._id),
-                        )}
-                        {cartFlag.includes(EachItem._id)
-                          ? "Added"
-                          : "Add to Cart"}
-                      </button>
-                    </div>
+                <div className="flex flex-col sm:flex-row h-full">
+                  
+                  {/* ===== Image ===== */}
+                  <div className="sm:w-56 w-full h-56 sm:h-auto flex-shrink-0">
+                    <img
+                      src={EachItem.images[0].url}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                </div>
-              </div>
-            ))}
-        </div> */}
 
-         <div className="space-y-3">
-          {menuItems &&
-            menuItems.map((EachItem, idx) => (
-              <div
-                className="border border-gray-100 hover:shadow-lg  p-4 rounded"
-                key={idx}
-              >
-                <div className="flex gap-4">
-                  <img
-                    src={EachItem.images[0].url}
-                    alt=""
-                    className="w-40 h-40 object-cover rounded "
-                  />
-
-                  <div className="flex justify-between border-red-500 w-full">
+                  {/* ===== Content ===== */}
+                  <div className="flex flex-col justify-between p-6 flex-1">
+                    
+                    {/* Top Section: Item Name + Availability */}
                     <div>
-                      <div className="text-(--color-primary) text-lg font-bold">
-                        {EachItem.itemName}
-                      </div>
-                      <div className="text-sm text-gray-600 mt-1">
-                        {EachItem.description}
-                      </div>
-                      <div className="mt-3 space-y-1 text-sm">
-                        <div>
-                          <span className="font-semibold">Cuisine:</span>{" "}
-                          {EachItem.cuisine}
-                        </div>
-                        <div>
-                          <span className="font-semibold">Type:</span>{" "}
-                          <span
-                            className="capitalize px-2 py-1 rounded text-white"
-                            style={{
-                              backgroundColor:
-                                EachItem.type === "veg" ? "#22c55e" : "#ef4444",
-                            }}
-                          >
-                            {EachItem.type}
-                          </span>
-                        </div>
-                        <div>
-                          <span className="font-semibold">Serving Size:</span>{" "}
-                          {EachItem.servingSize}
-                        </div>
-                        <div>
-                          <span className="font-semibold">
-                            Preparation Time:
-                          </span>{" "}
-                          {EachItem.preparationTime}
-                        </div>
-                      </div>
-                    </div>
+                      <div className="flex justify-between items-start">
+                        <h3 className="text-xl font-semibold text-(--color-primary)">
+                          {EachItem.itemName}
+                        </h3>
 
-                    <div className="space-y-5">
-                      <div>
-                        <span className="font-semibold">Availability:</span>{" "}
                         <span
-                          className={`capitalize px-2 py-1 rounded ${EachItem.availability === "available" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
+                          className={`text-xs px-3 py-1 rounded-full capitalize font-medium ${
+                            EachItem.availability === "available"
+                              ? "bg-green-100 text-green-700"
+                              : "bg-red-100 text-red-700"
+                          }`}
                         >
                           {EachItem.availability}
                         </span>
                       </div>
-                      <div className="text-(--color-primary) text-2xl font-bold">
+
+                      <p className="text-sm text-gray-500 mt-2 line-clamp-2">
+                        {EachItem.description}
+                      </p>
+
+                      <div className="flex flex-wrap gap-2 mt-4 text-xs">
+                        <span className="bg-gray-100 px-3 py-1 rounded-full">
+                          {EachItem.cuisine}
+                        </span>
+
+                        <span
+                          className="px-3 py-1 rounded-full text-white capitalize"
+                          style={{
+                            backgroundColor:
+                              EachItem.type === "veg"
+                                ? "#22c55e"
+                                : "#ef4444",
+                          }}
+                        >
+                          {EachItem.type}
+                        </span>
+
+                        <span className="bg-gray-100 px-3 py-1 rounded-full">
+                          {EachItem.servingSize}
+                        </span>
+
+                        <span className="bg-gray-100 px-3 py-1 rounded-full">
+                          {EachItem.preparationTime}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Bottom Section */}
+                    <div className="mt-6 flex items-center justify-between">
+                      <div className="text-2xl font-bold text-(--color-primary)">
                         ₹{EachItem.price}
                       </div>
+
                       <button
-                        className="bg-(--color-primary) text-white px-6 py-2 rounded hover:bg-(--color-primary-hover) transition disabled:bg-gray-300"
                         onClick={() => handleAddToCart(EachItem)}
                         disabled={cartFlag.includes(EachItem._id)}
+                        className="bg-(--color-primary) text-white px-5 py-2 rounded-xl hover:bg-(--color-primary-hover) transition disabled:bg-gray-300"
                       >
-                        {console.log(
-                          "cartFlag",
-                          cartFlag.includes(EachItem._id),
-                        )}
                         {cartFlag.includes(EachItem._id)
-                          ? "Added"
+                          ? "Added ✓"
                           : "Add to Cart"}
                       </button>
                     </div>
+
                   </div>
                 </div>
               </div>
             ))}
         </div>
       </div>
+    </div>
 
-      {cart && (
-        <div className="fixed w-full bottom-5 flex items-center justify-center">
-          <div className="bg-(--color-secondary) rounded-3xl w-2xl py-2 px-5">
-            <div className="flex items-center justify-between">
-              <div className="text-white font-bold flex gap-3 items-center">
-                <span>Items : {cart.cartItem.length}</span>
-                <button
-                  className=" text-white px-2 py-2 rounded hover:bg-white/30 transition disabled:bg-gray-300"
-                  onClick={handleClearCart}
-                >
-                  <FaRegTrashAlt />
-                </button>
-              </div>
-              <div className="text-white font-bold flex gap-4 items-center">
-                <span>₹ : {cart.cartValue}</span>
+    {/* ================= FLOATING CART ================= */}
+    {cart && (
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] md:w-3xl z-50">
+        <div className="bg-(--color-secondary) text-white rounded-3xl shadow-2xl px-8 py-4 flex justify-between items-center">
+          
+          <div className="flex items-center gap-4">
+            <span className="font-semibold">
+              🛒 {cart.cartItem.length} Items
+            </span>
 
-                <button
-                  className="text-white px-6 py-2 rounded hover:bg-(--color-primary-hover)/40 transition disabled:bg-gray-300"
-                  onClick={handleCheckout}
-                >
-                  Proceed to Checkout
-                </button>
-              </div>
-            </div>
+            <button
+              onClick={handleClearCart}
+              className="hover:bg-white/20 p-2 rounded-lg transition"
+            >
+              <FaRegTrashAlt />
+            </button>
+          </div>
+
+          <div className="flex items-center gap-6">
+            <span className="font-bold text-lg">
+              ₹ {cart.cartValue}
+            </span>
+
+            <button
+              onClick={handleCheckout}
+              className="bg-white text-(--color-secondary) font-semibold px-6 py-2 rounded-xl hover:scale-105 transition"
+            >
+              Checkout →
+            </button>
           </div>
         </div>
-      )}
-    </>
-  );
+      </div>
+    )}
+  </>
+);
+
 };
 
 export default RestaurantDisplayMenu;
