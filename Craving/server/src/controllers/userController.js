@@ -1,4 +1,5 @@
 import User from "../models/userModel.js";
+import order from "../models/orderModel.js";
 import cloudinary from "../config/cloudinary.js";
 import bcrypt from "bcrypt";
 
@@ -112,6 +113,52 @@ export const UserResetPassword = async (req, res, next) => {
     await currentUser.save();
 
     res.status(200).json({ message: "Password Reset Successfull" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const UserPlaceOrder = async (req, res, next) => {
+  try {
+    const currentUser = req.user;
+
+    const { restaurantID, items, orderValue, status, review } = req.body;
+
+    console.log({ restaurantID, items, orderValue, status, review });
+
+    if (!restaurantID || !items || !orderValue || !status) {
+      const error = new Error("All Fields required");
+      error.statusCode = 400;
+      return next(error);
+    }
+
+    const newOrder = await order.create({
+      orderNumber: `ORD-${Date.now()}`,
+      restaurantID,
+      userId: currentUser._id,
+      items,
+      orderValue,
+      status,
+      review: review || "N/A",
+    });
+    res
+      .status(201)
+      .json({ message: "Order Placed Successfully", data: newOrder });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const UserAllOrders = async (req, res, next) => {
+  try {
+    const currentUser = req.user;
+    const orders = await order.find({ userId: currentUser._id })
+      .populate("restaurantID")
+      .populate("riderId")
+      .sort({ createdAt: -1 });
+    res
+      .status(200)
+      .json({ message: "All Orders Fetched Successfully", data: orders });
   } catch (error) {
     next(error);
   }

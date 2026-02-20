@@ -64,7 +64,7 @@ const Header = () => {
         <div className="flex gap-4">
           {isLogin ? (
             <div
-              className="text-red-500 cursor-pointer"
+              className="text-(--color-background) cursor-pointer"
               onClick={handleNavigate}
             >
               {user?.fullName}

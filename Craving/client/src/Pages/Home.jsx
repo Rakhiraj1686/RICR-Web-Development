@@ -93,7 +93,7 @@ const Home = () => {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-orange-500 to-orange-600 text-white py-20">
+      <section className="relative bg-gradient-to-r from-(--color-background) to-(--color-background) text-(--color-text) py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             {/* Left Content */}
@@ -101,20 +101,20 @@ const Home = () => {
               <h1 className="text-4xl md:text-5xl font-bold leading-tight">
                 Order Your Favorite Food
               </h1>
-              <p className="text-lg md:text-xl text-orange-50">
+              <p className="text-lg md:text-xl text-(--color-text)/70">
                 Discover delicious meals from the best restaurants in your area.
                 Fast delivery, great quality, amazing taste!
               </p>
               <div className="flex flex-wrap gap-4 pt-4">
                 <button
                   onClick={() => navigate("/order-now")}
-                  className="px-8 py-3 bg-white text-orange-600 font-semibold rounded-lg hover:bg-orange-50 transition duration-300 transform hover:scale-105"
+                  className="px-8 py-3 bg-white text-(--color-primary) font-semibold rounded-lg hover:bg-orange-50 transition duration-300 transform hover:scale-105"
                 >
                   Order Now
                 </button>
                 <button
                   onClick={() => navigate("/contact")}
-                  className="px-8 py-3 bg-orange-700 text-white font-semibold rounded-lg hover:bg-orange-800 transition duration-300 border-2 border-white"
+                  className="px-8 py-3 bg-(--color-primary) text-white font-semibold rounded-lg hover:bg-(-color-primary-hover) transition duration-300 border-2 border-white"
                 >
                   Contact Us
                 </button>
@@ -124,15 +124,15 @@ const Home = () => {
               <div className="grid grid-cols-3 gap-4 pt-8">
                 <div>
                   <p className="text-3xl font-bold">500+</p>
-                  <p className="text-orange-50">Restaurants</p>
+                  <p className="text-(--color-text)/70">Restaurants</p>
                 </div>
                 <div>
                   <p className="text-3xl font-bold">50K+</p>
-                  <p className="text-orange-50">Happy Customers</p>
+                  <p className="text-(--color-text)/70">Happy Customers</p>
                 </div>
                 <div>
                   <p className="text-3xl font-bold">24/7</p>
-                  <p className="text-orange-50">Support</p>
+                  <p className="text-(--color-text)/70">Support</p>
                 </div>
               </div>
             </div>
@@ -163,7 +163,7 @@ const Home = () => {
                 key={restaurant.id}
                 className="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 overflow-hidden cursor-pointer transform hover:scale-105"
               >
-                <div className="h-40 bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center">
+                <div className="h-40 bg-gradient-to-br from-(--color-background) to-(--color-background) flex items-center justify-center">
                   <span className="text-6xl">{restaurant.image}</span>
                 </div>
                 <div className="p-4">
@@ -209,7 +209,7 @@ const Home = () => {
                 key={dish.id}
                 className="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 overflow-hidden cursor-pointer"
               >
-                <div className="h-48 bg-gradient-to-br from-orange-300 to-orange-400 flex items-center justify-center">
+                <div className="h-48 bg-gradient-to-br from-(--color-background)/80 to-(--color-background)/90 flex items-center justify-center">
                   <span className="text-8xl">{dish.image}</span>
                 </div>
                 <div className="p-4">
@@ -221,7 +221,7 @@ const Home = () => {
                   </p>
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
-                      <span className="text-2xl font-bold text-orange-600">
+                      <span className="text-2xl font-bold text-(--color-text)">
                         ₹{dish.price}
                       </span>
                       <div className="flex items-center gap-1">
@@ -232,7 +232,7 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                  <button className="w-full mt-3 px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition duration-300 font-medium">
+                  <button className="w-full mt-3 px-4 py-2 bg-(--color-accent) text-white rounded-md hover:bg-(--color-secondary) transition duration-300 font-medium">
                     Add to Cart
                   </button>
                 </div>
@@ -290,7 +290,7 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-orange-500 to-orange-600 text-white">
+      <section className="py-16 bg-gradient-to-r from-(--color-primary) to-(--color-primary) text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Ready to Order?
@@ -301,7 +301,7 @@ const Home = () => {
           </p>
           <button
             onClick={() => navigate("/order-now")}
-            className="px-8 py-3 bg-white text-orange-600 font-semibold rounded-lg hover:bg-orange-50 transition duration-300 transform hover:scale-105"
+            className="px-8 py-3 bg-white text-(--color-text) font-semibold rounded-lg hover:bg-orange-50 transition duration-300 transform hover:scale-105"
           >
             Order Now
           </button>
@@ -312,10 +312,6 @@ const Home = () => {
 };
 
 export default Home;
-
-
-
-
 
 // import React from "react";
 

@@ -6,10 +6,11 @@ import UserOrder from "../../Components/userDashboard/UserOrder";
 import UserPayment from "../../Components/userDashboard/UserPayment";
 import UserHelpdesk from "../../Components/userDashboard/UserHelpdesk";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 
 const UserDashboard = () => {
   const { role, isLogin } = useAuth();
+  const ActiveTab = useLocation().state.tab;
   const navigate = useNavigate();
   const [active, setActive] = useState("overView");
   const [isCollapsed, setIsCollapsed] = useState(false);

@@ -27,7 +27,7 @@ export const UserRegister = async (req, res, next) => {
       return next(error);
     }
 
-    console.log("Sendinf Data to DB");
+    console.log("Sending Data to DB");
 
     //encrypt the password
     const salt = await bcrypt.genSalt(10);

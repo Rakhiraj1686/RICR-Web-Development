@@ -5,7 +5,7 @@ import Loading from "../Components/Loading";
 import { useEffect } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import api from "../config/Api";
+import api from "../Config/Api";
 
 const OrderNow = () => {
   const navigate = useNavigate();
@@ -44,17 +44,20 @@ const OrderNow = () => {
 
  return (
   <>
-    <div className="px-6 md:px-14 py-10 bg-linear-to-b from-gray-50 to-white min-h-screen">
+    <div className="px-6 md:px-16 py-12 bg-gradient-to-br from-gray-50 via-white to-gray-100 min-h-screen">
       
-      {/* Heading Section */}
-      <div className="mb-10 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold bg-linear-to-r from-(--color-secondary) to-purple-500 bg-clip-text text-transparent">
-          Explore Restaurants
-        </h1>
-        <p className="text-gray-500 mt-3 text-lg">
-          Fresh food from top rated restaurants near you 🍽️
-        </p>
-      </div>
+ <div className="mb-16 relative text-center py-10 bg-gradient-to-r from-orange-50 via-white to-red-50 rounded-3xl">
+  <h1 className="text-4xl md:text-6xl font-extrabold text-(--color-primary)">
+    Hungry?
+    <span className="block text-(--color-text)/90">
+      Let’s Find Something Tasty
+    </span>
+  </h1>
+
+  <p className="text-(--color-text) mt-4 text-lg max-w-2xl mx-auto">
+    Explore top restaurants, trending dishes, and exclusive offers near you.
+  </p>
+</div>
 
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
@@ -63,28 +66,28 @@ const OrderNow = () => {
             <div
               key={idx}
               onClick={() => handleRestaurantClick(EachRestaurant)}
-              className="relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden cursor-pointer group"
+              className="group relative bg-white/70 backdrop-blur-lg border border-gray-200 rounded-3xl shadow-md hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 overflow-hidden cursor-pointer"
             >
               
               {/* Image Section */}
-              <div className="relative h-60 overflow-hidden">
+              <div className="relative h-64 overflow-hidden">
                 <img
                   src={EachRestaurant.photo.url}
                   alt=""
-                  className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
                 />
 
-                {/* Overlay Gradient */}
-                <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent opacity-80"></div>
+                {/* Soft Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
 
                 {/* City Badge */}
-                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold shadow">
+                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-semibold shadow-md">
                   📍 {EachRestaurant.city}
                 </div>
 
-                {/* Restaurant Name Over Image */}
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h2 className="text-xl font-bold">
+                {/* Restaurant Name */}
+                <div className="absolute bottom-5 left-5 text-white">
+                  <h2 className="text-2xl font-bold tracking-wide">
                     {EachRestaurant.restaurantName}
                   </h2>
                   <p className="text-sm opacity-90">
@@ -94,29 +97,29 @@ const OrderNow = () => {
               </div>
 
               {/* Content Section */}
-              <div className="p-5 space-y-2">
-                <p className="text-gray-500 text-sm line-clamp-1">
+              <div className="p-6 space-y-3">
+                <p className="text-gray-600 text-sm line-clamp-1">
                   {EachRestaurant.address}
                 </p>
 
-                <p className="text-gray-400 text-sm">
+                <p className="text-gray-500 text-sm">
                   📞 {EachRestaurant.mobileNumber}
                 </p>
 
-                <div className="flex justify-between items-center pt-3">
-                  <span className="text-xs bg-green-100 text-green-600 px-3 py-1 rounded-full font-medium">
+                <div className="flex justify-between items-center pt-4">
+                  <span className="text-xs bg-green-100 text-green-600 px-4 py-1 rounded-full font-semibold tracking-wide">
                     Open Now
                   </span>
 
                   <div className="flex items-center gap-2 text-(--color-secondary) font-semibold group-hover:gap-3 transition-all duration-300">
                     View Menu
-                    <FaArrowRight className="text-sm" />
+                    <FaArrowRight className="text-sm group-hover:translate-x-1 transition-transform duration-300" />
                   </div>
                 </div>
               </div>
 
-              {/* Hover Border Effect */}
-              <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-(--color-secondary) transition-all duration-500"></div>
+              {/* Animated Border Glow */}
+              <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-(--color-secondary) group-hover:shadow-[0_0_25px_var(--color-secondary)] transition-all duration-500"></div>
             </div>
           ))}
       </div>

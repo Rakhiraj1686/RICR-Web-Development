@@ -1,18 +1,19 @@
 @import "tailwindcss";
-
 :root {
-  /* Primary */
-  --color-primary: #161E54;
-  --color-primary-hover: #0F163F;
+  /* Primary - Warm Brown Rose */
+  --color-primary: #987070;
+  --color-primary-hover: #7F5C5C;
 
-  /* Secondary */
-  --color-secondary: #F16D34;
-  --color-secondary-hover: #D85F2E;
+  /* Secondary - Muted Dusty Pink */
+  --color-secondary: #C39898;
+  --color-secondary-hover: #B07F7F;
 
-  /* Background & Text */
-  --color-background: #BBE0EF;
-  --color-text: #161E54;
+  /* Accent - Soft Blush */
+  --color-accent: #DBB5B5;
 
-  /* Accent */
-  --color-accent: #FF986A;
+  /* Background */
+  --color-background: #F1E5D1;
+
+  /* Text */
+  --color-text: #4A3A3A;
 }

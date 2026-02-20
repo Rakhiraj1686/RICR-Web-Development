@@ -46,7 +46,7 @@ export const GetAllRestaurants = async (req, res, next) => {
 export const GetAllRestaurantMenuData = async (req, res, next) => {
   try {
     const { id } = req.params;
-console.log("Requested Restaurant ID:", id);
+    console.log("Requested Restaurant ID:", id);
     if (!id) {
       const error = new Error("Restaurant ID is required");
       error.statusCode = 400;
@@ -57,7 +57,7 @@ console.log("Requested Restaurant ID:", id);
       restaurantID: id,
     })
       .sort({ updatedAt: -1 })
-      .populate("restaurantID");
+      // .populate("restaurantID");
 
     res.status(200).json({
       message: "Menu fetched Successfully",

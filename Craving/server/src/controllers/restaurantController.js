@@ -1,6 +1,6 @@
 import Menu from "../models/menuSchema.js";
 import { UploadMultipleToCloudinary } from "../utils/imageUploader.js";
-import cloudinary  from "../config/cloudinary.js";
+import cloudinary from "../config/cloudinary.js";
 
 export const RestaurantAddMenuItem = async (req, res, next) => {
   try {
@@ -235,9 +235,7 @@ export const RestaurantUpdate = async (req, res, next) => {
           currentUser.paymentDetails?.account_number ||
           "N/A",
         IFSC:
-          paymentDetails.ifs_Code ||
-          currentUser.paymentDetails?.IFSC ||
-          "N/A",
+          paymentDetails.ifs_Code || currentUser.paymentDetails?.IFSC || "N/A",
       };
     }
 
@@ -346,6 +344,26 @@ export const GetRestaurantMenuItem = async (req, res, next) => {
       message: "Menu Items Fetched Successfully",
       data: menuItems,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const GetAllPlacedOrder = async (req, res, next) => {
+  try {
+    const currentUser = req.user;
+
+    const allOrders = await Order.find({ restaurantID: currentUser._id })
+      .populate("userId")
+      .populate("riderId")
+      .sort({ createdAt: -1 });
+
+    res
+      .status(200)
+      .json({
+        message: "All Placed Orders Fetched Successfully",
+        data: allOrders,
+      });
   } catch (error) {
     next(error);
   }
