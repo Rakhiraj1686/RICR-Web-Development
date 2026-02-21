@@ -2,10 +2,6 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import Api from "../Config/Api";
 import { FiSend } from "react-icons/fi";
-// import { MdOutlineMail } from "react-icons/md";
-// import { IoCallOutline } from "react-icons/io5";
-// import { MdOutlineLocationOn } from "react-icons/md";
-// import { FaWhatsapp } from "react-icons/fa";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -32,11 +28,11 @@ const Contact = () => {
 
   const submitContact = async (e) => {
     e.preventDefault();
-    setIsLoading(true)
-    console.log(formData)
+    setIsLoading(true);
+    console.log(formData);
 
     try {
-      const res = await Api.post("/public/new-contact",formData)
+      const res = await Api.post("/public/new-contact", formData);
       toast.success(res.data.message);
       setIsLoading(true);
       handleClear();
@@ -49,135 +45,115 @@ const Contact = () => {
   };
 
   return (
-    <>
-      <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 py-5 px-4">
-        {/* This isi Header */}
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100 px-4 py-16 relative overflow-hidden">
+      {/* Background Decorative Shapes */}
+      <div className="absolute -top-32 -left-32 w-[400px] h-[400px] bg-indigo-200 rotate-45 rounded-3xl opacity-30"></div>
+      <div className="absolute -bottom-32 -right-32 w-[400px] h-[400px] bg-blue-200 rotate-45 rounded-3xl opacity-30"></div>
 
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-(--color-text) mb-2">
-            Contact Us{" "}
-          </h1>
+      <div className="w-full max-w-5xl grid md:grid-cols-2 shadow-2xl rounded-3xl overflow-hidden relative z-10">
+        {/* Left Info Panel */}
+        <div className="hidden md:flex flex-col justify-center p-12 bg-(--color-primary) text-white">
+          <h2 className="text-5xl font-extrabold leading-tight mb-6">
+            Let's Talk.
+          </h2>
+          <p className="text-lg opacity-90 max-w-sm">
+            Have questions or need support? Send us a message and our team will get back to you as soon as possible.
+          </p>
         </div>
 
-        {/* contact box */}
+        {/* Right Form Panel */}
+        <div className="bg-white p-10 md:p-14">
+          <div className="mb-10">
+            <h1 className="text-4xl font-extrabold text-(--color-text)">
+              Contact Us
+            </h1>
+            <div className="w-16 h-1 mt-3 rounded-full bg-(--color-primary)"></div>
+          </div>
 
-        <div className="flex justify-center mt-5 ">
-          <div className="container w-150 px-8 py-6 ">
-            <div className=" ">
-              
-              {/* User queries box */}
+          <form
+            onSubmit={submitContact}
+            onReset={handleClear}
+            className="space-y-6"
+          >
+            <div className="space-y-5">
+              <div>
+                <label className="block mb-2 font-medium">
+                  Full Name <span className="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="fullName"
+                  placeholder="Enter Name"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                  required
+                  className="w-full h-14 px-5 rounded-xl border-2 border-gray-300 focus:outline-none focus:border-indigo-500 transition disabled:cursor-not-allowed disabled:bg-gray-200"
+                />
+              </div>
 
-              <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
-                <form
-                  onSubmit={submitContact}
-                  onReset={handleClear}
-                  className="p-8"
-                >
-                  <h1 className="text-2xl font-semibold text-(--color-primary) mb-5">
-                    Send us a message
-                  </h1>
+              <div>
+                <label className="block mb-2 font-medium">
+                  Email <span className="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="email"
+                  value={formData.email}
+                  placeholder="Enter Email"
+                  onChange={handleChange}
+                  disabled={isLoading}
+                  required
+                  className="w-full h-14 px-5 rounded-xl border-2 border-gray-300 focus:outline-none focus:border-indigo-500 transition disabled:cursor-not-allowed disabled:bg-gray-200"
+                />
+              </div>
 
-                  <div className="space-y-3">
-                    {/* Contact name */}
+              <div>
+                <label className="block mb-2 font-medium">
+                  Subject <span className="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="subject"
+                  value={formData.subject}
+                  placeholder="Request Help"
+                  onChange={handleChange}
+                  disabled={isLoading}
+                  required
+                  className="w-full h-14 px-5 rounded-xl border-2 border-gray-300 focus:outline-none focus:border-indigo-500 transition disabled:cursor-not-allowed disabled:bg-gray-200"
+                />
+              </div>
 
-                    <div>
-                      <div className="flex flex-col gap-2">
-                        <label htmlFor="fullName" name="fullName" id="fullName">
-                          Full Name <span className="text-red-600">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="fullName"
-                          placeholder="Enter Name"
-                          value={formData.fullName}
-                          onChange={handleChange}
-                          disabled={isLoading}
-                          required
-                          className="w-full h-fit px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition disabled:cursor-not-allowed disabled:bg-gray-200"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Contact email */}
-
-                    <div>
-                      <div className="flex flex-col gap-2">
-                        <label htmlFor="email" name="email" id="email">
-                          Email <span className="text-red-600">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="email"
-                          id="email"
-                          value={formData.email}
-                          placeholder="Enter Email"
-                          onChange={handleChange}
-                          disabled={isLoading}
-                          required
-                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition disabled:cursor-not-allowed disabled:bg-gray-200"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Contact subject/topic */}
-
-                    <div className="flex flex-col gap-2">
-                      <label htmlFor="subject" name="subject" id="subject">
-                        Subject <span className="text-red-600">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="subject"
-                        id="subject"
-                        value={formData.subject}
-                        placeholder="Request Help"
-                        onChange={handleChange}
-                        disabled={isLoading}
-                        required
-                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition disabled:cursor-not-allowed disabled:bg-gray-200"
-                      />
-                    </div>
-
-                    {/* Contact query in detail */}
-
-                    <div className="flex flex-col gap-2">
-                      <label htmlFor="query" name="query" id="query">
-                        Message <span className="text-red-600">*</span>
-                      </label>
-                      <textarea
-                        type="text"
-                        name="query"
-                        id="query"
-                        value={formData.query}
-                        placeholder="Please describe your query in detail.."
-                        onChange={handleChange}
-                        disabled={isLoading}
-                        required
-                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition disabled:cursor-not-allowed disabled:bg-gray-200"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Submit Button */}
-
-                  <div className=" text-center mt-5">
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      className="flex-1 bg-(--color-secondary) text-black font-bold py-3 px-6 rounded-lg hover:bg-(--color-secondary-hover) shadow-lg cursor-pointer w-full disabled:cursor-not-alloweddisabled:bg-(--color-secondary)"
-                    >
-                      <div className="flex gap-2 items-center justify-center">
-                        {<FiSend />} <span>Send Message</span>
-                      </div>
-                    </button>
-                  </div>
-                </form>
+              <div>
+                <label className="block mb-2 font-medium">
+                  Message <span className="text-red-600">*</span>
+                </label>
+                <textarea
+                  name="query"
+                  value={formData.query}
+                  placeholder="Please describe your query in detail.."
+                  onChange={handleChange}
+                  disabled={isLoading}
+                  required
+                  rows="5"
+                  className="w-full px-5 py-4 rounded-xl border-2 border-gray-300 focus:outline-none focus:border-indigo-500 transition disabled:cursor-not-allowed disabled:bg-gray-200 resize-none"
+                />
               </div>
             </div>
-          </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full h-14 rounded-xl font-bold shadow-lg transition-all duration-300 transform hover:scale-105 active:scale-95 bg-(--color-secondary) text-black disabled:cursor-not-allowed disabled:bg-(--color-secondary)"
+            >
+              <div className="flex gap-2 items-center justify-center text-lg">
+                <FiSend /> <span>Send Message</span>
+              </div>
+            </button>
+          </form>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
