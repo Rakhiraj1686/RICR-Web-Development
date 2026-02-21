@@ -10,9 +10,9 @@ import { useNavigate,useLocation } from "react-router-dom";
 
 const UserDashboard = () => {
   const { role, isLogin } = useAuth();
-  const ActiveTab = useLocation().state.tab;
+  const ActiveTab = useLocation().state?.tab ||"overview";
   const navigate = useNavigate();
-  const [active, setActive] = useState("overView");
+  const [active, setActive] = useState(ActiveTab);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   useEffect(() => {

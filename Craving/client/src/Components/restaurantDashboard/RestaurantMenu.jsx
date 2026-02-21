@@ -34,7 +34,7 @@ const RestaurantMenu = () => {
 
   return (
     <>
-      <div className="w-full p-6 ">
+      <div className="w-full p-6 h-screen overflow-auto">
         <div className="flex justify-between items-center shadow-md border p-5 rounded-3xl border-gray-50">
           <div className="text-2xl font-bold text-gray-800 mb-4">
             <h1>Menu Management</h1>
