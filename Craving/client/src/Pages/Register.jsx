@@ -89,8 +89,8 @@ const Register = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-(--color-background) relative overflow-hidden px-4">
       {/* Background Shapes */}
-      <div className="absolute -top-32 -left-32 w-[400px] h-[400px] bg-(--color-primary) rotate-45 rounded-3xl opacity-20"></div>
-      <div className="absolute -bottom-32 -right-32 w-[400px] h-[400px] bg-(--color-secondary) rotate-45 rounded-3xl opacity-20"></div>
+      <div className="absolute -top-32 -left-32 w-100 h-100 bg-(--color-primary) rotate-45 rounded-3xl opacity-20"></div>
+      <div className="absolute -bottom-32 -right-32 w-100 h-100 bg-(--color-secondary) rotate-45 rounded-3xl opacity-20"></div>
 
       <div className="w-full max-w-6xl grid md:grid-cols-2 shadow-2xl rounded-3xl overflow-hidden relative z-10">
         {/* Left Panel */}

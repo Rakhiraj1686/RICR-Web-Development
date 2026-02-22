@@ -45,10 +45,10 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100 px-4 py-16 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-(--color-secondary) to-(--color-secondary-hover) px-4 py-16 relative overflow-hidden">
       {/* Background Decorative Shapes */}
-      <div className="absolute -top-32 -left-32 w-[400px] h-[400px] bg-indigo-200 rotate-45 rounded-3xl opacity-30"></div>
-      <div className="absolute -bottom-32 -right-32 w-[400px] h-[400px] bg-blue-200 rotate-45 rounded-3xl opacity-30"></div>
+      <div className="absolute -top-32 -left-32 w-100 h-100 bg-indigo-200 rotate-45 rounded-3xl opacity-30"></div>
+      <div className="absolute -bottom-32 -right-32 w-100 h-100 bg-blue-200 rotate-45 rounded-3xl opacity-30"></div>
 
       <div className="w-full max-w-5xl grid md:grid-cols-2 shadow-2xl rounded-3xl overflow-hidden relative z-10">
         {/* Left Info Panel */}

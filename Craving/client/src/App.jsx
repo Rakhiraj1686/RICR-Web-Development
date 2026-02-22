@@ -1,18 +1,18 @@
 import React from "react";
 import Header from "./components/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
+import Home from "./Pages/Home"
+import About from "./Pages/About";
 import Contact from "./Pages/Contact";
-import Register from "./pages/Register";
+import Register from "./Pages/Register";
 import Login from "./Pages/Login";
 import { Toaster } from "react-hot-toast";
-import UserDashboard from "./pages/dashboards/UserDashboard";
+import UserDashboard from "./Pages/dashboards/UserDashboard";
 import RiderDashboard from "./Pages/Dashboards/RiderDashboard";
 import RestaurantDashboard from "./Pages/Dashboards/RestaurantDashboard";
-import AdminDashboard from "./pages/dashboards/AdminDashboard";
+import AdminDashboard from "./Pages/dashboards/AdminDashboard";
 import OrderNow from "./Pages/OrderNow";
-import RestaurantDisplayMenu from "./pages/RestaurantDisplayMenu";
+import RestaurantDisplayMenu from "./Pages/RestaurantDisplayMenu";
 import NotFound from "./Pages/NotFound";
 import CheckoutPage from "./Pages/CheckoutPage";
 
