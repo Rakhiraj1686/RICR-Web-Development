@@ -3,7 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import EditProfileModal from "./modals/EditProfileModal";
 import UserImage from "../../assets/images.png";
 import { FaCamera } from "react-icons/fa";
-import api from "../../Config/Api";
+import api from "../../config/Api";
 import toast from "react-hot-toast";
 import ResetPasswordModal from "./modals/ResetPasswordModal";
 
