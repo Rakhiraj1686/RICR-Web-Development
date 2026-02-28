@@ -8,13 +8,14 @@
     "dev": "nodemon index.js",
     "seed:admin": "node ./src/seeders/seedAdmin.js",
     "seed:user": "node ./src/seeders/seedUserData.js",
-    "seed:menu":"node ./src/seeders/seedMenuData.js"
+    "seed:menu": "node ./src/seeders/seedMenuData.js"
   },
   "keywords": [],
   "author": "Rakhi Rani",
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "axios": "^1.13.6",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.9.0",
     "cookie-parser": "^1.4.7",

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import api from "../../config/Api";
+import api from "../../Config/Api";
 // import axios from "axios";
 import Loading from "../Loading";
 import ViewDetailsModal from "./modals/ViewDetailsModal";
