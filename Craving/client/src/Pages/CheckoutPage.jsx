@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FaTrash, FaPlus, FaMinus } from "react-icons/fa";
+import api from "../Config/Api";
 
 const PromoCode = {
   NEW50: 50,
@@ -129,22 +130,22 @@ const CheckoutPage = () => {
 
     setIsProcessing(true);
 
-    //Payment gateway call
+    // // Payment gateway call
 
-    const payload = GeneratePayload();
-    console.log(payload);
+    // const payload = GeneratePayload();
+    // console.log(payload);
 
-    try {
-      const res = await api.post("/user/placeorder", payload);
-      toast.success(res.data.message);
-      localStorage.removeItem("cart");
-      navigate("/user-dashboard", { state: { tab: "orders" } });
-    } catch (error) {
-      console.error("Order placement error:", error);
-      toast.error(error?.response?.data?.message || "Failed to place order");
-    } finally {
-      setIsProcessing(false);
-    }
+    // try {
+    //   const res = await api.post("/user/placeorder", payload);
+    //   toast.success(res.data.message);
+    //   localStorage.removeItem("cart");
+    //   navigate("/user-dashboard", { state: { tab: "orders" } });
+    // } catch (error) {
+    //   console.error("Order placement error:", error);
+    //   toast.error(error?.response?.data?.message || "Failed to place order");
+    // } finally {
+    //   setIsProcessing(false);
+    // }
   };
 
   if (!user || !cart) {
