@@ -122,25 +122,31 @@ export const UserPlaceOrder = async (req, res, next) => {
   try {
     const currentUser = req.user;
 
-    const { restaurantID, items, orderValue, status, review } = req.body;
+    const { restaurantId, items, orderValue, status, review } = req.body;
 
-    console.log({ restaurantID, items, orderValue, status, review });
+    console.log({ restaurantId, items, orderValue, status, review });
 
-    if (!restaurantID || !items || !orderValue || !status) {
-      const error = new Error("All Fields required");
+    if (!restaurantId || !items || !orderValue || !status) {
+      const error = new Error("All feilds required");
       error.statusCode = 400;
       return next(error);
     }
 
-    const newOrder = await order.create({
+    const order = await Order.create({
       orderNumber: `ORD-${Date.now()}`,
-      restaurantID,
+      restaurantId,
       userId: currentUser._id,
       items,
       orderValue,
       status,
       review: review || "N/A",
     });
+
+    const newOrder = await order.populate([
+      { path: "restaurantId" },
+      { path: "userId" },
+    ]);
+
     res
       .status(201)
       .json({ message: "Order Placed Successfully", data: newOrder });

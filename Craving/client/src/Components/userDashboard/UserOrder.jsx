@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import api from "../../config/Api";
+import api from "../../Config/Api";
 import toast from "react-hot-toast";
 import Loading from "../Loading";
 

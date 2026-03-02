@@ -44,7 +44,6 @@ const orderSchema = new mongoose.Schema(
       },
       discountPercentage: {
         type: Number,
-        required: true,
       },
       total: {
         type: Number,
@@ -53,6 +52,17 @@ const orderSchema = new mongoose.Schema(
       paymentMethod: {
         type: String,
         required: true,
+      },
+      paymentStatus:{
+        type:String,
+        enum:["pending","paid","failed"],
+        default:"pending",
+      },
+       razorpayPaymentID: {
+        type: String,
+      },
+      razorpayOrderID: {
+        type: String,
       },
     },
     status: {
