@@ -47,13 +47,15 @@ const RestaurantProfile = () => {
   };
 
   const renderField = (label, value) => (
-    <div className="flex justify-between py-2 px-3 border-b border-gray-200 last:border-b-0">
-      <span className="text-gray-600 font-medium">{label}:</span>
-      <span className="text-gray-900 font-semibold">
+    <div className="flex items-start justify-between gap-4 border-b border-[#e8d8c8] px-4 py-3 last:border-b-0">
+      <span className="text-sm font-semibold tracking-wide text-[#7f6855]">
+        {label}:
+      </span>
+      <span className="text-right text-sm font-bold text-[#4a3737] sm:text-base">
         {value && value !== "N/A" ? (
           value
         ) : (
-          <span className="text-gray-400">Not provided</span>
+          <span className="text-[#b09a85]">Not provided</span>
         )}
       </span>
     </div>
@@ -61,14 +63,16 @@ const RestaurantProfile = () => {
 
   return (
     <>
-      <div className="bg-gray-50 rounded-lg p-6 h-full overflow-y-auto space-y-6">
+      <div className="h-full space-y-6 overflow-y-auto rounded-3xl bg-linear-to-br from-[#f7ecde] via-[#f2e5d0] to-[#ead8bf] p-4 sm:p-6">
         {/* Header Section with Photo and Basic Info */}
-        <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-          <div className="flex gap-6">
+        <div className="relative overflow-hidden rounded-3xl border border-[#dcc2a7] bg-white/80 p-5 shadow-xl backdrop-blur-sm sm:p-6">
+          <div className="pointer-events-none absolute -top-16 -right-8 h-44 w-44 rounded-full bg-[#c39898]/30 blur-2xl" />
+          <div className="pointer-events-none absolute -bottom-20 -left-8 h-52 w-52 rounded-full bg-[#987070]/20 blur-3xl" />
+          <div className="relative flex flex-col gap-6 lg:flex-row">
             {/* Photo Section */}
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center lg:min-w-56">
               <div className="relative">
-                <div className="border-4 border-gray-300 rounded-full w-40 h-40 overflow-hidden bg-gray-100">
+                <div className="h-40 w-40 overflow-hidden rounded-full border-4 border-[#d7bbb2] bg-[#f5ece1] shadow-md">
                   <img
                     src={preview || user?.photo?.url || UserImage}
                     alt="Profile"
@@ -77,7 +81,7 @@ const RestaurantProfile = () => {
                 </div>
                 <label
                   htmlFor="imageUpload"
-                  className="absolute bottom-2 right-2 bg-(--color-secondary) text-white p-3 rounded-full hover:bg-(--color-secondary-hover) cursor-pointer transition transform hover:scale-110"
+                  className="absolute bottom-2 right-1 cursor-pointer rounded-full bg-(--color-secondary) p-3 text-white shadow-lg transition duration-200 hover:scale-110 hover:bg-(--color-secondary-hover)"
                 >
                   <FaCamera size={18} />
                 </label>
@@ -89,24 +93,24 @@ const RestaurantProfile = () => {
                   onChange={handlePhotoChange}
                 />
               </div>
-              <p className="text-gray-500 text-sm mt-2">
+              <p className="mt-2 text-sm font-medium text-[#8a7474]">
                 Click camera to change photo
               </p>
             </div>
 
             {/* Basic Info Section */}
-            <div className="flex justify-between w-full">
+            <div className="w-full">
               <div>
-                <div className="mb-6">
-                  <h1 className="text-4xl font-bold text-(--color-primary) mb-2">
+                <div className="mb-6 border-b border-[#eadccf] pb-5">
+                  <h1 className="mb-2 text-3xl font-black tracking-tight text-(--color-primary) sm:text-4xl">
                     {user?.fullName || "Manager Name"}
                   </h1>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="bg-(--color-secondary) text-white px-3 py-1 rounded-full text-sm font-semibold capitalize">
+                  <div className="mb-2 flex flex-wrap items-center gap-2">
+                    <span className="rounded-full bg-(--color-secondary) px-3 py-1 text-sm font-semibold capitalize text-white">
                       {user?.role || "manager"}
                     </span>
                     <span
-                      className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                      className={`rounded-full px-3 py-1 text-sm font-semibold ${
                         user?.isActive === "active"
                           ? "bg-green-100 text-green-800"
                           : "bg-red-100 text-red-800"
@@ -118,32 +122,36 @@ const RestaurantProfile = () => {
                 </div>
 
                 {/* Contact Information */}
-                <div className="space-y-2 mb-6">
-                  <div className="flex items-center gap-3">
-                    <span className="text-gray-600 font-medium">Email:</span>
-                    <span className="text-gray-900">
+                <div className="mb-6 grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-2xl border border-[#ebdac8] bg-[#fff9f2] px-4 py-3">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-[#937660]">
+                      Email
+                    </span>
+                    <p className="mt-1 font-semibold text-[#4f3a3a]">
                       {user?.email || "N/A"}
-                    </span>
+                    </p>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-gray-600 font-medium">Phone:</span>
-                    <span className="text-gray-900">
-                      {user?.mobileNumber || "N/A"}
+                  <div className="rounded-2xl border border-[#ebdac8] bg-[#fff9f2] px-4 py-3">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-[#937660]">
+                      Phone
                     </span>
+                    <p className="mt-1 font-semibold text-[#4f3a3a]">
+                      {user?.mobileNumber || "N/A"}
+                    </p>
                   </div>
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex gap-3">
+                <div className="flex flex-wrap gap-3">
                   <button
                     onClick={() => setIsEditProfileModalOpen(true)}
-                    className="px-6 py-2 bg-(--color-secondary) text-white rounded-lg hover:bg-(--color-secondary-hover) transition font-semibold"
+                    className="rounded-xl bg-(--color-secondary) px-6 py-2.5 font-semibold text-white shadow transition duration-200 hover:-translate-y-0.5 hover:bg-(--color-secondary-hover)"
                   >
                     Edit Profile
                   </button>
                   <button
                     onClick={() => setIsResetPasswordModalOpen(true)}
-                    className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition font-semibold"
+                    className="rounded-xl bg-[#5f5f5f] px-6 py-2.5 font-semibold text-white shadow transition duration-200 hover:-translate-y-0.5 hover:bg-[#4d4d4d]"
                   >
                     Reset Password
                   </button>
@@ -154,12 +162,12 @@ const RestaurantProfile = () => {
         </div>
 
         {/* Personal Information Section */}
-        <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-          <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-            <span className="w-1 h-6 bg-(--color-secondary) rounded"></span>
+        <div className="rounded-3xl border border-[#e3cebc] bg-white/85 p-6 shadow-lg backdrop-blur-sm">
+          <h2 className="mb-4 flex items-center gap-2 text-xl font-black tracking-tight text-[#4f3838]">
+            <span className="h-6 w-1 rounded bg-(--color-secondary)"></span>
             Personal Information
           </h2>
-          <div className="space-y-1">
+          <div className="overflow-hidden rounded-2xl border border-[#eddfcf] bg-[#fffdfa]">
             {renderField("Date of Birth", user?.dob)}
             {renderField("Gender", user?.gender)}
             {renderField("Address", user?.address)}
@@ -171,12 +179,12 @@ const RestaurantProfile = () => {
         {/* Location Section */}
         {(user?.geoLocation?.lat !== "N/A" ||
           user?.geoLocation?.lon !== "N/A") && (
-          <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-            <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <div className="rounded-3xl border border-[#e3cebc] bg-white/85 p-6 shadow-lg backdrop-blur-sm">
+            <h2 className="mb-4 flex items-center gap-2 text-xl font-black tracking-tight text-[#4f3838]">
               <FaMapLocationDot className="text-(--color-secondary)" />
               Geo Location
             </h2>
-            <div className="space-y-1">
+            <div className="overflow-hidden rounded-2xl border border-[#eddfcf] bg-[#fffdfa]">
               {renderField("Latitude", user?.geoLocation?.lat)}
               {renderField("Longitude", user?.geoLocation?.lon)}
             </div>
@@ -185,12 +193,12 @@ const RestaurantProfile = () => {
 
         {/* Payment Details - UPI Section */}
         {user?.paymentDetails?.upi !== "N/A" && (
-          <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-            <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <div className="rounded-3xl border border-[#e3cebc] bg-white/85 p-6 shadow-lg backdrop-blur-sm">
+            <h2 className="mb-4 flex items-center gap-2 text-xl font-black tracking-tight text-[#4f3838]">
               <FaWallet className="text-(--color-secondary)" />
               Payment Details
             </h2>
-            <div className="space-y-1">
+            <div className="overflow-hidden rounded-2xl border border-[#eddfcf] bg-[#fffdfa]">
               {renderField("UPI ID", user?.paymentDetails?.upi)}
             </div>
           </div>
@@ -199,12 +207,12 @@ const RestaurantProfile = () => {
         {/* Bank Account Details Section */}
         {(user?.paymentDetails?.account_number !== "N/A" ||
           user?.paymentDetails?.ifs_Code !== "N/A") && (
-          <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-            <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <div className="rounded-3xl border border-[#e3cebc] bg-white/85 p-6 shadow-lg backdrop-blur-sm">
+            <h2 className="mb-4 flex items-center gap-2 text-xl font-black tracking-tight text-[#4f3838]">
               <BiSolidBank className="text-(--color-secondary)" />
               Bank Account Details
             </h2>
-            <div className="space-y-1">
+            <div className="overflow-hidden rounded-2xl border border-[#eddfcf] bg-[#fffdfa]">
               {renderField(
                 "Account Number",
                 user?.paymentDetails?.account_number,
@@ -216,11 +224,11 @@ const RestaurantProfile = () => {
 
         {/* Restaurant Information Section */}
         {(user?.restaurantName !== "N/A" || user?.cuisine !== "N/A") && (
-          <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">
+          <div className="rounded-3xl border border-[#e3cebc] bg-white/85 p-6 shadow-lg backdrop-blur-sm">
+            <h2 className="mb-4 text-xl font-black tracking-tight text-[#4f3838]">
               Restaurant Information
             </h2>
-            <div className="space-y-1">
+            <div className="overflow-hidden rounded-2xl border border-[#eddfcf] bg-[#fffdfa]">
               {renderField("Restaurant Name", user?.restaurantName)}
               {renderField("Cuisine Type", user?.cuisine)}
             </div>
@@ -229,12 +237,12 @@ const RestaurantProfile = () => {
 
         {/* Business Documents Section */}
         {Object.values(user?.documents || {}).some((doc) => doc !== "N/A") && (
-          <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-            <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <div className="rounded-3xl border border-[#e3cebc] bg-white/85 p-6 shadow-lg backdrop-blur-sm">
+            <h2 className="mb-4 flex items-center gap-2 text-xl font-black tracking-tight text-[#4f3838]">
               <FaFileAlt className="text-(--color-secondary)" />
               Business Documents
             </h2>
-            <div className="space-y-1">
+            <div className="overflow-hidden rounded-2xl border border-[#eddfcf] bg-[#fffdfa]">
               {renderField("GST Certificate", user?.documents?.gst)}
               {renderField("FSSAI License", user?.documents?.fssai)}
               {renderField("RC (Registration)", user?.documents?.rc)}
@@ -246,20 +254,20 @@ const RestaurantProfile = () => {
         )}
 
         {/* Account Metadata */}
-        <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200 text-sm">
-          <h2 className="text-lg font-bold text-gray-800 mb-3">
+        <div className="rounded-3xl border border-[#e3cebc] bg-white/85 p-6 text-sm shadow-lg backdrop-blur-sm">
+          <h2 className="mb-3 text-lg font-black tracking-tight text-[#4f3838]">
             Account Details
           </h2>
-          <div className="grid grid-cols-2 gap-4 text-gray-600">
+          <div className="grid gap-4 text-[#6f5a5a] sm:grid-cols-2">
             <div>
-              <span className="font-medium">Account ID:</span>
-              <p className="text-gray-500 font-mono text-xs break-all">
+              <span className="font-semibold">Account ID:</span>
+              <p className="break-all font-mono text-xs text-[#8f7777]">
                 {user?._id}
               </p>
             </div>
             <div>
-              <span className="font-medium">Member Since:</span>
-              <p className="text-gray-900">
+              <span className="font-semibold">Member Since:</span>
+              <p className="text-[#4f3a3a]">
                 {user?.createdAt
                   ? new Date(user.createdAt).toLocaleDateString("en-IN")
                   : "N/A"}

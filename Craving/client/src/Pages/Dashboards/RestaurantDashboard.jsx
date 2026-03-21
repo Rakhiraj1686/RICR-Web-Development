@@ -37,9 +37,9 @@ const ResturantDashboard = () => {
   }
   return (
     <>
-      <div className="w-full flex h-[92.5vh]">
+      <div className="flex h-[92.5vh] w-full overflow-hidden">
         <div
-          className={`bg-(--color-background) duration-300 ${isCollapsed ? "w-3/60" : "w-10/60"}`}
+          className={`h-full bg-(--color-background) duration-300 ${isCollapsed ? "w-3/60" : "w-10/60"}`}
         >
           <RestaurantSidebar
             active={active}
@@ -49,7 +49,7 @@ const ResturantDashboard = () => {
           />
         </div>
         <div
-          className={`bg-(--color-primary)/10 duration-300 ${isCollapsed ? "w-57/60" : " w-50/60"}`}
+          className={`h-full overflow-y-auto bg-(--color-primary)/10 duration-300 ${isCollapsed ? "w-57/60" : "w-50/60"}`}
         >
           {active === "overview" && <RestaurantOverview />}
           {active === "profile" && <RestaurantProfile />}

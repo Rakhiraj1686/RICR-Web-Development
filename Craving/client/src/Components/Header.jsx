@@ -38,6 +38,7 @@ const Header = () => {
           <img
             src={transparent}
             alt=""
+            onClick={()=>navigate("/")}
             className="h-12 w-20 object-cover invert-100"
           />
         </Link>

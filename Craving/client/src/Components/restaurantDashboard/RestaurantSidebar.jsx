@@ -37,7 +37,7 @@ const RestaurantSideBar = ({ active, setActive, isCollapsed, setIsCollapsed }) =
   };
   return (
     <>
-      <div className="p-2 flex flex-col justify-between h-full">
+      <div className="box-border h-full overflow-hidden p-2 flex flex-col justify-between">
         <div>
           <div className="h-10 text-lg font-bold flex gap-2 items-center mb-3">
             <button
