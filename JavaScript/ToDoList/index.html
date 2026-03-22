@@ -14,44 +14,56 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
     />
+    <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
-    <header>
-      <div
-        class="container-fluid bg-primary px-3 py-2 text-center display-6 fw-bold text-light"
-      >
-        To Do List
+  <body class="todo-body">
+    <header class="py-4">
+      <div class="container text-center">
+        <span class="todo-badge"><i class="bi bi-stars"></i> Daily Focus Board</span>
+        <h1 class="todo-title mb-0">Plan Your Day</h1>
+        <p class="todo-subtitle mb-0">Add tasks, stay focused, finish strong.</p>
       </div>
     </header>
-    <main>
-      <div class="container d-flex gap-3 p-4">
-        <input
-          type="text"
-          name="NewTask"
-          id="NewTask"
-          placeholder="Add your New Task"
-          class="form-control"
-        />
-        <button class="btn btn-primary w-25" onclick="AddTask()">
-          <i class="bi bi-plus-circle"></i>Add Task
-        </button>
-      </div>
+    <main class="pb-5">
+      <section class="container todo-card p-4 p-md-5">
+        <div class="todo-head mb-4">
+          <h2 class="todo-headline mb-1">Today's Checklist</h2>
+          <p class="todo-headline-sub mb-0">Small wins every day build big results.</p>
+        </div>
 
-      <div class="container p-5 fs-4">
-        <ol id="TaskList">
-          <!-- <li class="p-2 d-flex justify-content-between align-items-center border-bottom ">
-            <div class="w-75">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Similique explicabo in enim culpa nihil dicta, officiis, et
-              voluptates eligendi exercitationem quibusdam sequi sint dolor quae
-              asperiores! Minima atque rerum quidem?
-            </div>
-            <button class="btn btn-danger ms-3" >
-              <i class="bi bi-trash3"></i>Delete
+        <div class="row g-3 align-items-center mb-4">
+          <div class="col-12 col-md-9">
+            <input
+              type="text"
+              name="NewTask"
+              id="NewTask"
+              placeholder="What do you want to finish today?"
+              class="form-control todo-input"
+            />
+          </div>
+          <div class="col-12 col-md-3">
+            <button class="btn todo-add-btn w-100" onclick="AddTask()">
+              <i class="bi bi-plus-circle me-2"></i>Add Task
             </button>
-          </li> -->
-        </ol>
-      </div>
+          </div>
+        </div>
+
+        <div class="todo-summary mb-3">
+          <span id="TaskCount">0</span> task(s) in your list
+        </div>
+
+        <div class="todo-stats mb-4">
+          <div class="stat-chip">Total: <span id="TotalTasks">0</span></div>
+          <div class="stat-chip">Completed: <span id="CompletedTasks">0</span></div>
+          <div class="stat-chip">Pending: <span id="PendingTasks">0</span></div>
+        </div>
+
+        <ol id="TaskList" class="todo-list"></ol>
+        <div id="EmptyState" class="todo-empty">
+          <i class="bi bi-journal-check"></i>
+          <p class="mb-0">No tasks yet. Add your first task to get started.</p>
+        </div>
+      </section>
     </main>
 
     <!-- Bootstrap -->
