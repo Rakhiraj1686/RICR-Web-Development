@@ -5,6 +5,9 @@ const razorpay = new Razorpay ({
     key_secret:process.env.RAZORPAY_TEST_API_SECRET,
 });
 
-const verifyRazorpayConnect = async () => {
-    const orders = await razorpay
-}
+export const verifyRazorPayConnect = async () => {
+  const orders = await razorpay.orders.all({ count: 1 });
+  return orders;
+};
+
+export default razorpay;
