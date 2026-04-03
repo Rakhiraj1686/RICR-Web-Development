@@ -54,7 +54,7 @@ const UserSidebar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
             )}
           </div>
           <hr />
-
+{/*  */}
           <div className="grid gap-6 py-6 p-2 text-xl ">
             {menuItems.map((item, idx) => (
               <button
