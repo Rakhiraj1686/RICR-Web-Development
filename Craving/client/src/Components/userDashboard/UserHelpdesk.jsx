@@ -69,23 +69,23 @@ const UserHelpdesk = () => {
     },
   ];
 
-  const faqs = [
-    {
-      question: "How can I track my order in real-time?",
-      answer:
-        "Open the Orders section, choose your active order, and tap Track Order to see live rider and restaurant updates.",
-    },
-    {
-      question: "How do I request a refund?",
-      answer:
-        "Go to the specific order, select Report an Issue, and choose Refund Request with your reason and any proof.",
-    },
-    {
-      question: "How can I update my account details?",
-      answer:
-        "Visit Profile settings and use Edit Profile to update your phone, address, and delivery preferences.",
-    },
-  ];
+  // const faqs = [
+  //   {
+  //     question: "How can I track my order in real-time?",
+  //     answer:
+  //       "Open the Orders section, choose your active order, and tap Track Order to see live rider and restaurant updates.",
+  //   },
+  //   {
+  //     question: "How do I request a refund?",
+  //     answer:
+  //       "Go to the specific order, select Report an Issue, and choose Refund Request with your reason and any proof.",
+  //   },
+  //   {
+  //     question: "How can I update my account details?",
+  //     answer:
+  //       "Visit Profile settings and use Edit Profile to update your phone, address, and delivery preferences.",
+  //   },
+  // ];
 
   return (
     <div className="h-full overflow-y-auto rounded-2xl p-4 md:p-6 space-y-6 bg-[radial-gradient(circle_at_top_left,#fff7f4_0%,#fff_50%,#f8f6ff_100%)]">
