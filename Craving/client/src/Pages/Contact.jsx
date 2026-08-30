@@ -47,8 +47,8 @@ const Contact = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-(--color-secondary) to-(--color-secondary-hover) px-4 py-16 relative overflow-hidden">
       {/* Background Decorative Shapes */}
-      <div className="absolute -top-32 -left-32 w-100 h-100 bg-indigo-200 rotate-45 rounded-3xl opacity-30"></div>
-      <div className="absolute -bottom-32 -right-32 w-100 h-100 bg-blue-200 rotate-45 rounded-3xl opacity-30"></div>
+      <div className="absolute -top-32 -left-32 w-100 h-100 bg-(--color-accent) rotate-45 rounded-3xl opacity-30"></div>
+      <div className="absolute -bottom-32 -right-32 w-100 h-100 bg-(--color-primary) rotate-45 rounded-3xl opacity-20"></div>
 
       <div className="w-full max-w-5xl grid md:grid-cols-2 shadow-2xl rounded-3xl overflow-hidden relative z-10">
         {/* Left Info Panel */}
@@ -78,7 +78,7 @@ const Contact = () => {
             <div className="space-y-5">
               <div>
                 <label className="block mb-2 font-medium">
-                  Full Name <span className="text-red-600">*</span>
+                  Full Name <span className="text-(--color-primary)">*</span>
                 </label>
                 <input
                   type="text"
@@ -88,13 +88,13 @@ const Contact = () => {
                   onChange={handleChange}
                   disabled={isLoading}
                   required
-                  className="w-full h-14 px-5 rounded-xl border-2 border-gray-300 focus:outline-none focus:border-indigo-500 transition disabled:cursor-not-allowed disabled:bg-gray-200"
+                  className="w-full h-14 px-5 rounded-xl border-2 border-(--color-border) focus:outline-none focus:border-(--color-primary) transition disabled:cursor-not-allowed disabled:bg-gray-200"
                 />
               </div>
 
               <div>
                 <label className="block mb-2 font-medium">
-                  Email <span className="text-red-600">*</span>
+                  Email <span className="text-(--color-primary)">*</span>
                 </label>
                 <input
                   type="text"
@@ -104,13 +104,13 @@ const Contact = () => {
                   onChange={handleChange}
                   disabled={isLoading}
                   required
-                  className="w-full h-14 px-5 rounded-xl border-2 border-gray-300 focus:outline-none focus:border-indigo-500 transition disabled:cursor-not-allowed disabled:bg-gray-200"
+                  className="w-full h-14 px-5 rounded-xl border-2 border-(--color-border) focus:outline-none focus:border-(--color-primary) transition disabled:cursor-not-allowed disabled:bg-gray-200"
                 />
               </div>
 
               <div>
                 <label className="block mb-2 font-medium">
-                  Subject <span className="text-red-600">*</span>
+                  Subject <span className="text-(--color-primary)">*</span>
                 </label>
                 <input
                   type="text"
@@ -120,13 +120,13 @@ const Contact = () => {
                   onChange={handleChange}
                   disabled={isLoading}
                   required
-                  className="w-full h-14 px-5 rounded-xl border-2 border-gray-300 focus:outline-none focus:border-indigo-500 transition disabled:cursor-not-allowed disabled:bg-gray-200"
+                  className="w-full h-14 px-5 rounded-xl border-2 border-(--color-border) focus:outline-none focus:border-(--color-primary) transition disabled:cursor-not-allowed disabled:bg-gray-200"
                 />
               </div>
 
               <div>
                 <label className="block mb-2 font-medium">
-                  Message <span className="text-red-600">*</span>
+                  Message <span className="text-(--color-primary)">*</span>
                 </label>
                 <textarea
                   name="query"
@@ -136,7 +136,7 @@ const Contact = () => {
                   disabled={isLoading}
                   required
                   rows="5"
-                  className="w-full px-5 py-4 rounded-xl border-2 border-gray-300 focus:outline-none focus:border-indigo-500 transition disabled:cursor-not-allowed disabled:bg-gray-200 resize-none"
+                  className="w-full px-5 py-4 rounded-xl border-2 border-(--color-border) focus:outline-none focus:border-(--color-primary) transition disabled:cursor-not-allowed disabled:bg-gray-200 resize-none"
                 />
               </div>
             </div>
@@ -144,7 +144,7 @@ const Contact = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full h-14 rounded-xl font-bold shadow-lg transition-all duration-300 transform hover:scale-105 active:scale-95 bg-(--color-secondary) text-black disabled:cursor-not-allowed disabled:bg-(--color-secondary)"
+              className="w-full h-14 rounded-xl font-bold shadow-lg transition-all duration-300 transform hover:scale-105 active:scale-95 bg-(--color-primary) text-white hover:bg-(--color-primary-hover) disabled:cursor-not-allowed disabled:bg-gray-300"
             >
               <div className="flex gap-2 items-center justify-center text-lg">
                 <FiSend /> <span>Send Message</span>

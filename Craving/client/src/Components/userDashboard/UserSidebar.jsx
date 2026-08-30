@@ -60,8 +60,8 @@ const UserSidebar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
               <button
                 className={`flex gap-6 items-center rounded-xl h-12 px-3 text-nowrap duration-300 ${
                   active === item.key
-                    ? "bg-(--color-secondary) text-white"
-                    : " hover:bg-gray-100/70"
+                    ? "bg-(--color-primary) text-white"
+                    : " hover:bg-(--color-background)"
                 }`}
                 onClick={() => setActive(item.key)}
                 key={idx}

@@ -31,15 +31,15 @@ const RestaurantOverview = () => {
 
   return (
     <>
-      <div className="h-full space-y-6 overflow-y-auto rounded-3xl bg-linear-to-br from-[#f7ecdd] via-[#f2e6d1] to-[#e9d6bc] p-4 sm:p-6">
-        <div className="relative overflow-hidden rounded-3xl border border-[#ddc4a8] bg-white/70 p-5 shadow-xl backdrop-blur-sm sm:p-6">
-          <div className="pointer-events-none absolute -top-16 -right-10 h-44 w-44 rounded-full bg-[#c39898]/30 blur-2xl" />
-          <div className="pointer-events-none absolute -bottom-20 -left-10 h-52 w-52 rounded-full bg-[#987070]/20 blur-3xl" />
+      <div className="h-full space-y-6 overflow-y-auto rounded-3xl bg-linear-to-br from-(--color-section-light) via-(--color-background) to-(--color-section-light) p-4 sm:p-6">
+        <div className="relative overflow-hidden rounded-3xl border border-(--color-border) bg-white/70 p-5 shadow-xl backdrop-blur-sm sm:p-6">
+          <div className="pointer-events-none absolute -top-16 -right-10 h-44 w-44 rounded-full bg-(--color-secondary)/25 blur-2xl" />
+          <div className="pointer-events-none absolute -bottom-20 -left-10 h-52 w-52 rounded-full bg-(--color-primary)/15 blur-3xl" />
           <div className="relative flex flex-col gap-1">
-            <h1 className="text-2xl font-black tracking-tight text-[#4f3838] sm:text-3xl">
+            <h1 className="text-2xl font-black tracking-tight text-(--color-text) sm:text-3xl">
               Restaurant Overview
             </h1>
-            <p className="text-sm font-medium text-[#7d6666] sm:text-base">
+            <p className="text-sm font-medium text-(--color-text-secondary) sm:text-base">
               Snapshot of orders, earnings, and weekly momentum.
             </p>
           </div>
@@ -50,15 +50,15 @@ const RestaurantOverview = () => {
           {stats.map((stat, idx) => (
             <div
               key={idx}
-              className="group relative overflow-hidden rounded-2xl border border-[#e3cebc] bg-white/80 p-5 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              className="group relative overflow-hidden rounded-2xl border border-(--color-border) bg-white/80 p-5 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
             >
-              <div className="pointer-events-none absolute -right-12 -bottom-10 h-32 w-32 rounded-full bg-[#f2e6d5] opacity-80 transition-all duration-300 group-hover:scale-110" />
+              <div className="pointer-events-none absolute -right-12 -bottom-10 h-32 w-32 rounded-full bg-(--color-section-light) opacity-80 transition-all duration-300 group-hover:scale-110" />
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-sm font-semibold uppercase tracking-wide text-[#8b6f5a]">
+                  <p className="text-sm font-semibold uppercase tracking-wide text-(--color-text-secondary)">
                     {stat.title}
                   </p>
-                  <p className="mt-2 text-3xl font-black text-[#4f3838]">
+                  <p className="mt-2 text-3xl font-black text-(--color-text)">
                     {stat.value}
                   </p>
                 </div>
@@ -73,21 +73,21 @@ const RestaurantOverview = () => {
         </div>
 
         {/* Recent Orders Section */}
-        <div className="rounded-3xl border border-[#e3cebc] bg-white/85 p-6 shadow-lg backdrop-blur-sm">
-          <h2 className="mb-4 text-xl font-black tracking-tight text-[#4f3838] sm:text-2xl">
+        <div className="rounded-3xl border border-(--color-border) bg-white/85 p-6 shadow-lg backdrop-blur-sm">
+          <h2 className="mb-4 text-xl font-black tracking-tight text-(--color-text) sm:text-2xl">
             Recent Orders
           </h2>
-          <div className="rounded-2xl border border-dashed border-[#d4bba2] bg-[#fff6eb] py-10 text-center font-medium text-[#8d7460]">
+          <div className="rounded-2xl border border-dashed border-(--color-border) bg-(--color-section-light) py-10 text-center font-medium text-(--color-text-secondary)">
             No recent orders to display
           </div>
         </div>
 
         {/* Performance Chart Section */}
-        <div className="rounded-3xl border border-[#e3cebc] bg-white/85 p-6 shadow-lg backdrop-blur-sm">
-          <h2 className="mb-4 text-xl font-black tracking-tight text-[#4f3838] sm:text-2xl">
+        <div className="rounded-3xl border border-(--color-border) bg-white/85 p-6 shadow-lg backdrop-blur-sm">
+          <h2 className="mb-4 text-xl font-black tracking-tight text-(--color-text) sm:text-2xl">
             Weekly Performance
           </h2>
-          <div className="rounded-2xl border border-dashed border-[#d4bba2] bg-[#fff6eb] py-10 text-center font-medium text-[#8d7460]">
+          <div className="rounded-2xl border border-dashed border-(--color-border) bg-(--color-section-light) py-10 text-center font-medium text-(--color-text-secondary)">
             Performance chart will be displayed here
           </div>
         </div>

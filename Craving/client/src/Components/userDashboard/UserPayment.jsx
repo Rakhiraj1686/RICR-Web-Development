@@ -106,79 +106,79 @@ const UserPayment = () => {
   }
 
   return (
-    <div className="h-full overflow-y-auto bg-linear-to-b from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] p-4 sm:p-6">
-      <div className="relative overflow-hidden rounded-3x border border-[#dbe3ec] bg-white/85 p-6 shadow-xl backdrop-blur-sm">
-        <div className="pointer-events-none absolute -top-16 -right-10 h-44 w-44 rounded-full bg-[#93c5fd]/20 blur-2xl" />
-        <div className="pointer-events-none absolute -bottom-16 -left-8 h-48 w-48 rounded-full bg-[#a5b4fc]/15 blur-3xl" />
+    <div className="h-full overflow-y-auto bg-linear-to-b from-(--color-section-light) via-(--color-background) to-(--color-section-light) p-4 sm:p-6">
+      <div className="relative overflow-hidden rounded-3x border border-(--color-border) bg-white/85 p-6 shadow-xl backdrop-blur-sm">
+        <div className="pointer-events-none absolute -top-16 -right-10 h-44 w-44 rounded-full bg-(--color-primary)/15 blur-2xl" />
+        <div className="pointer-events-none absolute -bottom-16 -left-8 h-48 w-48 rounded-full bg-(--color-secondary)/20 blur-3xl" />
 
         <div className="relative">
-          <h2 className="text-2xl font-black tracking-tight text-[#4f3838] sm:text-3xl">
+          <h2 className="text-2xl font-black tracking-tight text-(--color-text) sm:text-3xl">
             Payments & Billing
           </h2>
-          <p className="mt-1 text-sm font-medium text-[#7d6666] sm:text-base">
+          <p className="mt-1 text-sm font-medium text-(--color-text-secondary) sm:text-base">
             Manage your payment methods and keep track of transactions.
           </p>
         </div>
 
         <div className="relative mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <div className="rounded-2xl border border-[#ead8c6] bg-[#fff8f0] p-4 shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#90735d]">
+          <div className="rounded-2xl border border-(--color-border) bg-(--color-section-light) p-4 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-wider text-(--color-text-secondary)">
               Total Spent
             </p>
-            <p className="mt-2 text-2xl font-black text-[#4f3838]">
+            <p className="mt-2 text-2xl font-black text-(--color-text)">
               {formatAmount(paymentStats.totalSpent)}
             </p>
           </div>
-          <div className="rounded-2xl border border-[#ead8c6] bg-[#fff8f0] p-4 shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#90735d]">
+          <div className="rounded-2xl border border-(--color-border) bg-(--color-section-light) p-4 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-wider text-(--color-text-secondary)">
               This Month
             </p>
-            <p className="mt-2 text-2xl font-black text-[#4f3838]">
+            <p className="mt-2 text-2xl font-black text-(--color-text)">
               {formatAmount(paymentStats.thisMonthSpent)}
             </p>
           </div>
-          <div className="rounded-2xl border border-[#ead8c6] bg-[#fff8f0] p-4 shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#90735d]">
+          <div className="rounded-2xl border border-(--color-border) bg-(--color-section-light) p-4 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-wider text-(--color-text-secondary)">
               Paid Transactions
             </p>
-            <p className="mt-2 text-2xl font-black text-[#4f3838]">
+            <p className="mt-2 text-2xl font-black text-(--color-text)">
               {paymentStats.paidCount}
             </p>
           </div>
         </div>
 
-        <div className="relative mt-7 rounded-2xl border border-[#e3cebc] bg-white/85 p-5 shadow-md">
-          <h3 className="text-lg font-black tracking-tight text-[#4f3838] sm:text-xl">
+        <div className="relative mt-7 rounded-2xl border border-(--color-border) bg-white/85 p-5 shadow-md">
+          <h3 className="text-lg font-black tracking-tight text-(--color-text) sm:text-xl">
             Payment Methods
           </h3>
           <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
             {paymentMethods.map((method, idx) => (
               <button
                 key={idx}
-                className="rounded-xl border border-[#ead8c6] bg-[#fffaf5] p-4 text-left transition duration-200 hover:-translate-y-0.5 hover:shadow"
+                className="rounded-xl border border-(--color-border) bg-(--color-section-light) p-4 text-left transition duration-200 hover:-translate-y-0.5 hover:shadow"
               >
                 <div className="flex items-start justify-between gap-2">
-                  <p className="font-bold text-[#4f3838]">{method.name}</p>
+                  <p className="font-bold text-(--color-text)">{method.name}</p>
                   <span
                     className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${method.tagColor}`}
                   >
                     {method.tag}
                   </span>
                 </div>
-                <p className="mt-2 text-sm text-[#7a6152]">{method.desc}</p>
+                <p className="mt-2 text-sm text-(--color-text-secondary)">{method.desc}</p>
               </button>
             ))}
           </div>
         </div>
 
-        <div className="relative mt-6 rounded-2xl border border-[#e3cebc] bg-white/85 p-5 shadow-md">
-          <h3 className="text-lg font-black tracking-tight text-[#4f3838] sm:text-xl">
+        <div className="relative mt-6 rounded-2xl border border-(--color-border) bg-white/85 p-5 shadow-md">
+          <h3 className="text-lg font-black tracking-tight text-(--color-text) sm:text-xl">
             Recent Transactions
           </h3>
           <div className="mt-4 overflow-x-auto">
             <table className="w-full min-w-170">
               <thead>
-                <tr className="border-b border-[#ead8c6] text-left text-sm uppercase tracking-wider text-[#8d725d]">
+                <tr className="border-b border-(--color-border) text-left text-sm uppercase tracking-wider text-(--color-text-secondary)">
                   <th className="pb-3 font-semibold">Transaction ID</th>
                   <th className="pb-3 font-semibold">Date</th>
                   <th className="pb-3 font-semibold">Method</th>
@@ -189,7 +189,7 @@ const UserPayment = () => {
               <tbody>
                 {transactions.length === 0 ? (
                   <tr>
-                    <td className="py-6 text-center text-sm text-[#7a6152]" colSpan={5}>
+                    <td className="py-6 text-center text-sm text-(--color-text-secondary)" colSpan={5}>
                       No transactions found yet.
                     </td>
                   </tr>
@@ -197,7 +197,7 @@ const UserPayment = () => {
                   transactions.map((item, idx) => (
                     <tr
                       key={idx}
-                      className="border-b border-[#f2e4d4] text-sm text-[#4f3a3a]"
+                      className="border-b border-(--color-border) text-sm text-(--color-text)"
                     >
                       <td className="py-3 font-semibold">{item.id}</td>
                       <td className="py-3">{item.date}</td>

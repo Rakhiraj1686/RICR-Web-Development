@@ -105,15 +105,15 @@ const AddItemMenuModal = ({ onClose }) => {
     <>
       <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-100 ">
         <div className="bg-white w-5xl max-h-[85vh] overflow-y-auto rounded">
-          <div className="flex justify-between px-5 py-3 border-b border-gray-300 ">
+          <div className="flex justify-between px-5 py-3 border-b border-(--color-border) ">
             <div>
-              <h1 className="text-shadow-lg text-lg font-seminold text-gray-800">
+              <h1 className="text-shadow-lg text-lg font-seminold text-(--color-text)">
                 Add New Menu Items
               </h1>
             </div>
             <button
               onClick={handleClose}
-              className="text-gray-600 hover:text-red-700 text-3xl "
+              className="text-(--color-text-secondary) hover:text-red-700 text-3xl "
             >
               ⊗
             </button>
@@ -122,7 +122,7 @@ const AddItemMenuModal = ({ onClose }) => {
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
             {/* Item Image Section */}
             <div>
-              <h3 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-(--color-text-secondary) mb-4 pb-2 border-b border-(--color-border)">
                 Item Image
               </h3>
               <div className="flex text-end gap-2">
@@ -133,10 +133,10 @@ const AddItemMenuModal = ({ onClose }) => {
                   Add Image
                 </label>
                 <div className="grid grid-row-2">
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-(--color-text-secondary)">
                     (Upto 5 Images Allowed)
                   </span>
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-(--color-text-secondary)">
                     (Max Size 1MB each)
                   </span>
                 </div>
@@ -171,12 +171,12 @@ const AddItemMenuModal = ({ onClose }) => {
 
             {/* Basic Information Section */}
             <div>
-              <h3 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-(--color-text-secondary) mb-4 pb-2 border-b border-(--color-border)">
                 Basic Information
               </h3>
               <div className="grid grid-cols-1 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                     Item Name *
                   </label>
                   <input
@@ -184,8 +184,8 @@ const AddItemMenuModal = ({ onClose }) => {
                     name="itemName"
                     value={formData.itemName}
                     onChange={handleInputChange}
-                    className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      errors.itemName ? "border-red-500" : "border-gray-300"
+                    className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
+                      errors.itemName ? "border-red-500" : "border-(--color-border)"
                     }`}
                     placeholder="e.g., Butter Chicken"
                   />
@@ -197,7 +197,7 @@ const AddItemMenuModal = ({ onClose }) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                     Description *
                   </label>
                   <textarea
@@ -205,8 +205,8 @@ const AddItemMenuModal = ({ onClose }) => {
                     value={formData.description}
                     onChange={handleInputChange}
                     rows="3"
-                    className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      errors.description ? "border-red-500" : "border-gray-300"
+                    className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
+                      errors.description ? "border-red-500" : "border-(--color-border)"
                     }`}
                     placeholder="Describe the dish, ingredients, and taste"
                   />
@@ -221,12 +221,12 @@ const AddItemMenuModal = ({ onClose }) => {
 
             {/* Pricing & Category Section */}
             <div>
-              <h3 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-(--color-text-secondary) mb-4 pb-2 border-b border-(--color-border)">
                 Pricing & Category
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                     Price (₹) *
                   </label>
                   <input
@@ -236,8 +236,8 @@ const AddItemMenuModal = ({ onClose }) => {
                     onChange={handleInputChange}
                     step="0.01"
                     min="0"
-                    className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      errors.price ? "border-red-500" : "border-gray-300"
+                    className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
+                      errors.price ? "border-red-500" : "border-(--color-border)"
                     }`}
                     placeholder="0.00"
                   />
@@ -247,7 +247,7 @@ const AddItemMenuModal = ({ onClose }) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                     Serving Size *
                   </label>
                   <input
@@ -255,8 +255,8 @@ const AddItemMenuModal = ({ onClose }) => {
                     name="servingSize"
                     value={formData.servingSize}
                     onChange={handleInputChange}
-                    className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      errors.servingSize ? "border-red-500" : "border-gray-300"
+                    className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
+                      errors.servingSize ? "border-red-500" : "border-(--color-border)"
                     }`}
                     placeholder="e.g., Main Course, Appetizer"
                   />
@@ -268,7 +268,7 @@ const AddItemMenuModal = ({ onClose }) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                     Cuisine
                   </label>
                   <input
@@ -276,7 +276,7 @@ const AddItemMenuModal = ({ onClose }) => {
                     name="cuisine"
                     value={formData.cuisine}
                     onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full border border-(--color-border) rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
                     placeholder="e.g., Indian, Italian"
                   />
                 </div>
@@ -285,14 +285,14 @@ const AddItemMenuModal = ({ onClose }) => {
 
             {/* Attributes Section */}
             <div>
-              <h3 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-(--color-text-secondary) mb-4 pb-2 border-b border-(--color-border)">
                 Item Attributes
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="">
                   <label
                     htmlFor="type"
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                    className="block text-sm font-medium text-(--color-text-secondary) mb-1"
                   >
                     Food Type
                   </label>
@@ -300,7 +300,7 @@ const AddItemMenuModal = ({ onClose }) => {
                     name="type"
                     value={formData.type}
                     onChange={handleInputChange}
-                    className="border w-full border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="border w-full border-(--color-border) rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
                   >
                     <option value="">Select Type</option>
                     <option value="veg">Vegetarian</option>
@@ -314,7 +314,7 @@ const AddItemMenuModal = ({ onClose }) => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                     Preparation Time (minutes) *
                   </label>
                   <input
@@ -323,10 +323,10 @@ const AddItemMenuModal = ({ onClose }) => {
                     value={formData.preparationTime}
                     onChange={handleInputChange}
                     min="0"
-                    className={`border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    className={`border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
                       errors.preparationTime
                         ? "border-red-500"
-                        : "border-gray-300"
+                        : "border-(--color-border)"
                     }`}
                     placeholder="e.g., 15"
                   />
@@ -343,11 +343,11 @@ const AddItemMenuModal = ({ onClose }) => {
                     checked={formData.availability}
                     onChange={handleInputChange}
                     id="availability"
-                    className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
+                    className="w-4 h-4 text-green-600 border-(--color-border) rounded focus:ring-green-500"
                   />
                   <label
                     htmlFor="availability"
-                    className="text-sm font-medium text-gray-700 cursor-pointer"
+                    className="text-sm font-medium text-(--color-text-secondary) cursor-pointer"
                   >
                     Available
                   </label>
@@ -356,19 +356,19 @@ const AddItemMenuModal = ({ onClose }) => {
             </div>
 
             {/* Form Actions */}
-            <div className="flex justify-end space-x-4 pt-6 border-t border-gray-300">
+            <div className="flex justify-end space-x-4 pt-6 border-t border-(--color-border)">
               <button
                 type="button"
                 onClick={handleClose}
                 disabled={loading}
-                className="px-6 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 transition disabled:opacity-50"
+                className="px-6 py-2 bg-gray-300 text-(--color-text) rounded-md hover:bg-gray-400 transition disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="px-6 py-2 bg-(--color-primary) text-white rounded-md hover:bg-(--color-primary-hover) transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 {loading ? (
                   <>

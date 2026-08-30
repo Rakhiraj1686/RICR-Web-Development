@@ -89,13 +89,13 @@ const RiderCurrentOrder = () => {
   
 
   return (
-    <div className="bg-gray-50 rounded-lg p-6 h-full overflow-y-auto">
-      <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+    <div className="bg-(--color-background) rounded-lg p-6 h-full overflow-y-auto">
+      <div className="bg-white rounded-lg shadow-md p-6 border border-(--color-border)">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-gray-800">Current Order</h2>
+          <h2 className="text-2xl font-bold text-(--color-text)">Current Order</h2>
           <button
             onClick={refershLocation}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition"
+            className="bg-(--color-primary) hover:bg-(--color-primary-hover) text-white px-4 py-2 rounded-md transition"
           >
             Refresh Location
           </button>
@@ -107,12 +107,12 @@ const RiderCurrentOrder = () => {
             {currentOrder.map((order, idx) => (
               <div
                 key={order._id || idx}
-                className="rounded-lg border border-gray-200 p-4 shadow-sm"
+                className="rounded-lg border border-(--color-border) p-4 shadow-sm"
               >
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="text-sm text-gray-500">Order Number</p>
-                    <p className="text-lg font-semibold text-gray-800">
+                    <p className="text-sm text-(--color-text-secondary)">Order Number</p>
+                    <p className="text-lg font-semibold text-(--color-text)">
                       {order.orderNumber || order._id?.substring(0, 8)}
                     </p>
                   </div>
@@ -125,41 +125,41 @@ const RiderCurrentOrder = () => {
 
                 <div className="grid grid-cols-2 gap-3 mt-4 text-sm">
                   <div>
-                    <p className="text-gray-500">Customer</p>
-                    <p className="font-medium text-gray-800">
+                    <p className="text-(--color-text-secondary)">Customer</p>
+                    <p className="font-medium text-(--color-text)">
                       {order.userId?.fullName || "Unknown"}
                     </p>
                   </div>
                   <div>
-                    <p className="text-gray-500">Restaurant</p>
-                    <p className="font-medium text-gray-800">
+                    <p className="text-(--color-text-secondary)">Restaurant</p>
+                    <p className="font-medium text-(--color-text)">
                       {order.restaurantId?.restaurantName ||
                         order.restaurantId?.fullName ||
                         "Unknown"}
                     </p>
                   </div>
                   <div>
-                    <p className="text-gray-500">Total Amount</p>
-                    <p className="font-medium text-gray-800">
+                    <p className="text-(--color-text-secondary)">Total Amount</p>
+                    <p className="font-medium text-(--color-text)">
                       ₹{order.orderValue?.total || 0}
                     </p>
                   </div>
                   <div>
-                    <p className="text-gray-500">Items</p>
-                    <p className="font-medium text-gray-800">
+                    <p className="text-(--color-text-secondary)">Items</p>
+                    <p className="font-medium text-(--color-text)">
                       {order.items?.length || 0} item
                       {order.items?.length !== 1 ? "s" : ""}
                     </p>
                   </div>
                   <div>
-                    <p className="text-gray-500">Payment Method</p>
-                    <p className="font-medium text-gray-800 capitalize">
+                    <p className="text-(--color-text-secondary)">Payment Method</p>
+                    <p className="font-medium text-(--color-text) capitalize">
                       {order.orderValue?.paymentMethod || "N/A"}
                     </p>
                   </div>
                   <div>
-                    <p className="text-gray-500">Placed On</p>
-                    <p className="font-medium text-gray-800">
+                    <p className="text-(--color-text-secondary)">Placed On</p>
+                    <p className="font-medium text-(--color-text)">
                       {order.createdAt
                         ? new Date(order.createdAt).toLocaleString()
                         : "N/A"}
@@ -173,36 +173,36 @@ const RiderCurrentOrder = () => {
 
         {currentOrder.length === 0 && availableOrder.length > 0 && (
           <div className="mt-6">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+            <h3 className="text-xl font-semibold text-(--color-text) mb-4">
               Available Orders
             </h3>
 
             <div className="overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>
-                  <tr className="bg-gray-100 border-b-2 border-gray-300">
-                    <th className="text-left px-4 py-3 font-semibold text-gray-700">
+                  <tr className="bg-(--color-background) border-b-2 border-(--color-border)">
+                    <th className="text-left px-4 py-3 font-semibold text-(--color-text-secondary)">
                       Order Number
                     </th>
-                    <th className="text-left px-4 py-3 font-semibold text-gray-700">
+                    <th className="text-left px-4 py-3 font-semibold text-(--color-text-secondary)">
                       Customer
                     </th>
-                    <th className="text-left px-4 py-3 font-semibold text-gray-700">
+                    <th className="text-left px-4 py-3 font-semibold text-(--color-text-secondary)">
                       Restaurant
                     </th>
-                    <th className="text-left px-4 py-3 font-semibold text-gray-700">
+                    <th className="text-left px-4 py-3 font-semibold text-(--color-text-secondary)">
                       Total
                     </th>
-                    <th className="text-left px-4 py-3 font-semibold text-gray-700">
+                    <th className="text-left px-4 py-3 font-semibold text-(--color-text-secondary)">
                       Items
                     </th>
-                    <th className="text-left px-4 py-3 font-semibold text-gray-700">
+                    <th className="text-left px-4 py-3 font-semibold text-(--color-text-secondary)">
                       Status
                     </th>
-                    <th className="text-left px-4 py-3 font-semibold text-gray-700">
+                    <th className="text-left px-4 py-3 font-semibold text-(--color-text-secondary)">
                       Distance (Km)
                     </th>
-                    <th className="text-left px-4 py-3 font-semibold text-gray-700">
+                    <th className="text-left px-4 py-3 font-semibold text-(--color-text-secondary)">
                       Action
                     </th>
                   </tr>
@@ -211,23 +211,23 @@ const RiderCurrentOrder = () => {
                   {availableOrder.map((order, idx) => (
                     <tr
                       key={order._id || idx}
-                      className="border-b border-gray-200 hover:bg-gray-50 transition"
+                      className="border-b border-(--color-border) hover:bg-(--color-background) transition"
                     >
-                      <td className="px-4 py-3 text-gray-800 font-medium">
+                      <td className="px-4 py-3 text-(--color-text) font-medium">
                         {order.orderNumber || order._id?.substring(0, 8)}
                       </td>
-                      <td className="px-4 py-3 text-gray-700">
+                      <td className="px-4 py-3 text-(--color-text-secondary)">
                         {order.userId?.fullName || "Unknown"}
                       </td>
-                      <td className="px-4 py-3 text-gray-700">
+                      <td className="px-4 py-3 text-(--color-text-secondary)">
                         {order.restaurantId?.restaurantName ||
                           order.restaurantId?.fullName ||
                           "Unknown"}
                       </td>
-                      <td className="px-4 py-3 text-gray-800 font-semibold">
+                      <td className="px-4 py-3 text-(--color-text) font-semibold">
                         ₹{order.orderValue?.total || 0}
                       </td>
-                      <td className="px-4 py-3 text-gray-600">
+                      <td className="px-4 py-3 text-(--color-text-secondary)">
                         {order.items?.length || 0}
                       </td>
                       <td className="px-4 py-3">
@@ -237,12 +237,12 @@ const RiderCurrentOrder = () => {
                           {order.status || "pending"}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-gray-600">
+                      <td className="px-4 py-3 text-(--color-text-secondary)">
                         {order.distanceFromRider || 0}
                       </td>
                       <td className="ps-4 py-3">
                         <button
-                          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-200"
+                          className="bg-(--color-primary) hover:bg-(--color-primary-hover) text-white px-4 py-2 rounded-md transition duration-200"
                           onClick={() => {
                             setSelectedOrder(order);
                             setViewDetailsModalOpen(true);
@@ -260,7 +260,7 @@ const RiderCurrentOrder = () => {
         )}
 
         {currentOrder.length === 0 && availableOrder.length === 0 && (
-          <div className="text-center text-gray-500 py-12">
+          <div className="text-center text-(--color-text-secondary) py-12">
             <p className="text-lg">No current or available orders right now</p>
           </div>
         )}

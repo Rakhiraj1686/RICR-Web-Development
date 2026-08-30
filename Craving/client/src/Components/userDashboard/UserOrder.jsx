@@ -40,47 +40,47 @@ const UserOrders = () => {
   }
 
   return (
-    <div className="h-full overflow-y-auto bg-linear-to-b from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] p-4 sm:p-6">
-      <div className="relative overflow-hidden rounded-3xl border border-[#dbe3ec] bg-white/85 p-5 shadow-xl backdrop-blur-sm sm:p-6">
-        <div className="pointer-events-none absolute -top-16 -right-10 h-44 w-44 rounded-full bg-[#93c5fd]/20 blur-2xl" />
-        <div className="pointer-events-none absolute -bottom-16 -left-8 h-48 w-48 rounded-full bg-[#a5b4fc]/15 blur-3xl" />
+    <div className="h-full overflow-y-auto bg-linear-to-b from-(--color-section-light) via-(--color-background) to-(--color-section-light) p-4 sm:p-6">
+      <div className="relative overflow-hidden rounded-3xl border border-(--color-border) bg-white/85 p-5 shadow-xl backdrop-blur-sm sm:p-6">
+        <div className="pointer-events-none absolute -top-16 -right-10 h-44 w-44 rounded-full bg-(--color-primary)/15 blur-2xl" />
+        <div className="pointer-events-none absolute -bottom-16 -left-8 h-48 w-48 rounded-full bg-(--color-secondary)/20 blur-3xl" />
 
         <div className="relative">
-          <h2 className="text-2xl font-black tracking-tight text-[#4f3838] sm:text-3xl">
+          <h2 className="text-2xl font-black tracking-tight text-(--color-text) sm:text-3xl">
             My Orders
           </h2>
-          <p className="mt-1 text-sm font-medium text-[#7d6666] sm:text-base">
+          <p className="mt-1 text-sm font-medium text-(--color-text-secondary) sm:text-base">
             Track your recent orders and delivery progress.
           </p>
         </div>
 
-        <div className="mt-4 h-px rounded-full bg-[#e9d7c4]" />
+        <div className="mt-4 h-px rounded-full bg-(--color-border)" />
 
         {!orders || orders.length === 0 ? (
-          <div className="mt-6 rounded-2xl border border-dashed border-[#d6bba0] bg-[#fff6eb] py-12 text-center text-[#8a725e]">
+          <div className="mt-6 rounded-2xl border border-dashed border-(--color-border) bg-(--color-section-light) py-12 text-center text-(--color-text-secondary)">
             <p className="text-lg font-semibold">No orders placed yet</p>
           </div>
         ) : (
-          <div className="mt-6 overflow-x-auto rounded-2xl border border-[#e6d2bf] bg-white/75">
+          <div className="mt-6 overflow-x-auto rounded-2xl border border-(--color-border) bg-white/75">
             <table className="w-full min-w-170 border-collapse">
               <thead>
-                <tr className="border-b border-[#dcc7b3] bg-[#fff7ed]">
-                  <th className="px-4 py-3 text-left text-xs font-bold tracking-wider text-[#886f5b] uppercase sm:text-sm">
+                <tr className="border-b border-(--color-border) bg-(--color-section-light)">
+                  <th className="px-4 py-3 text-left text-xs font-bold tracking-wider text-(--color-text-secondary) uppercase sm:text-sm">
                     Order Number
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-bold tracking-wider text-[#886f5b] uppercase sm:text-sm">
+                  <th className="px-4 py-3 text-left text-xs font-bold tracking-wider text-(--color-text-secondary) uppercase sm:text-sm">
                     Status
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-bold tracking-wider text-[#886f5b] uppercase sm:text-sm">
+                  <th className="px-4 py-3 text-left text-xs font-bold tracking-wider text-(--color-text-secondary) uppercase sm:text-sm">
                     Total Amount
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-bold tracking-wider text-[#886f5b] uppercase sm:text-sm">
+                  <th className="px-4 py-3 text-left text-xs font-bold tracking-wider text-(--color-text-secondary) uppercase sm:text-sm">
                     Items
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-bold tracking-wider text-[#886f5b] uppercase sm:text-sm">
+                  <th className="px-4 py-3 text-left text-xs font-bold tracking-wider text-(--color-text-secondary) uppercase sm:text-sm">
                     Date
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-bold tracking-wider text-[#886f5b] uppercase sm:text-sm">
+                  <th className="px-4 py-3 text-left text-xs font-bold tracking-wider text-(--color-text-secondary) uppercase sm:text-sm">
                     Action
                   </th>
                 </tr>
@@ -89,9 +89,9 @@ const UserOrders = () => {
                 {orders.map((order, idx) => (
                   <tr
                     key={idx}
-                    className="border-b border-[#efe2d3] transition hover:bg-[#fff8f0]"
+                    className="border-b border-(--color-border) transition hover:bg-(--color-background)"
                   >
-                    <td className="px-4 py-3 font-semibold text-[#4f3a3a]">
+                    <td className="px-4 py-3 font-semibold text-(--color-text)">
                       {order.orderNumber || order._id?.substring(0, 8)}
                     </td>
                     <td className="px-4 py-3">
@@ -109,18 +109,18 @@ const UserOrders = () => {
                         {order.status || "Pending"}
                       </span>
                     </td>
-                    <td className="px-4 py-3 font-semibold text-[#4f3a3a]">
+                    <td className="px-4 py-3 font-semibold text-(--color-text)">
                       ₹{order.orderValue.total || 0}
                     </td>
-                    <td className="px-4 py-3 text-[#7c6354]">
+                    <td className="px-4 py-3 text-(--color-text-secondary)">
                       {order.items?.length || 0} item
                       {order.items?.length !== 1 ? "s" : ""}
                     </td>
-                    <td className="px-4 py-3 text-[#7c6354]">
+                    <td className="px-4 py-3 text-(--color-text-secondary)">
                       {new Date(order.createdAt).toLocaleDateString()}
                     </td>
-                    <td className="py-3 ps-4 text-[#7c6354]">
-                      <button className="rounded-lg bg-(--color-secondary) px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-(--color-secondary-hover)">
+                    <td className="py-3 ps-4 text-(--color-text-secondary)">
+                      <button className="rounded-lg bg-(--color-primary) px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-(--color-primary-hover)">
                         Track Order
                       </button>
                     </td>

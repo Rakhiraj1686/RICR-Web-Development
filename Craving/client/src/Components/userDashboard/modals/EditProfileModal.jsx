@@ -160,7 +160,7 @@ const EditProfileModal = ({ onClose }) => {
     <>
       <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-100 ">
         <div className="bg-white w-5xl max-h-[85vh] overflow-y-auto ">
-          <div className="flex justify-between px-5 py-3 border-b border-gray-300 ">
+          <div className="flex justify-between px-5 py-3 border-b border-(--color-border) ">
             <div>
               <h2 className="text-shadow-lg">Edit Profile Details</h2>
             </div>
@@ -188,7 +188,7 @@ const EditProfileModal = ({ onClose }) => {
             <form onSubmit={handleSubmit}>
               <div className="p-6 space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-(--color-text-secondary)">
                     Full Name
                   </label>
                   <input
@@ -196,7 +196,7 @@ const EditProfileModal = ({ onClose }) => {
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleInputChange}
-                    className={`mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 ${errors.fullName ? "border-red-500" : "border-gray-300"}`}
+                    className={`mt-1 block w-full border border-(--color-border) rounded-md shadow-sm p-2 ${errors.fullName ? "border-red-500" : "border-(--color-border)"}`}
                     placeholder="Enter your full name"
                   />
                   {errors.fullName && (
@@ -207,23 +207,23 @@ const EditProfileModal = ({ onClose }) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-(--color-text-secondary)">
                     Email
                   </label>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 cursor-not-allowed "
+                    className="mt-1 block w-full border border-(--color-border) rounded-md shadow-sm p-2 cursor-not-allowed "
                     disabled
                   />
-                  <p className="text-gray-500 text-xs mt-1">
+                  <p className="text-(--color-text-secondary) text-xs mt-1">
                     Email cannot be changed
                   </p>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-(--color-text-secondary)">
                     Mobile Number *
                   </label>
                   <input
@@ -231,7 +231,7 @@ const EditProfileModal = ({ onClose }) => {
                     name="mobileNumber"
                     value={formData.mobileNumber}
                     onChange={handleInputChange}
-                    className={`mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 ${errors.mobileNumber ? "border-red" : "border-gray-300"}`}
+                    className={`mt-1 block w-full border border-(--color-border) rounded-md shadow-sm p-2 ${errors.mobileNumber ? "border-red" : "border-(--color-border)"}`}
                     placeholder="10-digit mobile number"
                   />
                   {errors.mobileNumber && (
@@ -242,14 +242,14 @@ const EditProfileModal = ({ onClose }) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                     Gender
                   </label>
                   <select
                     name="name"
                     value={formData.gender}
                     onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus-ring-blue-500"
+                    className="w-full border border-(--color-border) rounded-md shadow-sm p-2 focus:outline-none focus-ring-(--color-primary)"
                   >
                     <option value="">Select Gender</option>
                     <option value="Male">Male</option>
@@ -259,7 +259,7 @@ const EditProfileModal = ({ onClose }) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                     Date of Birth
                   </label>
                   <input
@@ -267,18 +267,18 @@ const EditProfileModal = ({ onClose }) => {
                     name="dob"
                     value={formData.dob}
                     onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full border border-(--color-border) rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
                   />
                 </div>
 
                 {/* Address Section  */}
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b border-gray-200">
+                  <h3 className="text-lg font-semibold text-(--color-text-secondary) mb-4 pb-2 border-b border-(--color-border)">
                     Address
                   </h3>
                   <div className="grid grid-cols-1 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                         Address
                       </label>
                       <input
@@ -286,14 +286,14 @@ const EditProfileModal = ({ onClose }) => {
                         name="address"
                         value={formData.address}
                         onChange={handleInputChange}
-                        className="w-full border border-gray-300 rounded-md shadom-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full border border-(--color-border) rounded-md shadom-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
                         placeholder="Enter your Address"
                       />
                     </div>
 
                     <div className="grid grid-cols-3 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                           City *
                         </label>
                         <input
@@ -301,7 +301,7 @@ const EditProfileModal = ({ onClose }) => {
                           name="city"
                           value={formData.city}
                           onChange={handleInputChange}
-                          className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.city ? "border-red-500" : "border-gray-300"}`}
+                          className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${errors.city ? "border-red-500" : "border-(--color-border)"}`}
                           placeholder="Enter City"
                         />
                         {errors.city && (
@@ -312,7 +312,7 @@ const EditProfileModal = ({ onClose }) => {
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                           PIN Code *
                         </label>
                         <input
@@ -320,8 +320,8 @@ const EditProfileModal = ({ onClose }) => {
                           name="pin"
                           value={formData.pin}
                           onChange={handleInputChange}
-                          className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                            errors.pin ? "border-red-500" : "border-gray-300"
+                          className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
+                            errors.pin ? "border-red-500" : "border-(--color-border)"
                           }`}
                           placeholder="6-digit PIN"
                           maxLength="6"
@@ -336,7 +336,7 @@ const EditProfileModal = ({ onClose }) => {
                       <div className="flex items-end">
                         <div className="h-fit flex items-center w-full gap-4">
                           <button
-                            className="w-full border border-gray-300 rounded-md shadow-sm p-2 h-fit"
+                            className="w-full border border-(--color-border) rounded-md shadow-sm p-2 h-fit"
                             onClick={fetchLocation}
                           >
                             Get Live Location
@@ -352,12 +352,12 @@ const EditProfileModal = ({ onClose }) => {
 
                     {/* Documents Section  */}
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b border-gray-200">
+                      <h3 className="text-lg font-semibold text-(--color-text-secondary) mb-4 pb-2 border-b border-(--color-border)">
                         Documents
                       </h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                             Aadhaar(UIDAI)
                           </label>
                           <input
@@ -370,13 +370,13 @@ const EditProfileModal = ({ onClose }) => {
                                 e.target.value,
                               )
                             }
-                            className="w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full border border-(--color-border) rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
                             placeholder="12-digit UIDAI number"
                           />
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                             PAN
                           </label>
                           <input
@@ -389,8 +389,8 @@ const EditProfileModal = ({ onClose }) => {
                                 e.target.value,
                               )
                             }
-                            className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                              errors.pan ? "border-red-500" : "border-gray-300"
+                            className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
+                              errors.pan ? "border-red-500" : "border-(--color-border)"
                             }`}
                             placeholder="PAN number"
                             maxLength="10"
@@ -406,12 +406,12 @@ const EditProfileModal = ({ onClose }) => {
 
                     {/* Payment Details Section */}
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b border-gray-200">
+                      <h3 className="text-lg font-semibold text-(--color-text-secondary) mb-4 pb-2 border-b border-(--color-border)">
                         Payment Details
                       </h3>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                             UPI ID
                           </label>
                           <input
@@ -424,8 +424,8 @@ const EditProfileModal = ({ onClose }) => {
                                 e.target.value,
                               )
                             }
-                            className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                              errors.upi ? "border-red-500" : "border-gray-300"
+                            className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
+                              errors.upi ? "border-red-500" : "border-(--color-border)"
                             }`}
                             placeholder="username@bank"
                           />
@@ -437,7 +437,7 @@ const EditProfileModal = ({ onClose }) => {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                             Account Number
                           </label>
                           <input
@@ -450,13 +450,13 @@ const EditProfileModal = ({ onClose }) => {
                                 e.target.value,
                               )
                             }
-                            className="w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full border border-(--color-border) rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
                             placeholder="Bank account number"
                           />
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                             IFS Code
                           </label>
                           <input
@@ -469,7 +469,7 @@ const EditProfileModal = ({ onClose }) => {
                                 e.target.value,
                               )
                             }
-                            className="w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full border border-(--color-border) rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
                             placeholder="IFS code"
                           />
                         </div>
@@ -480,19 +480,19 @@ const EditProfileModal = ({ onClose }) => {
               </div>
 
               {/* Form Actions */}
-              <div className="flex justify-end space-x-4 pt-6 border-t border-gray-300">
+              <div className="flex justify-end space-x-4 pt-6 border-t border-(--color-border)">
                 <button
                   type="button"
                   onClick={() => onClose()}
                   disabled={loading}
-                  className="px-6 py-2 bg-(--color-background) text-gray-800 rounded-md hover:bg-(--color-background) transition disabled:opacity-50"
+                  className="px-6 py-2 bg-(--color-background) text-(--color-text) rounded-md hover:bg-(--color-background) transition disabled:opacity-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-6 py-2 bg-(--color-secondary) text-white rounded-md hover:bg-(--color-secondary) transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="px-6 py-2 bg-(--color-primary) text-white rounded-md hover:bg-(--color-primary-hover) transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   {loading ? (
                     <>

@@ -1,9 +1,141 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router-dom";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaXTwitter,
+  FaLocationDot,
+  FaPhone,
+  FaEnvelope,
+} from "react-icons/fa6";
 
 const Footer = () => {
-  return (
-    <div>Footer</div>
-  )
-}
+  const year = new Date().getFullYear();
 
-export default Footer
+  return (
+    <footer className="bg-(--color-text) px-4 pt-12 pb-6 text-white sm:px-6 lg:px-8">
+      <div className="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <h3 className="text-xl font-extrabold text-(--color-accent)">
+            Craving
+          </h3>
+          <p className="mt-3 text-sm text-white/70">
+            Food delivery designed like a vibe — curated kitchens, real-time
+            tracking, and one-tap reordering.
+          </p>
+          <div className="mt-4 flex gap-3">
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Craving on Facebook"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition hover:bg-(--color-primary)"
+            >
+              <FaFacebookF size={14} />
+            </a>
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Craving on Instagram"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition hover:bg-(--color-primary)"
+            >
+              <FaInstagram size={14} />
+            </a>
+            <a
+              href="https://x.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Craving on X"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition hover:bg-(--color-primary)"
+            >
+              <FaXTwitter size={14} />
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h4 className="text-sm font-semibold uppercase tracking-wider text-white/60">
+            Quick Links
+          </h4>
+          <ul className="mt-4 space-y-2 text-sm">
+            <li>
+              <Link to="/" className="text-white/80 hover:text-white">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/order-now" className="text-white/80 hover:text-white">
+                Order Now
+              </Link>
+            </li>
+            <li>
+              <Link to="/about" className="text-white/80 hover:text-white">
+                About
+              </Link>
+            </li>
+            <li>
+              <Link to="/contact" className="text-white/80 hover:text-white">
+                Contact
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="text-sm font-semibold uppercase tracking-wider text-white/60">
+            Customer Support
+          </h4>
+          <ul className="mt-4 space-y-2 text-sm">
+            <li>
+              <Link to="/contact" className="text-white/80 hover:text-white">
+                Help Center
+              </Link>
+            </li>
+            <li>
+              <Link to="/contact" className="text-white/80 hover:text-white">
+                Contact Support
+              </Link>
+            </li>
+            <li>
+              <Link to="/login" className="text-white/80 hover:text-white">
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link to="/register" className="text-white/80 hover:text-white">
+                Register
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="text-sm font-semibold uppercase tracking-wider text-white/60">
+            Get in Touch
+          </h4>
+          <ul className="mt-4 space-y-3 text-sm text-white/80">
+            <li className="flex items-start gap-2">
+              <FaLocationDot className="mt-1 shrink-0 text-(--color-accent)" />
+              <span>Bhopal, Madhya Pradesh, India</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <FaPhone className="shrink-0 text-(--color-accent)" />
+              <span>+91 98765 43210</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <FaEnvelope className="shrink-0 text-(--color-accent)" />
+              <span>support@craving.app</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="mx-auto mt-10 max-w-6xl border-t border-white/10 pt-6 text-center text-xs text-white/50">
+        © {year} Craving. All rights reserved.
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;

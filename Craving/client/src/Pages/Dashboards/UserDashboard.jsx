@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import UserOverview from "../../Components/userDashboard/userOverview";
+import UserOverview from "../../Components/userDashboard/UserOverview";
 import UserSidebar from "../../Components/userDashboard/UserSidebar";
 import UserProfile from "../../Components/userDashboard/UserProfile";
 import UserOrder from "../../Components/userDashboard/UserOrder";
@@ -25,7 +25,7 @@ const UserDashboard = () => {
     return (
       <>
         <div className="p-3">
-          <div className="border rounded shadow p-5 w-4xl mx-auto text-center bg-gray-100">
+          <div className="border rounded shadow p-5 w-4xl mx-auto text-center bg-(--color-background)">
             <div className="text-5xl text-red-600">⊗</div>
             <div className="text-xl">
               You are not loggedin as customer. Please Login again

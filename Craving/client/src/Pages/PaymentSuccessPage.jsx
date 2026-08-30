@@ -22,16 +22,16 @@ const PaymentSuccessPage = () => {
 
   if (!order) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-(--color-background) flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-600 text-lg">Loading order details...</p>
+          <p className="text-(--color-text-secondary) text-lg">Loading order details...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-(--color-background) py-8 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Success Header */}
         <div className="text-center mb-8">
@@ -47,7 +47,7 @@ const PaymentSuccessPage = () => {
           >
             Order Placed!
           </h1>
-          <p className="text-gray-600">
+          <p className="text-(--color-text-secondary)">
             Your order has been successfully placed. Thank you for choosing
             Cravings!
           </p>
@@ -57,7 +57,7 @@ const PaymentSuccessPage = () => {
           {/* Main Content (Left) */}
           <div className="lg:col-span-2">
             {/* Order Details Card */}
-            <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200 mb-6">
+            <div className="bg-white rounded-lg shadow-md p-6 border border-(--color-border) mb-6">
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <p
@@ -72,8 +72,8 @@ const PaymentSuccessPage = () => {
                 </span>
               </div>
               <div className="border-t pt-4 flex justify-between items-center">
-                <p className="text-gray-600 text-sm">Order Date & Time</p>
-                <p className="text-gray-800 font-semibold">
+                <p className="text-(--color-text-secondary) text-sm">Order Date & Time</p>
+                <p className="text-(--color-text) font-semibold">
                   {new Date(order.createdAt).toLocaleDateString()} at{" "}
                   {new Date(order.createdAt).toLocaleTimeString()}
                 </p>
@@ -81,7 +81,7 @@ const PaymentSuccessPage = () => {
             </div>
 
             {/* Order Items Card */}
-            <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200 mb-6">
+            <div className="bg-white rounded-lg shadow-md p-6 border border-(--color-border) mb-6">
               <h2
                 className="text-xl font-bold mb-4"
                 style={{ color: "var(--color-primary)" }}
@@ -96,20 +96,20 @@ const PaymentSuccessPage = () => {
                       className="flex justify-between items-center border-b pb-3"
                     >
                       <div className="flex-1">
-                        <p className="font-semibold text-gray-800">
+                        <p className="font-semibold text-(--color-text)">
                           {item.itemName}
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-(--color-text-secondary)">
                           Qty: {item.quantity} × ₹{item.price}
                         </p>
                       </div>
-                      <p className="font-semibold text-gray-800">
+                      <p className="font-semibold text-(--color-text)">
                         ₹{(item.price * item.quantity).toFixed(2)}
                       </p>
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500">No items in order</p>
+                  <p className="text-(--color-text-secondary)">No items in order</p>
                 )}
               </div>
             </div>
@@ -118,35 +118,35 @@ const PaymentSuccessPage = () => {
           {/* Sidebar (Right) */}
           <div className="lg:col-span-1">
             {/* Delivery Address Card */}
-            <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200 mb-6">
+            <div className="bg-white rounded-lg shadow-md p-6 border border-(--color-border) mb-6">
               <div className="flex items-start gap-3 mb-4">
                 <FaMapMarkerAlt
                   className="text-xl shrink-0 mt-1"
                   style={{ color: "var(--color-secondary)" }}
                 />
                 <h3
-                  className="font-bold text-gray-800"
+                  className="font-bold text-(--color-text)"
                   style={{ color: "var(--color-primary)" }}
                 >
                   Delivery Address
                 </h3>
               </div>
               <div className="space-y-2">
-                <p className="font-semibold text-gray-800">
+                <p className="font-semibold text-(--color-text)">
                   {order.userId?.fullName}
                 </p>
-                <p className="text-sm text-gray-600">{order.userId?.address}</p>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-(--color-text-secondary)">{order.userId?.address}</p>
+                <p className="text-sm text-(--color-text-secondary)">
                   {order.userId?.city}, {order.userId?.pin}
                 </p>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-(--color-text-secondary)">
                   📞 {order.userId?.mobileNumber}
                 </p>
               </div>
             </div>
 
             {/* Price Breakdown Card */}
-            <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200 mb-4">
+            <div className="bg-white rounded-lg shadow-md p-6 border border-(--color-border) mb-4">
               <h2
                 className="text-xl font-bold mb-4"
                 style={{ color: "var(--color-primary)" }}
@@ -155,20 +155,20 @@ const PaymentSuccessPage = () => {
               </h2>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-700">Subtotal</span>
-                  <span className="font-semibold text-gray-800">
+                  <span className="text-(--color-text-secondary)">Subtotal</span>
+                  <span className="font-semibold text-(--color-text)">
                     ₹{order.orderValue?.subtotal?.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700">Tax (5%)</span>
-                  <span className="font-semibold text-gray-800">
+                  <span className="text-(--color-text-secondary)">Tax (5%)</span>
+                  <span className="font-semibold text-(--color-text)">
                     ₹{order.orderValue?.tax?.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700">Delivery Charge</span>
-                  <span className="font-semibold text-gray-800">
+                  <span className="text-(--color-text-secondary)">Delivery Charge</span>
+                  <span className="font-semibold text-(--color-text)">
                     ₹{order.orderValue?.deliveryFee?.toFixed(2)}
                   </span>
                 </div>
@@ -225,7 +225,7 @@ const PaymentSuccessPage = () => {
               color: "var(--color-secondary)",
               borderColor: "var(--color-secondary)",
             }}
-            className="border-2 font-bold py-3 rounded-lg hover:bg-gray-50 transition"
+            className="border-2 font-bold py-3 rounded-lg hover:bg-(--color-background) transition"
           >
             Continue Shopping
           </button>

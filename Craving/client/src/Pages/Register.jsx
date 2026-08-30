@@ -113,7 +113,7 @@ const Register = () => {
         {/* Right Form Panel */}
         <div className="bg-white p-10 md:p-14">
           <div className="mb-10">
-            <h1 className="text-4xl font-extrabold text-gray-900">
+            <h1 className="text-4xl font-extrabold text-(--color-text)">
               Create Account
             </h1>
             <div
@@ -127,7 +127,7 @@ const Register = () => {
               name="role"
               value={formData.role}
               onChange={handleChange}
-              className="w-full h-14 px-5 rounded-xl border-2 border-gray-300 focus:outline-none focus:border-(--color-primary) transition"
+              className="w-full h-14 px-5 rounded-xl border-2 border-(--color-border) focus:outline-none focus:border-(--color-primary) transition"
               required
             >
               <option value="">Select Role</option>
@@ -148,7 +148,7 @@ const Register = () => {
               value={formData.fullName}
               onChange={handleChange}
               required
-              className="w-full h-14 px-5 rounded-xl border-2 border-gray-300 focus:outline-none focus:border-(--color-primary) transition"
+              className="w-full h-14 px-5 rounded-xl border-2 border-(--color-border) focus:outline-none focus:border-(--color-primary) transition"
             />
             {validationError.fullName && (
               <span className="text-xs text-red-500">
@@ -163,7 +163,7 @@ const Register = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full h-14 px-5 rounded-xl border-2 border-gray-300 focus:outline-none focus:border-(--color-primary) transition"
+              className="w-full h-14 px-5 rounded-xl border-2 border-(--color-border) focus:outline-none focus:border-(--color-primary) transition"
             />
 
             <input
@@ -174,7 +174,7 @@ const Register = () => {
               value={formData.mobileNumber}
               onChange={handleChange}
               required
-              className="w-full h-14 px-5 rounded-xl border-2 border-gray-300 focus:outline-none focus:border-(--color-primary) transition"
+              className="w-full h-14 px-5 rounded-xl border-2 border-(--color-border) focus:outline-none focus:border-(--color-primary) transition"
             />
 
             <input
@@ -184,7 +184,7 @@ const Register = () => {
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full h-14 px-5 rounded-xl border-2 border-gray-300 focus:outline-none focus:border-(--color-primary) transition"
+              className="w-full h-14 px-5 rounded-xl border-2 border-(--color-border) focus:outline-none focus:border-(--color-primary) transition"
             />
 
             <input
@@ -194,7 +194,7 @@ const Register = () => {
               value={formData.confirmPassword}
               onChange={handleChange}
               required
-              className="w-full h-14 px-5 rounded-xl border-2 border-gray-300 focus:outline-none focus:border-(--color-primary) transition"
+              className="w-full h-14 px-5 rounded-xl border-2 border-(--color-border) focus:outline-none focus:border-(--color-primary) transition"
             />
 
             <div className="flex gap-4 pt-4">

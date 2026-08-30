@@ -90,11 +90,11 @@ const RestaurantDisplayMenu = () => {
         {/* Multi-Layer Cinematic Overlays */}
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/85 to-black/40"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-transparent"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(255,140,0,0.25),transparent_60%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(230,57,70,0.22),transparent_60%)]"></div>
 
         {/* Ambient Glow Effects */}
-        <div className="absolute -bottom-32 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-orange-500/20 blur-[150px] rounded-full"></div>
-        <div className="absolute top-0 right-0 w-[500px] h-[300px] bg-pink-500/10 blur-[120px] rounded-full"></div>
+        <div className="absolute -bottom-32 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-(--color-primary)/20 blur-[150px] rounded-full"></div>
+        <div className="absolute top-0 right-0 w-[500px] h-[300px] bg-(--color-accent)/15 blur-[120px] rounded-full"></div>
 
         {/* Floating Luxury Glass Card */}
         <div className="absolute bottom-24 left-6 md:left-24 text-white max-w-5xl backdrop-blur-2xl bg-white/5 border border-white/10 p-10 md:p-14 rounded-[40px] shadow-[0_20px_80px_rgba(0,0,0,0.6)] transition-all duration-700">
@@ -104,11 +104,11 @@ const RestaurantDisplayMenu = () => {
           </h1>
 
           {/* Info Row */}
-          <div className="flex flex-wrap items-center gap-5 mt-8 text-gray-200 text-lg">
+          <div className="flex flex-wrap items-center gap-5 mt-8 text-white/80 text-lg">
             {/* City */}
             <span className="flex items-center gap-2">📍 {data.city}</span>
 
-            <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
+            <span className="w-2 h-2 bg-white/40 rounded-full"></span>
 
             {/* Open Badge */}
             <span className="bg-green-500/90 px-5 py-2 text-sm rounded-full font-semibold shadow-lg hover:scale-105 transition">
@@ -127,7 +127,7 @@ const RestaurantDisplayMenu = () => {
           </div>
 
           {/* Animated Gradient Divider */}
-          <div className="w-40 h-1 mt-10 rounded-full bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500 animate-pulse"></div>
+          <div className="w-40 h-1 mt-10 rounded-full bg-gradient-to-r from-(--color-primary) via-(--color-secondary) to-(--color-accent) animate-pulse"></div>
         </div>
 
         {/* Smooth Fade to White Section */}
@@ -135,7 +135,7 @@ const RestaurantDisplayMenu = () => {
       </div>
 
       {/* ================= MENU SECTION ================= */}
-      <div className="bg-gradient-to-b from-gray-100 to-gray-50 min-h-screen py-16">
+      <div className="bg-(--color-background) min-h-screen py-16">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-4xl font-bold text-center mb-14 text-(--color-primary)">
             Our Menu
@@ -169,16 +169,16 @@ const RestaurantDisplayMenu = () => {
                   {/* Content */}
                   <div className="p-6 flex flex-col justify-between h-[260px]">
                     <div>
-                      <h3 className="text-xl font-bold text-gray-800 mb-2">
+                      <h3 className="text-xl font-bold text-(--color-text) mb-2">
                         {EachItem.itemName}
                       </h3>
 
-                      <p className="text-sm text-gray-500 line-clamp-2">
+                      <p className="text-sm text-(--color-text-secondary) line-clamp-2">
                         {EachItem.description}
                       </p>
 
                       <div className="flex flex-wrap gap-2 mt-4 text-xs">
-                        <span className="bg-gray-100 px-3 py-1 rounded-full">
+                        <span className="bg-(--color-background) border border-(--color-border) px-3 py-1 rounded-full">
                           {EachItem.cuisine}
                         </span>
 
@@ -192,11 +192,11 @@ const RestaurantDisplayMenu = () => {
                           {EachItem.type}
                         </span>
 
-                        <span className="bg-gray-100 px-3 py-1 rounded-full">
+                        <span className="bg-(--color-background) border border-(--color-border) px-3 py-1 rounded-full">
                           {EachItem.servingSize}
                         </span>
 
-                        <span className="bg-gray-100 px-3 py-1 rounded-full">
+                        <span className="bg-(--color-background) border border-(--color-border) px-3 py-1 rounded-full">
                           ⏱ {EachItem.preparationTime}
                         </span>
                       </div>
@@ -211,7 +211,7 @@ const RestaurantDisplayMenu = () => {
                       <button
                         onClick={() => handleAddToCart(EachItem)}
                         disabled={cartFlag.includes(EachItem._id)}
-                        className="bg-(--color-secondary) text-white px-5 py-2 rounded-xl font-medium hover:bg-(--color-primary) transition disabled:bg-(--color-accent) disabled:cursor-not-allowed"
+                        className="bg-(--color-primary) text-white px-5 py-2 rounded-xl font-medium hover:bg-(--color-primary-hover) transition disabled:bg-(--color-accent) disabled:cursor-not-allowed"
                       >
                         {cartFlag.includes(EachItem._id)
                           ? "Added ✓"
@@ -247,7 +247,7 @@ const RestaurantDisplayMenu = () => {
 
               <button
                 onClick={handleCheckout}
-                className="bg-white text-black font-semibold px-6 py-2 rounded-xl hover:scale-105 transition"
+                className="bg-(--color-primary) text-white font-semibold px-6 py-2 rounded-xl hover:bg-(--color-primary-hover) hover:scale-105 transition"
               >
                 Checkout →
               </button>

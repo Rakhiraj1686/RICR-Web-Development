@@ -44,9 +44,9 @@ const OrderNow = () => {
 
  return (
   <>
-    <div className="px-6 md:px-16 py-12 bg-gradient-to-br from-gray-50 via-white to-gray-100 min-h-screen">
+    <div className="px-6 md:px-16 py-12 bg-(--color-background) min-h-screen">
       
- <div className="mb-16 relative text-center py-10 bg-gradient-to-r from-orange-50 via-white to-red-50 rounded-3xl">
+ <div className="mb-16 relative text-center py-10 bg-(--color-section-light) rounded-3xl">
   <h1 className="text-4xl md:text-6xl font-extrabold text-(--color-primary)">
     Hungry?
     <span className="block text-(--color-text)/90">
@@ -66,7 +66,7 @@ const OrderNow = () => {
             <div
               key={idx}
               onClick={() => handleRestaurantClick(EachRestaurant)}
-              className="group relative bg-white/70 backdrop-blur-lg border border-gray-200 rounded-3xl shadow-md hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 overflow-hidden cursor-pointer"
+              className="group relative bg-white/70 backdrop-blur-lg border border-(--color-border) rounded-3xl shadow-md hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 overflow-hidden cursor-pointer"
             >
               
               {/* Image Section */}
@@ -98,11 +98,11 @@ const OrderNow = () => {
 
               {/* Content Section */}
               <div className="p-6 space-y-3">
-                <p className="text-gray-600 text-sm line-clamp-1">
+                <p className="text-(--color-text-secondary) text-sm line-clamp-1">
                   {EachRestaurant.address}
                 </p>
 
-                <p className="text-gray-500 text-sm">
+                <p className="text-(--color-text-secondary) text-sm">
                   📞 {EachRestaurant.mobileNumber}
                 </p>
 
@@ -111,7 +111,7 @@ const OrderNow = () => {
                     Open Now
                   </span>
 
-                  <div className="flex items-center gap-2 text-(--color-secondary) font-semibold group-hover:gap-3 transition-all duration-300">
+                  <div className="flex items-center gap-2 text-(--color-primary) font-semibold group-hover:gap-3 transition-all duration-300">
                     View Menu
                     <FaArrowRight className="text-sm group-hover:translate-x-1 transition-transform duration-300" />
                   </div>
@@ -119,7 +119,7 @@ const OrderNow = () => {
               </div>
 
               {/* Animated Border Glow */}
-              <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-(--color-secondary) group-hover:shadow-[0_0_25px_var(--color-secondary)] transition-all duration-500"></div>
+              <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-(--color-primary) group-hover:shadow-[0_0_25px_var(--color-primary)] transition-all duration-500"></div>
             </div>
           ))}
       </div>

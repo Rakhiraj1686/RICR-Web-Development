@@ -106,7 +106,7 @@ const Login = () => {
           {/* Right Form Panel */}
           <div className="bg-white p-10 md:p-14">
             <div className="mb-10">
-              <h1 className="text-4xl font-extrabold text-gray-900">
+              <h1 className="text-4xl font-extrabold text-(--color-text)">
                 Login Now
               </h1>
               <div className="w-16 h-1 mt-3 rounded-full"
@@ -124,7 +124,7 @@ const Login = () => {
                   onChange={handleChange}
                   disabled={isLoading}
                   required
-                  className="w-full h-14 px-5 rounded-xl border-2 border-gray-300 focus:outline-none focus:border-(--color-primary) transition disabled:cursor-not-allowed text-lg"
+                  className="w-full h-14 px-5 rounded-xl border-2 border-(--color-border) focus:outline-none focus:border-(--color-primary) transition disabled:cursor-not-allowed text-lg"
                 />
 
                 <input
@@ -135,7 +135,7 @@ const Login = () => {
                   onChange={handleChange}
                   disabled={isLoading}
                   required
-                  className="w-full h-14 px-5 rounded-xl border-2 border-gray-300 focus:outline-none focus:border-(--color-primary) transition disabled:cursor-not-allowed text-lg"
+                  className="w-full h-14 px-5 rounded-xl border-2 border-(--color-border) focus:outline-none focus:border-(--color-primary) transition disabled:cursor-not-allowed text-lg"
                 />
               </div>
 
@@ -162,7 +162,7 @@ const Login = () => {
                 {isLoading ? "Loading..." : "Login Now"}
               </button>
 
-              <div className="flex justify-between items-center text-base text-gray-600 pt-6">
+              <div className="flex justify-between items-center text-base text-(--color-text-secondary) pt-6">
                 <p>Didn't Have Account?</p>
                 <button
                   type="button"

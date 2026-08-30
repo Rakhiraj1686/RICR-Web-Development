@@ -200,7 +200,7 @@ const CheckoutPage = () => {
           address: "Razorpay Corporate Office",
         },
         theme: {
-          color: "#F16D34",
+          color: "#E63946",
         },
       };
 
@@ -238,7 +238,7 @@ const CheckoutPage = () => {
   if (!user || !cart) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="text-xl text-gray-600">Loading...</div>
+        <div className="text-xl text-(--color-text-secondary)">Loading...</div>
       </div>
     );
   }
@@ -246,7 +246,7 @@ const CheckoutPage = () => {
   const { subtotal, tax, total } = calculatePrices();
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-(--color-background) py-8 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -256,7 +256,7 @@ const CheckoutPage = () => {
           >
             Order Checkout
           </h1>
-          <p className="text-gray-600 mt-2">
+          <p className="text-(--color-text-secondary) mt-2">
             Review your order and complete the payment
           </p>
         </div>
@@ -279,7 +279,7 @@ const CheckoutPage = () => {
                   cart.cartItem.map((item, idx) => (
                     <div
                       key={idx}
-                      className="flex gap-4 border-b pb-4 hover:bg-gray-50 p-3 rounded transition"
+                      className="flex gap-4 border-b border-(--color-border) pb-4 hover:bg-(--color-background) p-3 rounded transition"
                     >
                       {/* Item Image */}
                       <div className="shrink-0">
@@ -298,18 +298,18 @@ const CheckoutPage = () => {
                         >
                           {item.itemName}
                         </h3>
-                        <p className="text-sm text-gray-600 mt-1">
+                        <p className="text-sm text-(--color-text-secondary) mt-1">
                           {item.cuisine} • {item.type}
                         </p>
                         <div className="flex gap-2 mt-2">
-                          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                          <span className="text-xs bg-(--color-background) text-(--color-text-secondary) border border-(--color-border) px-2 py-1 rounded">
                             {item.servingSize}
                           </span>
-                          <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">
+                          <span className="text-xs bg-(--color-accent)/20 text-(--color-primary-hover) px-2 py-1 rounded">
                             {item.preparationTime}
                           </span>
                         </div>
-                        <div className="text-lg font-semibold text-green-600 mt-2">
+                        <div className="text-lg font-semibold text-(--color-text) mt-2">
                           ₹{item.price}
                         </div>
                       </div>
@@ -318,7 +318,7 @@ const CheckoutPage = () => {
                       <div className="flex flex-col items-end justify-between">
                         <button
                           onClick={() => handleRemoveItem(item._id)}
-                          className="text-red-500 hover:text-red-700 transition p-2"
+                          className="text-red-500 hover:text-red-600 transition p-2"
                           title="Remove item"
                         >
                           <FaTrash />
@@ -332,7 +332,7 @@ const CheckoutPage = () => {
                         >
                           <button
                             onClick={() => handleQuantityChange(item._id, -1)}
-                            className="p-2 hover:bg-gray-100 transition"
+                            className="p-2 hover:bg-(--color-background) transition"
                             style={{
                               backgroundColor:
                                 item.quantity === 1 ? "#f3f4f6" : "white",
@@ -346,7 +346,7 @@ const CheckoutPage = () => {
                           </span>
                           <button
                             onClick={() => handleQuantityChange(item._id, 1)}
-                            className="p-2 hover:bg-gray-100 transition"
+                            className="p-2 hover:bg-(--color-background) transition"
                           >
                             <FaPlus size={12} />
                           </button>
@@ -354,7 +354,7 @@ const CheckoutPage = () => {
 
                         {/* Item Total */}
                         <div className="text-right mt-2">
-                          <p className="text-sm text-gray-600">Subtotal</p>
+                          <p className="text-sm text-(--color-text-secondary)">Subtotal</p>
                           <p
                             className="text-lg font-bold"
                             style={{ color: "var(--color-secondary)" }}
@@ -367,7 +367,7 @@ const CheckoutPage = () => {
                   ))
                 ) : (
                   <div className="text-center py-8">
-                    <p className="text-gray-600 text-lg">Your cart is empty</p>
+                    <p className="text-(--color-text-secondary) text-lg">Your cart is empty</p>
                   </div>
                 )}
               </div>
@@ -382,25 +382,25 @@ const CheckoutPage = () => {
                 Delivery Address
               </h2>
 
-              <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+              <div className="bg-(--color-section-light) border-l-4 border-(--color-primary) p-4 rounded">
                 <p
                   className="font-bold text-lg"
                   style={{ color: "var(--color-primary)" }}
                 >
                   {user.fullName}
                 </p>
-                <p className="text-gray-700 mt-2">{user.address}</p>
-                <p className="text-gray-700">
+                <p className="text-(--color-text-secondary) mt-2">{user.address}</p>
+                <p className="text-(--color-text-secondary)">
                   {user.city}, {user.pin}
                 </p>
-                <p className="text-gray-700 mt-2">📞 {user.mobileNumber}</p>
+                <p className="text-(--color-text-secondary) mt-2">📞 {user.mobileNumber}</p>
               </div>
 
               <button
                 onClick={() =>
                   navigate("/user-dashboard", { state: { tab: "profile" } })
                 }
-                className="mt-4 px-4 py-2 text-blue-600 hover:text-blue-800 font-semibold transition"
+                className="mt-4 px-4 py-2 text-(--color-primary) hover:text-(--color-primary-hover) font-semibold transition"
               >
                 ✎ Edit Address
               </button>
@@ -420,15 +420,15 @@ const CheckoutPage = () => {
 
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between">
-                  <span className="text-gray-700">Subtotal</span>
+                  <span className="text-(--color-text-secondary)">Subtotal</span>
                   <span className="font-semibold">₹{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700">Tax (5%)</span>
+                  <span className="text-(--color-text-secondary)">Tax (5%)</span>
                   <span className="font-semibold">₹{tax.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700">Delivery Charge</span>
+                  <span className="text-(--color-text-secondary)">Delivery Charge</span>
                   <span className="font-semibold">
                     ₹{DELIVERY_CHARGE.toFixed(2)}
                   </span>
@@ -465,7 +465,7 @@ const CheckoutPage = () => {
                     name="promo"
                     value={promoCode}
                     onChange={(e) => setPromoCode(e.target.value)}
-                    className="flex-1 border border-gray-300 rounded px-3 py-2 focus:outline-none disabled:bg-gray-100"
+                    className="flex-1 border border-(--color-border) rounded px-3 py-2 focus:outline-none focus:border-(--color-primary) disabled:bg-gray-100"
                     style={{ borderColor: "var(--color-secondary)" }}
                     disabled={appliedPromo}
                   />
@@ -499,7 +499,7 @@ const CheckoutPage = () => {
                       onChange={(e) => setPaymentMethod(e.target.value)}
                       className="w-4 h-4"
                     />
-                    <span className="ml-3 text-gray-700">{"Pay Online"}</span>
+                    <span className="ml-3 text-(--color-text-secondary)">{"Pay Online"}</span>
                   </label>
                   {/* {total < 1000 && (
                     <label className="flex items-center cursor-pointer">
@@ -511,7 +511,7 @@ const CheckoutPage = () => {
                         onChange={(e) => setPaymentMethod(e.target.value)}
                         className="w-4 h-4"
                       />
-                      <span className="ml-3 text-gray-700">
+                      <span className="ml-3 text-(--color-text-secondary)">
                         {"Cash on Delivery"}
                       </span>
                     </label>
@@ -534,7 +534,7 @@ const CheckoutPage = () => {
               {/* Continue Shopping Link */}
               <button
                 onClick={() => navigate(-1)}
-                className="w-full mt-3 text-blue-600 font-semibold py-2 rounded-lg hover:text-blue-800 transition"
+                className="w-full mt-3 text-(--color-primary) font-semibold py-2 rounded-lg hover:text-(--color-primary-hover) transition"
               >
                 ← Continue Shopping
               </button>

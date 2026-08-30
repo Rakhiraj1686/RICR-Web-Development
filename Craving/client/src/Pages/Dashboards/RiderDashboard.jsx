@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import RiderSideBar from "../../components/riderDashboard/RiderSideBar";
-import RiderOverview from "../../components/riderDashboard/RiderOverview";
-import RiderProfile from "../../components/riderDashboard/RiderProfile";
-import RiderCurrentOrder from "../../components/riderDashboard/RiderCurrentOrder";
-import RiderOrderHistory from "../../components/riderDashboard/RiderOrderHistory";
+import RiderSideBar from "../../Components/riderDashboard/RiderSideBar";
+import RiderOverview from "../../Components/riderDashboard/RiderOverview";
+import RiderProfile from "../../Components/riderDashboard/RiderProfile";
+import RiderCurrentOrder from "../../Components/riderDashboard/RiderCurrentOrder";
+import RiderOrderHistory from "../../Components/riderDashboard/RiderOrderHistory";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -23,7 +23,7 @@ const RiderDashboard = () => {
     return (
       <>
         <div className="p-3">
-          <div className="border rounded shadow p-5 w-4xl mx-auto text-center bg-gray-100">
+          <div className="border rounded shadow p-5 w-4xl mx-auto text-center bg-(--color-background)">
             <div className="text-5xl text-red-600">⊗</div>
             <div className="text-xl">
               You are not logged in as Rider. Please login again.

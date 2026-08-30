@@ -44,12 +44,12 @@ const ResetPasswordModal = ({ onClose }) => {
     <>
       <div className="fixed inset-0 bg-black/70 flex justify-center items-center">
         <div className="bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-lg shadow-lg">
-          <div className="flext justify-between px-6 py-4 border-b border-gray-300 items-center sticky top-0 bg-white">
-            <h2 className="text-xl font-semibold text-gray-800">
+          <div className="flext justify-between px-6 py-4 border-b border-(--color-border) items-center sticky top-0 bg-white">
+            <h2 className="text-xl font-semibold text-(--color-text)">
               Reset Password
             </h2>
             <button
-              className="text-gray-600 hover:text-red-600 text-2xl transition text-end"
+              className="text-(--color-text-secondary) hover:text-red-600 text-2xl transition text-end"
               onClick={() => onClose()}
             >
               ⊗
@@ -63,7 +63,7 @@ const ResetPasswordModal = ({ onClose }) => {
             <div>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                     Old Password *
                   </label>
                   <input
@@ -71,7 +71,7 @@ const ResetPasswordModal = ({ onClose }) => {
                     name="oldPassword"
                     value={formData.oldPassword}
                     onChange={handleInputChange}
-                    className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.oldPassword ? "border-red-500" : "border-gray-300"}`}
+                    className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${errors.oldPassword ? "border-red-500" : "border-(--color-border)"}`}
                     placeholder="Enter your old password"
                   />
                   {errors.oldPassword && (
@@ -82,7 +82,7 @@ const ResetPasswordModal = ({ onClose }) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                     New Password *
                   </label>
                   <input
@@ -90,7 +90,7 @@ const ResetPasswordModal = ({ onClose }) => {
                     name="newPassword"
                     value={formData.newPassword}
                     onChange={handleInputChange}
-                    className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.newPassword ? "border-red-500" : "border-gray-300"}`}
+                    className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${errors.newPassword ? "border-red-500" : "border-(--color-border)"}`}
                     placeholder="Enter Your New Password"
                   />
                   {errors.newPassword && (
@@ -101,7 +101,7 @@ const ResetPasswordModal = ({ onClose }) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-(--color-text-secondary) mb-1">
                     Confirm New Password *
                   </label>
                   <input
@@ -109,10 +109,10 @@ const ResetPasswordModal = ({ onClose }) => {
                     name="cfNewPassword"
                     value={formData.cfNewPassword}
                     onChange={handleInputChange}
-                    className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
                       errors.cfNewPassword
                         ? "border-red-500"
-                        : "border-gray-300"
+                        : "border-(--color-border)"
                     }`}
                     placeholder="Confirm new password"
                   />
@@ -126,19 +126,19 @@ const ResetPasswordModal = ({ onClose }) => {
             </div>
 
             {/* Form Actions */}
-            <div className="flex justify-end space-x-4 pt-6 border-t border-gray-300">
+            <div className="flex justify-end space-x-4 pt-6 border-t border-(--color-border)">
               <button
                 type="button"
                 onClick={() => onClose()}
                 disabled={loading}
-                className="px-6 py-2 bg-(--color-background) text-gray-800 rounded-md hover:bg-(--color-background) transition disabled:opacity-50"
+                className="px-6 py-2 bg-(--color-background) text-(--color-text) rounded-md hover:bg-(--color-background) transition disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-2 bg-(--color-secondary) text-white rounded-md hover:bg-(--color-secondary) transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="px-6 py-2 bg-(--color-primary) text-white rounded-md hover:bg-(--color-primary-hover) transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 {loading ? (
                   <>

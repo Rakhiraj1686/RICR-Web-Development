@@ -5,7 +5,7 @@ import { TiShoppingCart } from "react-icons/ti";
 import { FaHistory } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdLogout } from "react-icons/md";
-import api from "../../config/Api";
+import api from "../../Config/Api";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -57,8 +57,8 @@ const RiderSideBar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
                 className={`flex gap-3 items-center text-lg ps-2 rounded-xl h-10 w-full text-nowrap overflow-hidden duration-300
                 ${
                   active === item.key
-                    ? "bg-(--color-secondary) text-white"
-                    : "hover:bg-gray-100/70"
+                    ? "bg-(--color-primary) text-white"
+                    : "hover:bg-(--color-background)"
                 } 
               `}
                 onClick={() => setActive(item.key)}
