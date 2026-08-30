@@ -1,6 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import {
+  FaShareNodes,
+  FaMagnifyingGlass,
+  FaLocationDot,
+  FaUtensils,
+  FaBowlFood,
+  FaTriangleExclamation,
+  FaStore,
+} from "react-icons/fa6";
 import { FaRegTrashAlt } from "react-icons/fa";
 import api from "../Config/Api";
 import toast from "react-hot-toast";
@@ -9,22 +18,33 @@ const RestaurantDisplayMenu = () => {
   const { isLogin, role } = useAuth();
   const navigate = useNavigate();
   const data = useLocation().state;
-  // console.log("Resturant Menu Page", data);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [menuItems, setMenuItems] = useState([]);
-  const [cart, setCart] = useState(JSON.parse(localStorage.getItem("cart")));
+  const [cart, setCart] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("cart"));
+    } catch {
+      return null;
+    }
+  });
   const [cartFlag, setCartFlag] = useState([]);
+  const [activeCuisine, setActiveCuisine] = useState("All");
+  const [menuSearch, setMenuSearch] = useState("");
+
+  const menuSectionRef = useRef(null);
 
   const fetchMenuItems = async () => {
     setLoading(true);
+    setLoadError(false);
     try {
       const res = await api.get(`/public/restaurant/menu/${data._id}`);
-      console.log(res.data);
-      setMenuItems(res.data.data);
+      setMenuItems(res.data.data || []);
     } catch (error) {
       console.log(error);
-      toast.error(error?.response?.data?.message || "Unknown Error");
+      setLoadError(true);
+      toast.error("Unable to load the menu right now.");
     } finally {
       setLoading(false);
     }
@@ -32,7 +52,7 @@ const RestaurantDisplayMenu = () => {
 
   const handleClearCart = () => {
     localStorage.removeItem("cart");
-    setCart();
+    setCart(null);
     setCartFlag([]);
   };
 
@@ -65,198 +85,383 @@ const RestaurantDisplayMenu = () => {
       : (toast.error("Please Login as Customer"), navigate("/login"));
   };
 
-  // console.log(cart);
+  const handleShare = async () => {
+    const shareData = {
+      title: data?.restaurantName,
+      text: `Check out ${data?.restaurantName} on Craving`,
+      url: window.location.href,
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        toast.success("Link copied to clipboard");
+      }
+    } catch {
+      // user cancelled share — no action needed
+    }
+  };
+
+  const scrollToMenu = () => {
+    menuSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
     cart && localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
   useEffect(() => {
-    fetchMenuItems();
-  }, [data]);
+    if (data?._id) fetchMenuItems();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data?._id]);
+
+  // Categories are derived from the real cuisine values present on this
+  // restaurant's menu items — no categories are invented.
+  const cuisineTabs = useMemo(() => {
+    const unique = [...new Set(menuItems.map((item) => item.cuisine).filter(Boolean))];
+    return ["All", ...unique];
+  }, [menuItems]);
+
+  const availableItems = useMemo(
+    () => menuItems.filter((item) => item.availability === "available"),
+    [menuItems],
+  );
+
+  // No "popular" flag exists in the data model, so — per the brief's
+  // explicit fallback — this uses the first available items instead of
+  // inventing a popularity ranking.
+  const popularItems = availableItems.slice(0, 4);
+
+  const filteredItems = useMemo(() => {
+    return menuItems.filter((item) => {
+      const matchesCuisine = activeCuisine === "All" || item.cuisine === activeCuisine;
+      const matchesSearch = item.itemName
+        ?.toLowerCase()
+        .includes(menuSearch.trim().toLowerCase());
+      return matchesCuisine && matchesSearch;
+    });
+  }, [menuItems, activeCuisine, menuSearch]);
+
+  const startingPrice = useMemo(() => {
+    if (availableItems.length === 0) return null;
+    return Math.min(...availableItems.map((i) => Number(i.price) || Infinity));
+  }, [availableItems]);
+
+  // ================= RESTAURANT NOT FOUND =================
+  // Guards against a hard crash when this page is opened directly
+  // (refresh, back button, bad link) without router state.
+  if (!data) {
+    return (
+      <div className="flex min-h-[70vh] flex-col items-center justify-center bg-(--color-background) px-4 text-center">
+        <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-3xl text-(--color-primary) shadow-sm">
+          <FaStore />
+        </span>
+        <h1 className="mt-5 text-2xl font-bold text-(--color-text)">
+          Restaurant Not Found
+        </h1>
+        <p className="mt-2 max-w-sm text-(--color-text-secondary)">
+          The restaurant you're looking for may no longer be available.
+        </p>
+        <button
+          onClick={() => navigate("/order-now")}
+          className="mt-6 rounded-full bg-(--color-primary) px-6 py-3 font-semibold text-white transition hover:bg-(--color-primary-hover)"
+        >
+          Browse Restaurants
+        </button>
+      </div>
+    );
+  }
 
   return (
     <>
-      
-      {/* ================= HEADER SECTION ================= */}
-      <div className="relative w-full h-170 overflow-hidden group">
-        {/* Background Image with Slow Cinematic Zoom */}
-        <img
-          src={data.photo.url}
-          alt=""
-          className="w-full h-full object-cover scale-125 group-hover:scale-140 transition duration-4000 ease-out"
-        />
+      {/* ================= HERO ================= */}
+      <div className="relative h-[380px] w-full overflow-hidden sm:h-[440px] md:h-[500px]">
+        {data.photo?.url ? (
+          <img
+            src={data.photo.url}
+            alt={data.restaurantName}
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-(--color-primary) to-(--color-secondary) text-8xl text-white">
+            <FaBowlFood />
+          </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
 
-        {/* Multi-Layer Cinematic Overlays */}
-        <div className="absolute inset-0 bg-linear-to-t from-black via-black/85 to-black/40"></div>
-        <div className="absolute inset-0 bg-linear-to-r from-black/70 via-transparent to-transparent"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(230,57,70,0.22),transparent_60%)]"></div>
+        <div className="absolute bottom-0 left-0 w-full px-4 pb-8 text-white sm:px-6 sm:pb-10 lg:px-8">
+          <div className="mx-auto max-w-6xl">
+            <h1 className="text-3xl font-extrabold tracking-tight drop-shadow-lg sm:text-4xl lg:text-5xl">
+              {data.restaurantName}
+            </h1>
+            {data.cuisine && (
+              <p className="mt-2 text-white/85">
+                {data.cuisine}
+                {data.address ? ` • ${data.address}` : ""}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
 
-        {/* Ambient Glow Effects */}
-        <div className="absolute -bottom-32 left-1/2 -translate-x-1/2 w-200 h-100 bg-(--color-primary)/20 blur-[150px] rounded-full"></div>
-        <div className="absolute top-0 right-0 w-125 h-75 bg-(--color-accent)/15 blur-[120px] rounded-full"></div>
-
-        {/* Floating Luxury Glass Card */}
-        <div className="absolute bottom-24 left-6 md:left-24 text-white max-w-5xl backdrop-blur-2xl bg-white/5 border border-white/10 p-10 md:p-14 rounded-[40px] shadow-[0_20px_80px_rgba(0,0,0,0.6)] transition-all duration-700">
-          {/* Restaurant Name */}
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
-            {data.restaurantName}
-          </h1>
-
-          {/* Info Row */}
-          <div className="flex flex-wrap items-center gap-5 mt-8 text-white/80 text-lg">
-            {/* City */}
-            <span className="flex items-center gap-2">📍 {data.city}</span>
-
-            <span className="w-2 h-2 bg-white/40 rounded-full"></span>
-
-            {/* Open Badge */}
-            <span className="bg-green-500/90 px-5 py-2 text-sm rounded-full font-semibold shadow-lg hover:scale-105 transition">
-              Open Now
-            </span>
-
-            {/* Rating */}
-            <span className="bg-white/10 px-5 py-2 text-sm rounded-full font-semibold border border-white/20 backdrop-blur-md hover:bg-white/20 transition">
-              ⭐ 4.5 Rating
-            </span>
-
-            {/* Delivery */}
-            <span className="bg-white/10 px-5 py-2 text-sm rounded-full font-semibold border border-white/20 backdrop-blur-md hover:bg-white/20 transition">
-              ⏱ 30–40 mins
-            </span>
+      {/* ================= INFO CARD + ACTIONS ================= */}
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 -mt-8 flex flex-col gap-4 rounded-3xl border border-(--color-border) bg-white p-5 shadow-lg sm:-mt-10 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+          <div className="flex flex-wrap gap-x-6 gap-y-3">
+            {data.cuisine && (
+              <div className="flex items-center gap-2">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-(--color-background) text-(--color-primary)">
+                  <FaUtensils />
+                </span>
+                <div>
+                  <p className="text-xs text-(--color-text-secondary)">Cuisine</p>
+                  <p className="text-sm font-semibold">{data.cuisine}</p>
+                </div>
+              </div>
+            )}
+            {data.address && (
+              <div className="flex items-center gap-2">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-(--color-background) text-(--color-primary)">
+                  <FaLocationDot />
+                </span>
+                <div>
+                  <p className="text-xs text-(--color-text-secondary)">Location</p>
+                  <p className="text-sm font-semibold">{data.address}</p>
+                </div>
+              </div>
+            )}
+            {startingPrice !== null && Number.isFinite(startingPrice) && (
+              <div className="flex items-center gap-2">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-(--color-background) text-(--color-primary)">
+                  ₹
+                </span>
+                <div>
+                  <p className="text-xs text-(--color-text-secondary)">Menu starts at</p>
+                  <p className="text-sm font-semibold">₹{startingPrice}</p>
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Animated Gradient Divider */}
-          <div className="w-40 h-1 mt-10 rounded-full bg-linear-to-r from-(--color-primary) via-(--color-secondary) to-(--color-accent) animate-pulse"></div>
+          <div className="flex shrink-0 gap-2">
+            <button
+              onClick={scrollToMenu}
+              className="rounded-full bg-(--color-primary) px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-(--color-primary-hover)"
+            >
+              View Menu
+            </button>
+            <button
+              onClick={handleShare}
+              aria-label="Share this restaurant"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-(--color-border) text-(--color-text-secondary) transition hover:border-(--color-primary) hover:text-(--color-primary)"
+            >
+              <FaShareNodes />
+            </button>
+          </div>
         </div>
-
-        {/* Smooth Fade to White Section */}
-        <div className="absolute bottom-0 left-0 w-full h-40 bg-linear-to-t from-white to-transparent"></div>
       </div>
 
       {/* ================= MENU SECTION ================= */}
-      <div className="bg-(--color-background) min-h-screen py-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-14 text-(--color-primary)">
-            Our Menu
-          </h2>
+      <div ref={menuSectionRef} className="bg-(--color-background) py-14 sm:py-16">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 text-center">
+            <h2 className="text-3xl font-extrabold sm:text-4xl">Explore Our Menu</h2>
+            <p className="mt-1 text-(--color-text-secondary)">Choose something delicious.</p>
+          </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
-            {menuItems &&
-              menuItems.map((EachItem, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition duration-500 overflow-hidden group"
-                >
-                  {/* Image */}
-                  <div className="h-56 overflow-hidden relative">
-                    <img
-                      src={EachItem.images[0].url}
-                      alt=""
-                      className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-                    />
-                    <span
-                      className={`absolute top-4 right-4 text-xs px-3 py-1 rounded-full font-semibold ${
-                        EachItem.availability === "available"
-                          ? "bg-green-500 text-white"
-                          : "bg-red-500 text-white"
-                      }`}
-                    >
-                      {EachItem.availability}
-                    </span>
-                  </div>
+          {/* Search this restaurant — frontend-only filter, no new backend search API */}
+          <div className="mx-auto mb-6 max-w-md">
+            <div className="flex items-center gap-2 rounded-full border border-(--color-border) bg-white px-4 py-2.5 shadow-sm focus-within:border-(--color-primary)">
+              <FaMagnifyingGlass className="text-(--color-text-secondary)" />
+              <input
+                type="text"
+                value={menuSearch}
+                onChange={(e) => setMenuSearch(e.target.value)}
+                placeholder="Search this restaurant"
+                className="w-full bg-transparent text-sm outline-none"
+              />
+            </div>
+          </div>
 
-                  {/* Content */}
-                  <div className="p-6 flex flex-col justify-between h-65">
-                    <div>
-                      <h3 className="text-xl font-bold text-(--color-text) mb-2">
-                        {EachItem.itemName}
-                      </h3>
+          {/* Category navigation */}
+          {!loading && !loadError && cuisineTabs.length > 1 && (
+            <div className="sticky top-[57px] z-20 -mx-4 mb-8 overflow-x-auto bg-(--color-background)/95 px-4 py-3 backdrop-blur-sm sm:top-[65px]">
+              <div className="mx-auto flex max-w-6xl gap-2">
+                {cuisineTabs.map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveCuisine(tab)}
+                    className={`shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition ${
+                      activeCuisine === tab
+                        ? "bg-(--color-primary) text-white"
+                        : "border border-(--color-border) bg-white text-(--color-text-secondary) hover:border-(--color-primary) hover:text-(--color-primary)"
+                    }`}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
-                      <p className="text-sm text-(--color-text-secondary) line-clamp-2">
-                        {EachItem.description}
-                      </p>
+          {/* Loading skeletons */}
+          {loading && (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, idx) => (
+                <div key={idx} className="h-72 animate-pulse rounded-3xl bg-white" />
+              ))}
+            </div>
+          )}
 
-                      <div className="flex flex-wrap gap-2 mt-4 text-xs">
-                        <span className="bg-(--color-background) border border-(--color-border) px-3 py-1 rounded-full">
-                          {EachItem.cuisine}
-                        </span>
+          {/* Error state */}
+          {!loading && loadError && (
+            <div className="flex flex-col items-center rounded-3xl border border-dashed border-(--color-border) bg-white py-16 text-center">
+              <FaTriangleExclamation className="text-3xl text-(--color-primary)" />
+              <h3 className="mt-4 text-xl font-bold">Unable to load restaurant</h3>
+              <p className="mt-1 text-(--color-text-secondary)">Please try again.</p>
+              <button
+                onClick={fetchMenuItems}
+                className="mt-5 rounded-full bg-(--color-primary) px-6 py-2.5 font-semibold text-white transition hover:bg-(--color-primary-hover)"
+              >
+                Try Again
+              </button>
+            </div>
+          )}
 
-                        <span
-                          className="px-3 py-1 rounded-full text-white capitalize"
-                          style={{
-                            backgroundColor:
-                              EachItem.type === "veg" ? "#22c55e" : "#ef4444",
-                          }}
-                        >
-                          {EachItem.type}
-                        </span>
-
-                        <span className="bg-(--color-background) border border-(--color-border) px-3 py-1 rounded-full">
-                          {EachItem.servingSize}
-                        </span>
-
-                        <span className="bg-(--color-background) border border-(--color-border) px-3 py-1 rounded-full">
-                          ⏱ {EachItem.preparationTime}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Bottom Section */}
-                    <div className="flex items-center justify-between mt-6">
-                      <span className="text-2xl font-extrabold text-(--color-text)">
-                        ₹{EachItem.price}
-                      </span>
-
-                      <button
-                        onClick={() => handleAddToCart(EachItem)}
-                        disabled={cartFlag.includes(EachItem._id)}
-                        className="bg-(--color-primary) text-white px-5 py-2 rounded-xl font-medium hover:bg-(--color-primary-hover) transition disabled:bg-(--color-accent) disabled:cursor-not-allowed"
-                      >
-                        {cartFlag.includes(EachItem._id)
-                          ? "Added ✓"
-                          : "Add to Cart"}
-                      </button>
-                    </div>
+          {!loading && !loadError && (
+            <>
+              {/* Popular at this Restaurant — uses first available items since
+                  no popularity data exists in the menu model. */}
+              {activeCuisine === "All" && !menuSearch && popularItems.length > 0 && (
+                <div className="mb-12">
+                  <h3 className="mb-4 text-xl font-bold">Popular at this Restaurant</h3>
+                  <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                    {popularItems.map((item) => (
+                      <FoodCard
+                        key={item._id}
+                        item={item}
+                        added={cartFlag.includes(item._id)}
+                        onAdd={() => handleAddToCart(item)}
+                        compact
+                      />
+                    ))}
                   </div>
                 </div>
-              ))}
-          </div>
+              )}
+
+              {filteredItems.length > 0 ? (
+                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  {filteredItems.map((item) => (
+                    <FoodCard
+                      key={item._id}
+                      item={item}
+                      added={cartFlag.includes(item._id)}
+                      onAdd={() => handleAddToCart(item)}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="rounded-3xl border border-dashed border-(--color-border) bg-white py-16 text-center text-(--color-text-secondary)">
+                  {menuSearch
+                    ? "No dishes match your search."
+                    : "No menu items available right now."}
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
 
       {/* ================= FLOATING CART ================= */}
-      {cart && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] md:w-162.5 z-50">
-          <div className="bg-(--color-background) text-(--color-text) rounded-3xl shadow-2xl px-8 py-5 flex justify-between items-center backdrop-blur-lg">
-            <div className="flex items-center gap-5">
-              <span className="font-semibold text-lg">
-                🛒 {cart.cartItem.length} Items
+      {cart && cart.cartItem?.length > 0 && (
+        <div className="fixed bottom-4 left-1/2 z-40 w-[95%] max-w-xl -translate-x-1/2">
+          <div className="flex items-center justify-between gap-3 rounded-2xl bg-(--color-text) px-5 py-4 text-white shadow-2xl sm:px-8 sm:py-5">
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-semibold sm:text-base">
+                {cart.cartItem.length} {cart.cartItem.length === 1 ? "item" : "items"} · ₹{cart.cartValue}
               </span>
-
               <button
                 onClick={handleClearCart}
-                className="hover:bg-white/20 p-2 rounded-lg transition"
+                aria-label="Clear cart"
+                className="rounded-lg p-2 transition hover:bg-white/10"
               >
-                <FaRegTrashAlt size={18} />
+                <FaRegTrashAlt size={16} />
               </button>
             </div>
-
-            <div className="flex items-center gap-6">
-              <span className="font-bold text-xl">₹ {cart.cartValue}</span>
-
-              <button
-                onClick={handleCheckout}
-                className="bg-(--color-primary) text-white font-semibold px-6 py-2 rounded-xl hover:bg-(--color-primary-hover) hover:scale-105 transition"
-              >
-                Checkout →
-              </button>
-            </div>
+            <button
+              onClick={handleCheckout}
+              className="shrink-0 rounded-xl bg-(--color-primary) px-5 py-2 text-sm font-semibold text-white transition hover:bg-(--color-primary-hover)"
+            >
+              Checkout →
+            </button>
           </div>
         </div>
       )}
     </>
   );
 };
+
+const FoodCard = ({ item, added, onAdd, compact }) => (
+  <div
+    className={`overflow-hidden rounded-2xl border border-(--color-border) bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg ${
+      item.availability !== "available" ? "opacity-60" : ""
+    }`}
+  >
+    <div className={`relative overflow-hidden ${compact ? "h-32" : "h-44"}`}>
+      {item.images?.[0]?.url ? (
+        <img
+          src={item.images[0].url}
+          alt={item.itemName}
+          className="h-full w-full object-cover transition duration-500 hover:scale-105"
+        />
+      ) : (
+        <div className="flex h-full w-full items-center justify-center bg-(--color-background) text-3xl text-(--color-primary)">
+          <FaBowlFood />
+        </div>
+      )}
+      <span
+        className="absolute left-3 top-3 h-4 w-4 rounded-sm border-2"
+        style={{
+          borderColor: item.type === "veg" ? "#22c55e" : "#ef4444",
+        }}
+        aria-label={item.type}
+        title={item.type}
+      >
+        <span
+          className="block h-full w-full rounded-full"
+          style={{
+            backgroundColor: item.type === "veg" ? "#22c55e" : "#ef4444",
+            transform: "scale(0.45)",
+          }}
+        />
+      </span>
+      {item.availability !== "available" && (
+        <span className="absolute right-3 top-3 rounded-full bg-black/70 px-2.5 py-1 text-[10px] font-semibold uppercase text-white">
+          {item.availability}
+        </span>
+      )}
+    </div>
+
+    <div className="p-4">
+      <h3 className="truncate font-bold text-(--color-text)">{item.itemName}</h3>
+      {!compact && item.description && (
+        <p className="mt-1 line-clamp-2 text-sm text-(--color-text-secondary)">
+          {item.description}
+        </p>
+      )}
+      <div className="mt-3 flex items-center justify-between">
+        <span className="text-lg font-extrabold text-(--color-text)">₹{item.price}</span>
+        <button
+          onClick={onAdd}
+          disabled={added || item.availability !== "available"}
+          className="rounded-lg bg-(--color-primary) px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-(--color-primary-hover) disabled:cursor-not-allowed disabled:bg-(--color-accent)"
+        >
+          {added ? "Added ✓" : "+ Add"}
+        </button>
+      </div>
+    </div>
+  </div>
+);
 
 export default RestaurantDisplayMenu;

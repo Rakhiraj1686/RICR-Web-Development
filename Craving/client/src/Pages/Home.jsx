@@ -22,6 +22,9 @@ import {
   FaCarrot,
   FaIceCream,
   FaBowlRice,
+  FaCircleCheck,
+  FaArrowRightLong,
+  FaUtensils,
 } from "react-icons/fa6";
 
 /* Small scroll-reveal hook — no extra dependency, respects prefers-reduced-motion via CSS. */
@@ -66,22 +69,22 @@ const OFFER_ICON_TONES = ["primary", "secondary", "accent", "primary"];
 
 const OFFERS = [
   {
-    title: "First Order Discount",
-    text: "Get 50% off (up to ₹100) on your very first Craving order.",
+    title: "First Order",
+    text: "Get special savings the very first time you order on Craving.",
     icon: <FaPercent />,
   },
   {
     title: "Free Delivery",
-    text: "Enjoy zero delivery fees on orders above ₹299, all week long.",
+    text: "Enjoy selected delivery offers on orders across partner kitchens.",
     icon: <FaTruckFast />,
   },
   {
-    title: "Weekend Offers",
-    text: "Extra savings on Fri–Sun at handpicked partner restaurants.",
+    title: "Weekend Cravings",
+    text: "Handpicked weekend promotions from your favorite restaurants.",
     icon: <FaTag />,
   },
   {
-    title: "Special Combos",
+    title: "Combo Deals",
     text: "Curated meal combos priced lower than ordering items apart.",
     icon: <FaGift />,
   },
@@ -90,22 +93,22 @@ const OFFERS = [
 const WHY_CHOOSE = [
   {
     title: "Fast Delivery",
-    text: "Get your favorite food delivered quickly, right when you need it.",
+    text: "Get your food without unnecessary waiting.",
     icon: <FaBolt />,
   },
   {
-    title: "Fresh & Delicious",
-    text: "Enjoy quality food from trusted, verified restaurant partners.",
+    title: "Wide Variety",
+    text: "Discover different cuisines and dishes.",
     icon: <FaLeaf />,
   },
   {
-    title: "Easy Ordering",
-    text: "A simple, smooth ordering experience from browse to checkout.",
+    title: "Quality Food",
+    text: "Find food from restaurants you love.",
     icon: <FaHandPointer />,
   },
   {
-    title: "Secure Payment",
-    text: "Safe, encrypted, and convenient payment options every time.",
+    title: "Secure Ordering",
+    text: "A simple and reliable ordering experience.",
     icon: <FaShieldHeart />,
   },
 ];
@@ -113,19 +116,26 @@ const WHY_CHOOSE = [
 const STEPS = [
   {
     step: "01",
-    title: "Choose",
-    text: "Find your favorite restaurant or food from hundreds of options.",
+    title: "Discover",
+    text: "Find restaurants and dishes you love.",
   },
   {
     step: "02",
     title: "Order",
-    text: "Add your favorite items to your cart and check out in seconds.",
+    text: "Choose your favorites and place your order.",
   },
   {
     step: "03",
     title: "Enjoy",
-    text: "Sit back while your food is delivered fresh to your doorstep.",
+    text: "Sit back and enjoy your meal.",
   },
+];
+
+const EXPERIENCE_BENEFITS = [
+  "Easy ordering",
+  "Fast delivery",
+  "Multiple restaurants",
+  "Secure payments",
 ];
 
 const Home = () => {
@@ -138,11 +148,13 @@ const Home = () => {
   const searchBoxRef = useRef(null);
 
   const heroRef = useFadeIn();
+  const searchRef = useFadeIn();
   const categoriesRef = useFadeIn();
   const restaurantsRef = useFadeIn();
   const offersRef = useFadeIn();
   const whyRef = useFadeIn();
   const howRef = useFadeIn();
+  const experienceRef = useFadeIn();
   const ctaRef = useFadeIn();
 
   useEffect(() => {
@@ -180,7 +192,7 @@ const Home = () => {
           r.restaurantName?.toLowerCase().includes(term) ||
           r.cuisine?.toLowerCase().includes(term),
       )
-      .slice(0, 5);
+      .slice(0, 6);
   }, [query, restaurants]);
 
   const handleRestaurantClick = (restaurantInfo) => {
@@ -205,141 +217,155 @@ const Home = () => {
         <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-(--color-accent)/40 blur-3xl" />
         <div className="pointer-events-none absolute -left-20 top-40 h-64 w-64 rounded-full bg-(--color-secondary)/30 blur-3xl" />
 
-        <div className="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-2 lg:items-center">
+        <div className="relative mx-auto grid max-w-6xl gap-12 lg:grid-cols-2 lg:items-center">
+          {/* Left column */}
           <div className="space-y-6">
-            <p className="inline-flex rounded-full border border-(--color-accent) bg-white/70 px-4 py-1 text-sm font-semibold tracking-wide text-(--color-primary)">
-              The New Craving Experience
+            <p className="inline-flex rounded-full border border-(--color-accent) bg-white/70 px-4 py-1 text-xs font-bold uppercase tracking-wider text-(--color-primary)">
+              Your Craving, Your Way
             </p>
             <h1 className="text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
-              Delicious food,
-              <span className="block text-(--color-primary)">
-                delivered to your door.
+              Good Food Is Always
+              <span className="block">
+                a Good <span className="text-(--color-primary)">Craving</span>.
               </span>
             </h1>
             <p className="max-w-xl text-base text-(--color-text-secondary) sm:text-lg">
-              Discover top-rated restaurants, trending dishes, and real-time
-              delivery tracking — all in one smooth, modern experience.
+              Discover delicious meals from your favorite local restaurants
+              and get them delivered right to your doorstep.
             </p>
 
-            {/* Search */}
-            <div ref={searchBoxRef} className="relative max-w-xl">
-              <form
-                onSubmit={handleSearchSubmit}
-                className="flex items-center gap-2 rounded-full border border-(--color-accent) bg-white p-2 shadow-sm focus-within:ring-2 focus-within:ring-(--color-primary)"
-              >
-                <FaMagnifyingGlass className="ml-2 shrink-0 text-(--color-text-secondary)" />
-                <input
-                  type="text"
-                  value={query}
-                  onChange={(e) => {
-                    setQuery(e.target.value);
-                    setShowSuggestions(true);
-                  }}
-                  onFocus={() => setShowSuggestions(true)}
-                  placeholder="Search for restaurants, dishes or cuisines..."
-                  className="min-w-0 flex-1 bg-transparent py-2 text-sm text-(--color-text) outline-none sm:text-base"
-                />
-                <button
-                  type="submit"
-                  className="shrink-0 rounded-full bg-(--color-primary) px-4 py-2 text-sm font-semibold text-white transition hover:bg-(--color-primary-hover) sm:px-6"
-                >
-                  Search
-                </button>
-              </form>
-
-              {showSuggestions && query.trim() && (
-                <div className="absolute z-20 mt-2 w-full overflow-hidden rounded-2xl border border-(--color-accent)/60 bg-white shadow-lg">
-                  {suggestions.length > 0 ? (
-                    suggestions.map((r) => (
-                      <button
-                        key={r._id}
-                        type="button"
-                        onClick={() => handleRestaurantClick(r)}
-                        className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm hover:bg-(--color-background)"
-                      >
-                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-(--color-background) text-(--color-primary)">
-                          <FaBowlFood size={14} />
-                        </span>
-                        <span>
-                          <span className="block font-semibold">
-                            {r.restaurantName}
-                          </span>
-                          <span className="block text-xs text-(--color-text-secondary)">
-                            {r.cuisine}
-                          </span>
-                        </span>
-                      </button>
-                    ))
-                  ) : (
-                    <p className="px-4 py-3 text-sm text-(--color-text-secondary)">
-                      No matches yet — press Search to browse all restaurants.
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
-
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 pt-2">
               <button
                 onClick={() => navigate("/order-now")}
-                className="rounded-full bg-(--color-primary) px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-(--color-primary-hover) focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary) focus-visible:ring-offset-2"
+                className="rounded-full bg-(--color-primary) px-6 py-3 font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-(--color-primary-hover) hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary) focus-visible:ring-offset-2"
               >
                 Explore Restaurants
               </button>
               <button
                 onClick={() => navigate("/order-now")}
-                className="rounded-full border border-(--color-primary) px-6 py-3 font-semibold text-(--color-primary) transition hover:bg-(--color-primary) hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary) focus-visible:ring-offset-2"
+                className="rounded-full border border-(--color-primary) px-6 py-3 font-semibold text-(--color-primary) transition hover:-translate-y-0.5 hover:bg-(--color-primary) hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary) focus-visible:ring-offset-2"
               >
                 Order Now
               </button>
             </div>
+          </div>
 
-            <div className="grid grid-cols-3 gap-4 pt-2">
-              <div>
-                <p className="text-2xl font-extrabold sm:text-3xl">700+</p>
-                <p className="text-sm text-(--color-text-secondary)">Partner kitchens</p>
+          {/* Right column — hero visual with floating cards */}
+          <div className="relative mx-auto flex h-80 w-full max-w-md items-center justify-center sm:h-96">
+            <div className="relative flex h-64 w-64 items-center justify-center rounded-full bg-linear-to-br from-(--color-secondary) via-(--color-primary) to-(--color-primary-hover) shadow-2xl sm:h-80 sm:w-80">
+              <div className="flex h-[86%] w-[86%] items-center justify-center rounded-full border-4 border-white/40 bg-white/10 backdrop-blur-sm">
+                <FaUtensils className="text-6xl text-white drop-shadow-sm sm:text-7xl" aria-hidden="true" />
               </div>
-              <div>
-                <p className="text-2xl font-extrabold sm:text-3xl">65K+</p>
-                <p className="text-sm text-(--color-text-secondary)">Monthly orders</p>
+            </div>
+
+            {/* Rating card */}
+            <div className="absolute -left-2 top-2 flex items-center gap-2 rounded-2xl border border-(--color-border) bg-white px-4 py-2.5 shadow-lg sm:-left-6 sm:top-6">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-(--color-accent)/30">
+                <FaStar className="text-(--color-accent)" />
+              </span>
+              <div className="leading-tight">
+                <p className="text-sm font-extrabold">4.8</p>
+                <p className="text-[11px] text-(--color-text-secondary)">Loved by foodies</p>
               </div>
-              <div>
-                <p className="text-2xl font-extrabold sm:text-3xl">17 min</p>
-                <p className="text-sm text-(--color-text-secondary)">Avg prep time</p>
+            </div>
+
+            {/* Delivery card */}
+            <div className="absolute -right-2 top-1/2 flex -translate-y-1/2 items-center gap-2 rounded-2xl border border-(--color-border) bg-white px-4 py-2.5 shadow-lg sm:-right-8">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-(--color-primary)/10 text-(--color-primary)">
+                <FaBolt />
+              </span>
+              <div className="leading-tight">
+                <p className="text-sm font-extrabold">25–30 min</p>
+                <p className="text-[11px] text-(--color-text-secondary)">Fast delivery</p>
+              </div>
+            </div>
+
+            {/* Food / price card */}
+            <div className="absolute -bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-3 rounded-2xl border border-(--color-border) bg-white px-4 py-2.5 shadow-lg sm:bottom-2">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-(--color-secondary)/20 text-(--color-secondary)">
+                <FaBowlFood />
+              </span>
+              <div className="leading-tight">
+                <p className="text-sm font-extrabold">Your favorite meal</p>
+                <p className="text-[11px] text-(--color-text-secondary)">Starting ₹249</p>
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="relative mx-auto w-full max-w-md">
-            <div className="rounded-3xl border border-(--color-accent) bg-white p-6 shadow-xl transition duration-500 hover:-translate-y-1 hover:shadow-2xl">
-              <p className="text-sm font-semibold uppercase tracking-wider text-(--color-primary)">
-                Live Hunger Meter
-              </p>
-              <div className="mt-5 space-y-3">
-                {[
-                  { label: "Spicy", value: "92%" },
-                  { label: "Cheesy", value: "78%" },
-                  { label: "Healthy", value: "61%" },
-                ].map((item) => (
-                  <div key={item.label} className="space-y-1">
-                    <div className="flex items-center justify-between text-sm font-medium">
-                      <span>{item.label}</span>
-                      <span>{item.value}</span>
-                    </div>
-                    <div className="h-2 rounded-full bg-(--color-accent)/40">
-                      <div
-                        className="h-2 rounded-full bg-(--color-primary) transition-all duration-700"
-                        style={{ width: item.value }}
-                      />
-                    </div>
-                  </div>
-                ))}
+      {/* SEARCH */}
+      <section
+        ref={searchRef}
+        className="fade-in-section px-4 pb-16 sm:px-6 lg:px-8"
+      >
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="text-2xl font-extrabold sm:text-3xl">
+            What are you craving today?
+          </h2>
+          <p className="mt-2 text-sm text-(--color-text-secondary) sm:text-base">
+            Search across restaurants, dishes and cuisines near you.
+          </p>
+
+          <div ref={searchBoxRef} className="relative mx-auto mt-6 max-w-xl">
+            <form
+              onSubmit={handleSearchSubmit}
+              className="flex items-center gap-2 rounded-full border border-(--color-accent) bg-white p-2 shadow-sm focus-within:ring-2 focus-within:ring-(--color-primary)"
+            >
+              <FaMagnifyingGlass className="ml-2 shrink-0 text-(--color-text-secondary)" aria-hidden="true" />
+              <label htmlFor="home-search" className="sr-only">
+                Search for restaurants, dishes or cuisines
+              </label>
+              <input
+                id="home-search"
+                type="text"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setShowSuggestions(true);
+                }}
+                onFocus={() => setShowSuggestions(true)}
+                placeholder="Search for restaurants, dishes or cuisines..."
+                className="min-w-0 flex-1 bg-transparent py-2 text-left text-sm text-(--color-text) outline-none sm:text-base"
+              />
+              <button
+                type="submit"
+                className="shrink-0 rounded-full bg-(--color-primary) px-4 py-2 text-sm font-semibold text-white transition hover:bg-(--color-primary-hover) sm:px-6"
+              >
+                Search
+              </button>
+            </form>
+
+            {showSuggestions && query.trim() && (
+              <div className="absolute z-20 mt-2 w-full overflow-hidden rounded-2xl border border-(--color-accent)/60 bg-white text-left shadow-lg">
+                {suggestions.length > 0 ? (
+                  suggestions.map((r) => (
+                    <button
+                      key={r._id}
+                      type="button"
+                      onClick={() => handleRestaurantClick(r)}
+                      className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm hover:bg-(--color-background)"
+                    >
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-(--color-background) text-(--color-primary)">
+                        <FaBowlFood size={14} />
+                      </span>
+                      <span>
+                        <span className="block font-semibold">
+                          {r.restaurantName}
+                        </span>
+                        <span className="block text-xs text-(--color-text-secondary)">
+                          {r.cuisine}
+                        </span>
+                      </span>
+                    </button>
+                  ))
+                ) : (
+                  <p className="px-4 py-3 text-sm text-(--color-text-secondary)">
+                    No matches yet — press Search to browse all restaurants.
+                  </p>
+                )}
               </div>
-              <div className="mt-6 rounded-2xl bg-(--color-background) p-4">
-                <p className="text-sm font-semibold">Most reordered tonight</p>
-                <p className="mt-1 text-xl font-bold">Paneer Tikka Wrap</p>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </section>
@@ -354,10 +380,10 @@ const Home = () => {
             <p className="text-sm font-semibold uppercase tracking-wider text-(--color-primary)">
               Browse
             </p>
-            <h2 className="text-3xl font-extrabold">Popular Categories</h2>
+            <h2 className="text-3xl font-extrabold">Explore by Category</h2>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <div className="-mx-4 flex snap-x gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-4 sm:overflow-visible sm:px-0">
             {CATEGORIES.map((cat, idx) => {
               const tone = CATEGORY_ICON_TONES[idx % CATEGORY_ICON_TONES.length];
               const toneClass =
@@ -370,7 +396,7 @@ const Home = () => {
                 <button
                   key={cat.name}
                   onClick={() => navigate("/order-now")}
-                  className="group flex flex-col items-center gap-3 rounded-2xl border border-(--color-accent)/40 bg-(--color-card) p-5 text-center shadow-sm transition hover:-translate-y-1 hover:border-(--color-primary)/40 hover:shadow-lg"
+                  className="group flex w-28 shrink-0 snap-start flex-col items-center gap-3 rounded-2xl border border-(--color-accent)/40 bg-(--color-card) p-5 text-center shadow-sm transition hover:-translate-y-1 hover:border-(--color-primary)/40 hover:shadow-lg sm:w-auto"
                 >
                   <span
                     className={`flex h-14 w-14 items-center justify-center rounded-full bg-(--color-background) text-2xl transition group-hover:scale-110 ${toneClass}`}
@@ -396,9 +422,10 @@ const Home = () => {
               <p className="text-sm font-semibold uppercase tracking-wider text-(--color-primary)">
                 Near You
               </p>
-              <h2 className="text-3xl font-extrabold">
-                Popular Restaurants Near You
-              </h2>
+              <h2 className="text-3xl font-extrabold">Popular Near You</h2>
+              <p className="mt-1 text-sm text-(--color-text-secondary)">
+                Discover the places everyone is craving.
+              </p>
             </div>
             <button
               onClick={() => navigate("/order-now")}
@@ -430,11 +457,12 @@ const Home = () => {
                       <img
                         src={r.photo.url}
                         alt={r.restaurantName}
+                        loading="lazy"
                         className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center text-4xl text-(--color-primary)">
-                        <FaBowlFood />
+                        <FaBowlFood aria-hidden="true" />
                       </div>
                     )}
                     <span className="absolute right-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-bold text-(--color-primary)">
@@ -448,7 +476,7 @@ const Home = () => {
                     </p>
                     {r.address && (
                       <p className="flex items-center gap-1 truncate text-xs text-(--color-text-secondary)">
-                        <FaLocationDot className="shrink-0" />
+                        <FaLocationDot className="shrink-0" aria-hidden="true" />
                         {r.address}
                       </p>
                     )}
@@ -484,7 +512,7 @@ const Home = () => {
               Deals
             </p>
             <h2 className="text-3xl font-extrabold">
-              Hungry? We've Got Something Special For You!
+              Cravings Come With Rewards
             </h2>
           </div>
 
@@ -536,7 +564,7 @@ const Home = () => {
             <p className="text-sm font-semibold uppercase tracking-wider text-(--color-primary)">
               Why Craving
             </p>
-            <h2 className="text-3xl font-extrabold">Why Choose Craving</h2>
+            <h2 className="text-3xl font-extrabold">Why Craving?</h2>
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -568,13 +596,13 @@ const Home = () => {
             <p className="text-sm font-semibold uppercase tracking-wider text-(--color-primary)">
               Simple Process
             </p>
-            <h2 className="text-3xl font-extrabold">How It Works</h2>
+            <h2 className="text-3xl font-extrabold">From Craving to Doorstep</h2>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-3">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-stretch">
             {STEPS.map((s, idx) => (
-              <div key={s.step} className="relative">
-                <div className="rounded-2xl border border-(--color-accent)/50 bg-white p-6 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <React.Fragment key={s.step}>
+                <div className="flex-1 rounded-2xl border border-(--color-accent)/50 bg-white p-6 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
                   <span className="text-4xl font-black text-(--color-primary)">
                     {s.step}
                   </span>
@@ -584,10 +612,52 @@ const Home = () => {
                   </p>
                 </div>
                 {idx < STEPS.length - 1 && (
-                  <div className="mx-auto mt-3 hidden h-0.5 w-10 bg-(--color-accent) sm:hidden" />
+                  <div className="flex items-center justify-center text-(--color-accent) sm:rotate-0">
+                    <FaArrowRightLong className="hidden text-2xl sm:block" aria-hidden="true" />
+                    <FaArrowRightLong className="block rotate-90 text-2xl sm:hidden" aria-hidden="true" />
+                  </div>
                 )}
-              </div>
+              </React.Fragment>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CUSTOMER EXPERIENCE */}
+      <section
+        ref={experienceRef}
+        className="fade-in-section bg-(--color-section-light) px-4 py-16 sm:px-6 lg:px-8"
+      >
+        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-2 lg:items-center">
+          <div className="mx-auto flex h-56 w-56 items-center justify-center rounded-full bg-linear-to-br from-(--color-primary) via-(--color-secondary) to-(--color-accent) shadow-xl sm:h-72 sm:w-72 lg:order-2">
+            <div className="flex h-[82%] w-[82%] items-center justify-center rounded-full bg-white/15 backdrop-blur-sm">
+              <FaBowlFood className="text-7xl text-white drop-shadow-sm sm:text-8xl" aria-hidden="true" />
+            </div>
+          </div>
+
+          <div className="lg:order-1">
+            <h2 className="text-3xl font-extrabold sm:text-4xl">
+              Your Favorite Food, Just a Few Clicks Away
+            </h2>
+            <p className="mt-3 max-w-md text-(--color-text-secondary)">
+              From browsing to your doorstep, Craving keeps every step simple
+              so you can focus on the part that matters most — enjoying your
+              meal.
+            </p>
+            <ul className="mt-6 space-y-3">
+              {EXPERIENCE_BENEFITS.map((benefit) => (
+                <li key={benefit} className="flex items-center gap-3 text-sm font-medium">
+                  <FaCircleCheck className="shrink-0 text-(--color-primary)" aria-hidden="true" />
+                  {benefit}
+                </li>
+              ))}
+            </ul>
+            <button
+              onClick={() => navigate("/order-now")}
+              className="mt-7 rounded-full bg-(--color-primary) px-7 py-3 font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-(--color-primary-hover) hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary) focus-visible:ring-offset-2"
+            >
+              Start Ordering
+            </button>
           </div>
         </div>
       </section>
@@ -595,18 +665,17 @@ const Home = () => {
       {/* FINAL CTA */}
       <section
         ref={ctaRef}
-        className="fade-in-section px-4 pb-20 sm:px-6 lg:px-8"
+        className="fade-in-section px-4 pb-20 pt-16 sm:px-6 lg:px-8"
       >
         <div className="relative mx-auto max-w-6xl overflow-hidden rounded-3xl bg-linear-to-r from-(--color-primary) to-(--color-secondary) px-6 py-14 text-center text-white sm:px-10">
           <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-(--color-accent)/30 blur-3xl" />
           <div className="pointer-events-none absolute -left-16 -bottom-16 h-56 w-56 rounded-full bg-white/20 blur-3xl" />
           <div className="relative">
             <h2 className="text-3xl font-extrabold sm:text-4xl">
-              Your next delicious meal is just a click away.
+              Ready to Satisfy Your Craving?
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-white/85">
-              Join thousands of happy customers ordering from Craving every
-              single day.
+              Your next delicious meal is just a few clicks away.
             </p>
             <button
               onClick={() => navigate("/order-now")}

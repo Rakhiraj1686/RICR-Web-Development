@@ -13,7 +13,7 @@ import RestaurantHelpDesk from "../../Components/restaurantDashboard/RestaurantH
 const ResturantDashboard = () => {
   const { role, isLogin } = useAuth();
   const navigate = useNavigate();
-  const [active, setActive] = useState("");
+  const [active, setActive] = useState("overview");
   const [isCollapsed, setIsCollapsed] = useState(false);
   useEffect(() => {
     if (!isLogin) {

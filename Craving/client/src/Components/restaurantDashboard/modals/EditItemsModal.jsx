@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { useAuth } from "../../../context/AuthContext";
 import api from "../../../Config/Api"
 import toast from "react-hot-toast";
+import { FaXmark, FaSpinner } from "react-icons/fa6";
 
 const EditItemModal = ({ onClose, selectedItem }) => {
-  const { user } = useAuth();
   const [formData, setFormData] = useState({
     itemName: selectedItem?.itemName || "",
     description: selectedItem?.description || "",
@@ -102,17 +101,23 @@ const EditItemModal = ({ onClose, selectedItem }) => {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-100">
-        <div className="bg-white w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-lg shadow-lg">
-          <div className="flex justify-between px-6 py-4 border-b border-(--color-border) items-center sticky top-0 bg-white">
-            <h2 className="text-xl font-semibold text-(--color-text)">
-              Edit Menu Item
-            </h2>
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-100 p-4">
+        <div className="bg-white w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl">
+          <div className="flex justify-between px-6 py-5 border-b border-(--color-border) items-center sticky top-0 bg-white/95 backdrop-blur-sm rounded-t-3xl">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-(--color-primary)">
+                Menu
+              </p>
+              <h2 className="text-xl font-black tracking-tight text-(--color-text)">
+                Edit Dish
+              </h2>
+            </div>
             <button
               onClick={handleClose}
-              className="text-(--color-text-secondary) hover:text-red-600 text-2xl transition"
+              aria-label="Close edit dish form"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-(--color-text-secondary) transition hover:bg-(--color-background) hover:text-(--color-primary)"
             >
-              ⊗
+              <FaXmark size={18} />
             </button>
           </div>
 
@@ -340,40 +345,43 @@ const EditItemModal = ({ onClose, selectedItem }) => {
                 <div className="flex items-end gap-3 ">
                   <select
                     name="availability"
-                    value={formData.availability}
+                    value={
+                      formData.availability === "removed"
+                        ? "available"
+                        : formData.availability
+                    }
                     onChange={handleInputChange}
                     className="border w-full border-(--color-border) rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
                   >
                     <option value="">Select Availability</option>
                     <option value="available">Available</option>
                     <option value="unavailable">Unavailable</option>
-                    <option value="removed">Removed</option>
                   </select>
                 </div>
               </div>
             </div>
 
             {/* Form Actions */}
-            <div className="flex justify-end space-x-4 pt-6 border-t border-(--color-border)">
+            <div className="flex justify-end gap-3 pt-6 border-t border-(--color-border)">
               <button
                 type="button"
                 onClick={handleClose}
                 disabled={loading}
-                className="px-6 py-2 bg-gray-300 text-(--color-text) rounded-md hover:bg-gray-400 transition disabled:opacity-50"
+                className="rounded-xl border border-(--color-border) px-6 py-2.5 font-semibold text-(--color-text) transition hover:bg-(--color-background) disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-2 bg-(--color-primary) text-white rounded-md hover:bg-(--color-primary-hover) transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="flex items-center gap-2 rounded-xl bg-(--color-primary) px-6 py-2.5 font-semibold text-white shadow-sm transition hover:bg-(--color-primary-hover) disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {loading ? (
                   <>
-                    <span className="animate-spin">⟳</span> Updating...
+                    <FaSpinner className="animate-spin" /> Saving Changes...
                   </>
                 ) : (
-                  "Update Menu Item"
+                  "Save Changes"
                 )}
               </button>
             </div>

@@ -1,24 +1,43 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import api from "../Config/Api";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ForgetPasswordModal from "../Components/publicModals/ForgetPasswordModal";
-import Loading from "../Components/Loading";
+import {
+  FaEye,
+  FaEyeSlash,
+  FaUtensils,
+  FaPizzaSlice,
+  FaBurger,
+  FaIceCream,
+  FaTriangleExclamation,
+} from "react-icons/fa6";
+
+const DASHBOARD_ROUTE_BY_ROLE = {
+  manager: "/restaurantdashboard",
+  partner: "/riderdashboard",
+  customer: "/userdashboard",
+  admin: "/admindashboard",
+};
 
 const Login = () => {
   const { setUser, setIsLogin, setRole } = useAuth();
   const navigate = useNavigate();
+
   const [isForgetPasswordModalOpen, setIsForgetPasswordOpen] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [loginError, setLoginError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (loginError) setLoginError("");
   };
 
   const handleClearForm = () => {
@@ -31,6 +50,7 @@ const Login = () => {
   const handleLoginNow = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setLoginError("");
 
     try {
       const res = await api.post("/auth/login", formData);
@@ -39,139 +59,187 @@ const Login = () => {
       setIsLogin(true);
       sessionStorage.setItem("CravingUser", JSON.stringify(res.data.data));
       handleClearForm();
-      switch (res.data.data.role) {
-        case "manager": {
-          setRole("manager");
-          navigate("/restaurantDashboard");
-          break;
-        }
-        case "partner": {
-          setRole("partner");
-          navigate("/riderDashboard");
-          break;
-        }
-        case "customer": {
-          setRole("customer");
-          navigate("/userDashboard");
-          break;
-        }
-        case "admin": {
-          setRole("admin");
-          navigate("/adminDashboard");
-          break;
-        }
-        default:
-          break;
-      }
+      setRole(res.data.data.role);
+      const target = DASHBOARD_ROUTE_BY_ROLE[res.data.data.role];
+      if (target) navigate(target);
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Unknown error");
+      console.log(error);
+      setLoginError("Please check your credentials and try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="w-full h-screen flex items-center justify-center bg-(--color-background)">
-        <Loading />
-      </div>
-    );
-  }
-
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center bg-(--color-background) relative overflow-hidden px-4">
-        {/* Bold Background Shapes */}
-        <div className="absolute -top-32 -left-32 w-100 h-100 bg-(--color-primary) rotate-45 rounded-3xl opacity-20"></div>
-        <div className="absolute -bottom-32 -right-32 w-100 h-100 bg-(--color-secondary) rotate-45 rounded-3xl opacity-20"></div>
+      <div className="relative min-h-screen overflow-hidden bg-(--color-background) px-4 py-10 sm:px-6">
+        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-(--color-accent)/30 blur-3xl" />
+        <div className="pointer-events-none absolute -left-20 bottom-10 h-64 w-64 rounded-full bg-(--color-secondary)/20 blur-3xl" />
 
-        <div className="w-full max-w-5xl grid md:grid-cols-2 shadow-2xl rounded-3xl overflow-hidden relative z-10">
-          {/* Left Creative Panel */}
+        <div className="relative mx-auto grid max-w-5xl overflow-hidden rounded-3xl border border-(--color-border) bg-white shadow-2xl md:grid-cols-2">
+          {/* LEFT — BRAND / VISUAL PANEL */}
           <div
-            className="hidden md:flex flex-col justify-center p-12 text-white"
+            className="relative hidden flex-col justify-center overflow-hidden p-12 text-white md:flex"
             style={{
-              background: "linear-gradient(135deg, var(--color-primary), var(--color-secondary))",
+              background:
+                "linear-gradient(135deg, var(--color-primary), var(--color-secondary))",
             }}
           >
-            <h2 className="text-5xl font-extrabold leading-tight mb-6">
-              Welcome
-              <br />
-              Back.
+            <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
+            <div className="pointer-events-none absolute -bottom-14 -left-10 h-48 w-48 rounded-full bg-white/10 blur-2xl" />
+
+            <FaPizzaSlice
+              className="pointer-events-none absolute left-10 top-16 text-3xl text-white/20"
+              aria-hidden="true"
+            />
+            <FaBurger
+              className="pointer-events-none absolute right-14 top-1/3 text-3xl text-white/20"
+              aria-hidden="true"
+            />
+            <FaIceCream
+              className="pointer-events-none absolute bottom-16 left-16 text-3xl text-white/20"
+              aria-hidden="true"
+            />
+
+            <span className="relative inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 text-2xl backdrop-blur-sm">
+              <FaUtensils aria-hidden="true" />
+            </span>
+
+            <h2 className="relative mt-8 text-4xl font-extrabold leading-tight">
+              Welcome Back to Your Cravings
             </h2>
-            <p className="text-lg opacity-90 max-w-sm">
-              Log in to access your personalized dashboard and manage everything seamlessly.
+            <p className="relative mt-4 max-w-sm text-white/85">
+              Your favorite meals are just a few clicks away.
+            </p>
+
+            <p className="relative mt-10 text-sm font-semibold uppercase tracking-widest text-white/70">
+              Satisfy Your Craving.
             </p>
           </div>
 
-          {/* Right Form Panel */}
-          <div className="bg-white p-10 md:p-14">
-            <div className="mb-10">
-              <h1 className="text-4xl font-extrabold text-(--color-text)">
-                Login Now
-              </h1>
-              <div className="w-16 h-1 mt-3 rounded-full"
-                style={{ background: "var(--color-primary)" }}
-              ></div>
+          {/* RIGHT — LOGIN FORM */}
+          <div className="p-8 sm:p-10 md:p-12">
+            {/* Compact brand banner — mobile only */}
+            <div
+              className="mb-6 flex items-center gap-3 rounded-2xl p-4 text-white md:hidden"
+              style={{
+                background:
+                  "linear-gradient(135deg, var(--color-primary), var(--color-secondary))",
+              }}
+            >
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/15 text-lg">
+                <FaUtensils aria-hidden="true" />
+              </span>
+              <div>
+                <p className="font-bold leading-tight">Craving</p>
+                <p className="text-xs text-white/85">Satisfy your craving.</p>
+              </div>
             </div>
 
-            <form onSubmit={handleLoginNow} className="space-y-6">
-              <div className="space-y-5">
+            <div className="mb-8">
+              <h1 className="text-3xl font-extrabold text-(--color-text) sm:text-4xl">
+                Welcome Back!
+              </h1>
+              <p className="mt-2 text-(--color-text-secondary)">
+                Login to continue your Craving journey.
+              </p>
+            </div>
+
+            {loginError && (
+              <div
+                role="alert"
+                className="mb-5 flex items-start gap-2.5 rounded-xl border border-(--color-primary)/30 bg-(--color-primary)/5 px-4 py-3 text-sm text-(--color-primary)"
+              >
+                <FaTriangleExclamation className="mt-0.5 shrink-0" aria-hidden="true" />
+                <div>
+                  <p className="font-semibold">Unable to log in</p>
+                  <p className="text-(--color-text-secondary)">{loginError}</p>
+                </div>
+              </div>
+            )}
+
+            <form onSubmit={handleLoginNow} className="space-y-5" noValidate>
+              <div>
+                <label
+                  htmlFor="login-email"
+                  className="mb-1.5 block text-sm font-semibold text-(--color-text)"
+                >
+                  Email Address
+                </label>
                 <input
+                  id="login-email"
                   type="email"
                   name="email"
-                  placeholder="Email Address"
+                  placeholder="Enter your email address"
                   value={formData.email}
                   onChange={handleChange}
                   disabled={isLoading}
                   required
-                  className="w-full h-14 px-5 rounded-xl border-2 border-(--color-border) focus:outline-none focus:border-(--color-primary) transition disabled:cursor-not-allowed text-lg"
+                  autoComplete="email"
+                  className="h-12 w-full rounded-xl border border-(--color-border) px-4 text-(--color-text) outline-none transition focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 disabled:cursor-not-allowed disabled:bg-(--color-background)"
                 />
+              </div>
 
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  placeholder="Password"
-                  onChange={handleChange}
-                  disabled={isLoading}
-                  required
-                  className="w-full h-14 px-5 rounded-xl border-2 border-(--color-border) focus:outline-none focus:border-(--color-primary) transition disabled:cursor-not-allowed text-lg"
-                />
+              <div>
+                <label
+                  htmlFor="login-password"
+                  className="mb-1.5 block text-sm font-semibold text-(--color-text)"
+                >
+                  Password
+                </label>
+                <div className="relative">
+                  <input
+                    id="login-password"
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Enter your password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                    required
+                    autoComplete="current-password"
+                    className="h-12 w-full rounded-xl border border-(--color-border) px-4 pr-12 text-(--color-text) outline-none transition focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 disabled:cursor-not-allowed disabled:bg-(--color-background)"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-pressed={showPassword}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-(--color-text-secondary) transition hover:text-(--color-text)"
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
               </div>
 
               <div className="flex justify-end">
                 <button
                   type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setIsForgetPasswordOpen(true);
-                  }}
-                  className="text-sm font-semibold text-(--color-primary) hover:text-(--color-secondary) transition"
+                  onClick={() => setIsForgetPasswordOpen(true)}
+                  className="text-sm font-semibold text-(--color-primary) transition hover:text-(--color-primary-hover) hover:underline"
                 >
-                  Forget Password?
+                  Forgot Password?
                 </button>
               </div>
 
               <button
                 type="submit"
-                className="w-full h-14 rounded-xl font-bold text-white text-lg shadow-xl transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:cursor-not-allowed"
-                style={{
-                  background: "linear-gradient(to right, var(--color-primary), var(--color-secondary))",
-                }}
+                disabled={isLoading}
+                className="flex h-12 w-full items-center justify-center rounded-xl bg-(--color-primary) font-bold text-white shadow-sm transition hover:bg-(--color-primary-hover) focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary) focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70"
               >
-                {isLoading ? "Loading..." : "Login Now"}
+                {isLoading ? "Logging in..." : "Login"}
               </button>
 
-              <div className="flex justify-between items-center text-base text-(--color-text-secondary) pt-6">
-                <p>Didn't Have Account?</p>
+              <p className="pt-2 text-center text-sm text-(--color-text-secondary)">
+                Don't have an account?{" "}
                 <button
                   type="button"
                   onClick={() => navigate("/register")}
-                  className="font-bold text-(--color-primary) hover:text-(--color-secondary) transition"
+                  className="font-bold text-(--color-primary) transition hover:text-(--color-primary-hover) hover:underline"
                 >
-                  Register Now
+                  Create Account
                 </button>
-              </div>
+              </p>
             </form>
           </div>
         </div>

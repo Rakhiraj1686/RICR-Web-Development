@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { useAuth } from "../../../context/AuthContext";
 import api from "../../../Config/Api";
 import toast from "react-hot-toast";
+import { FaXmark, FaSpinner } from "react-icons/fa6";
 
 const AddItemMenuModal = ({ onClose }) => {
-  const { user } = useAuth();
   const [formData, setFormData] = useState({
     itemName: "",
     description: "",
@@ -47,8 +46,28 @@ const AddItemMenuModal = ({ onClose }) => {
     setImages(fileArray.slice(0, 5));
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.itemName.trim()) newErrors.itemName = "Dish name is required";
+    if (!formData.description.trim())
+      newErrors.description = "Description is required";
+    if (!formData.price || Number(formData.price) <= 0)
+      newErrors.price = "Enter a valid price";
+    if (!formData.servingSize.trim())
+      newErrors.servingSize = "Serving size is required";
+    if (!formData.preparationTime || Number(formData.preparationTime) < 0)
+      newErrors.preparationTime = "Enter a valid preparation time";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
 
     setLoading(true);
 
@@ -103,19 +122,23 @@ const AddItemMenuModal = ({ onClose }) => {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-100 ">
-        <div className="bg-white w-5xl max-h-[85vh] overflow-y-auto rounded">
-          <div className="flex justify-between px-5 py-3 border-b border-(--color-border) ">
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-100 p-4">
+        <div className="bg-white w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-3xl shadow-2xl">
+          <div className="flex justify-between px-6 py-5 border-b border-(--color-border) items-center sticky top-0 bg-white/95 backdrop-blur-sm rounded-t-3xl">
             <div>
-              <h1 className="text-shadow-lg text-lg font-seminold text-(--color-text)">
-                Add New Menu Items
+              <p className="text-xs font-bold uppercase tracking-widest text-(--color-primary)">
+                Menu
+              </p>
+              <h1 className="text-xl font-black tracking-tight text-(--color-text)">
+                Add New Dish
               </h1>
             </div>
             <button
               onClick={handleClose}
-              className="text-(--color-text-secondary) hover:text-red-700 text-3xl "
+              aria-label="Close add dish form"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-(--color-text-secondary) transition hover:bg-(--color-background) hover:text-(--color-primary)"
             >
-              ⊗
+              <FaXmark size={18} />
             </button>
           </div>
 
@@ -123,14 +146,14 @@ const AddItemMenuModal = ({ onClose }) => {
             {/* Item Image Section */}
             <div>
               <h3 className="text-lg font-semibold text-(--color-text-secondary) mb-4 pb-2 border-b border-(--color-border)">
-                Item Image
+                Upload Food Image
               </h3>
               <div className="flex text-end gap-2">
                 <label
                   htmlFor="image"
-                  className="px-6 py-2 w-fit  bg-(--color-secondary) text-white rounded-md hover:bg-(--color-secondary-hover) cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="px-6 py-2 w-fit  bg-(--color-secondary) text-white rounded-xl hover:bg-(--color-secondary-hover) cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
-                  Add Image
+                  Click to Upload
                 </label>
                 <div className="grid grid-row-2">
                   <span className="text-sm text-(--color-text-secondary)">
@@ -336,46 +359,57 @@ const AddItemMenuModal = ({ onClose }) => {
                     </p>
                   )}
                 </div>
-                <div className="flex items-end gap-3 ">
-                  <input
-                    type="checkbox"
-                    name="availability"
-                    checked={formData.availability}
-                    onChange={handleInputChange}
-                    id="availability"
-                    className="w-4 h-4 text-green-600 border-(--color-border) rounded focus:ring-green-500"
-                  />
-                  <label
-                    htmlFor="availability"
-                    className="text-sm font-medium text-(--color-text-secondary) cursor-pointer"
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={formData.availability}
+                    onClick={() =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        availability: !prev.availability,
+                      }))
+                    }
+                    className={`relative h-6 w-11 shrink-0 rounded-full transition ${
+                      formData.availability
+                        ? "bg-(--color-primary)"
+                        : "bg-(--color-border)"
+                    }`}
                   >
-                    Available
+                    <span
+                      className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition ${
+                        formData.availability ? "left-5.5" : "left-0.5"
+                      }`}
+                    />
+                  </button>
+                  <label className="text-sm font-medium text-(--color-text-secondary)">
+                    {formData.availability ? "Available" : "Unavailable"}
                   </label>
                 </div>
               </div>
             </div>
 
             {/* Form Actions */}
-            <div className="flex justify-end space-x-4 pt-6 border-t border-(--color-border)">
+            <div className="flex justify-end gap-3 pt-6 border-t border-(--color-border)">
               <button
                 type="button"
                 onClick={handleClose}
                 disabled={loading}
-                className="px-6 py-2 bg-gray-300 text-(--color-text) rounded-md hover:bg-gray-400 transition disabled:opacity-50"
+                className="rounded-xl border border-(--color-border) px-6 py-2.5 font-semibold text-(--color-text) transition hover:bg-(--color-background) disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-2 bg-(--color-primary) text-white rounded-md hover:bg-(--color-primary-hover) transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="flex items-center gap-2 rounded-xl bg-(--color-primary) px-6 py-2.5 font-semibold text-white shadow-sm transition hover:bg-(--color-primary-hover) disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {loading ? (
                   <>
-                    <span className="animate-spin">⟳</span> Adding...
+                    <FaSpinner className="animate-spin" /> Adding Dish...
                   </>
                 ) : (
-                  "Add Menu Item"
+                  "Add Dish"
                 )}
               </button>
             </div>

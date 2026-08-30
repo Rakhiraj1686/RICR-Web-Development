@@ -1,4 +1,5 @@
 import React from "react";
+import { FaXmark } from "react-icons/fa6";
 
 const ViewItemModal = ({ onClose, selectedItem }) => {
   if (!selectedItem) return null;
@@ -7,18 +8,24 @@ const ViewItemModal = ({ onClose, selectedItem }) => {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-100">
-        <div className="bg-white w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-lg shadow-lg">
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-100 p-4">
+        <div className="bg-white w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl">
           {/* Header */}
-          <div className="flex justify-between px-6 py-4 border-b border-(--color-border) items-center sticky top-0 bg-white">
-            <h2 className="text-2xl font-semibold text-(--color-text)">
-              {selectedItem.itemName}
-            </h2>
+          <div className="flex justify-between px-6 py-5 border-b border-(--color-border) items-center sticky top-0 bg-white/95 backdrop-blur-sm rounded-t-3xl">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-(--color-primary)">
+                Menu
+              </p>
+              <h2 className="text-xl font-black tracking-tight text-(--color-text)">
+                {selectedItem.itemName}
+              </h2>
+            </div>
             <button
               onClick={onClose}
-              className="text-(--color-text-secondary) hover:text-red-600 text-2xl transition"
+              aria-label="Close item details"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-(--color-text-secondary) transition hover:bg-(--color-background) hover:text-(--color-primary)"
             >
-              ⊗
+              <FaXmark size={18} />
             </button>
           </div>
 

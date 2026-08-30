@@ -29,7 +29,7 @@ const RestaurantSideBar = ({ active, setActive, isCollapsed, setIsCollapsed }) =
       toast.success(res.data.message);
       setUser("");
       setIsLogin(false);
-      sessionStorage.removeItem("CraveItUser");
+      sessionStorage.removeItem("CravingUser");
       navigate("/login");
     } catch (error) {
       toast.error(error?.response?.data?.message || "Unknown Error");

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import api from "../../../Config/Api";
+import { FaXmark, FaSpinner } from "react-icons/fa6";
 
 const EditRestaurantProfileModal = ({ onClose }) => {
   const { user, setUser, setIsLogin } = useAuth();
@@ -24,11 +25,11 @@ const EditRestaurantProfileModal = ({ onClose }) => {
       pan: user?.documents?.pan || "",
     },
     paymentDetails: {
-      UPI: user?.paymentDetails?.UPI || "",
+      upi: user?.paymentDetails?.UPI || "",
       account_number: user?.paymentDetails?.account_number || "",
-      IFSC: user?.paymentDetails?.IFSC || "",
+      ifs_Code: user?.paymentDetails?.IFSC || "",
     },
-    geolocation: {
+    geoLocation: {
       lat: user?.geoLocation?.lat || "",
       lon: user?.geoLocation?.lon || "",
     },
@@ -160,26 +161,33 @@ const EditRestaurantProfileModal = ({ onClose }) => {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-100">
-        <div className="bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-lg shadow-lg">
-          <div className="flex justify-between px-6 py-4 border-b border-(--color-border) items-center sticky top-0 bg-white">
-            <h2 className="text-xl font-semibold text-(--color-text)">
-              Edit Restaurant Profile
-            </h2>
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-100 p-4">
+        <div className="bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl">
+          <div className="flex justify-between px-6 py-5 border-b border-(--color-border) items-center sticky top-0 bg-white/95 backdrop-blur-sm rounded-t-3xl">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-(--color-primary)">
+                Edit Profile
+              </p>
+              <h2 className="text-xl font-black tracking-tight text-(--color-text)">
+                Edit Restaurant Profile
+              </h2>
+            </div>
             <button
               onClick={() => onClose()}
-              className="text-(--color-text-secondary) hover:text-red-600 text-2xl transition"
+              aria-label="Close edit profile form"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-(--color-text-secondary) transition hover:bg-(--color-background) hover:text-(--color-primary)"
             >
-              ⊗
+              <FaXmark size={18} />
             </button>
           </div>
 
           {message.text && (
             <div
-              className={`mx-6 mt-4 p-4 rounded-md ${
+              role="alert"
+              className={`mx-6 mt-4 p-4 rounded-xl text-sm font-medium ${
                 message.type === "success"
-                  ? "bg-green-100 text-green-700 border border-green-300"
-                  : "bg-red-100 text-red-700 border border-red-300"
+                  ? "bg-green-50 text-green-700 border border-green-200"
+                  : "bg-(--color-primary)/5 text-(--color-primary) border border-(--color-primary)/30"
               }`}
             >
               {message.text}
@@ -395,8 +403,7 @@ const EditRestaurantProfileModal = ({ onClose }) => {
                       >
                         Get Live Location
                       </button>
-                      {formData.geolocation.lat !== "N/A" &&
-                      formData.geolocation.lon !== "N/A"
+                      {formData.geoLocation.lat && formData.geoLocation.lon
                         ? "✅"
                         : "❌"}
                     </div>
@@ -521,21 +528,21 @@ const EditRestaurantProfileModal = ({ onClose }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.paymentDetails.UPI}
+                    value={formData.paymentDetails.upi}
                     onChange={(e) =>
                       handleNestedChange(
                         "paymentDetails",
-                        "UPI",
+                        "upi",
                         e.target.value,
                       )
                     }
                     className={`w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
-                      errors.UPI ? "border-red-500" : "border-(--color-border)"
+                      errors.upi ? "border-red-500" : "border-(--color-border)"
                     }`}
                     placeholder="username@bank"
                   />
-                  {errors.UPI && (
-                    <p className="text-red-600 text-xs mt-1">{errors.UPI}</p>
+                  {errors.upi && (
+                    <p className="text-red-600 text-xs mt-1">{errors.upi}</p>
                   )}
                 </div>
 
@@ -564,11 +571,11 @@ const EditRestaurantProfileModal = ({ onClose }) => {
                   </label>
                   <input
                     type="text"
-                    value={formData.paymentDetails.IFSC}
+                    value={formData.paymentDetails.ifs_Code}
                     onChange={(e) =>
                       handleNestedChange(
                         "paymentDetails",
-                        "IFSC",
+                        "ifs_Code",
                         e.target.value,
                       )
                     }
@@ -580,23 +587,23 @@ const EditRestaurantProfileModal = ({ onClose }) => {
             </div>
 
             {/* Form Actions */}
-            <div className="flex justify-end space-x-4 pt-6 border-t border-(--color-border)">
+            <div className="flex justify-end gap-3 pt-6 border-t border-(--color-border)">
               <button
                 type="button"
                 onClick={() => onClose()}
                 disabled={loading}
-                className="px-6 py-2 bg-gray-300 text-(--color-text) rounded-md hover:bg-gray-400 transition disabled:opacity-50"
+                className="rounded-xl border border-(--color-border) px-6 py-2.5 font-semibold text-(--color-text) transition hover:bg-(--color-background) disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-2 bg-(--color-primary) text-white rounded-md hover:bg-(--color-primary-hover) transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="flex items-center gap-2 rounded-xl bg-(--color-primary) px-6 py-2.5 font-semibold text-white shadow-sm transition hover:bg-(--color-primary-hover) disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {loading ? (
                   <>
-                    <span className="animate-spin">⟳</span> Saving...
+                    <FaSpinner className="animate-spin" /> Saving Changes...
                   </>
                 ) : (
                   "Save Changes"

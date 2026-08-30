@@ -1,132 +1,379 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import Loading from "../Components/Loading";
-import { useEffect } from "react";
-import { FaArrowRight } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import api from "../Config/Api";
+import {
+  FaMagnifyingGlass,
+  FaXmark,
+  FaLocationDot,
+  FaBowlFood,
+  FaArrowRightLong,
+  FaSliders,
+  FaChevronDown,
+  FaTriangleExclamation,
+} from "react-icons/fa6";
+
+const PAGE_SIZE = 8;
+
+const SORT_OPTIONS = [
+  { value: "recommended", label: "Recommended" },
+  { value: "name-asc", label: "Name: A to Z" },
+  { value: "newest", label: "Newest First" },
+];
 
 const OrderNow = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [restaurant, setRestaurant] = useState();
+  const location = useLocation();
 
-  const fetctAllRestaurants = async () => {
+  const [restaurants, setRestaurants] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  const [query, setQuery] = useState(location.state?.search || "");
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [sortBy, setSortBy] = useState("recommended");
+  const [sortOpen, setSortOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+
+  const sortBoxRef = useRef(null);
+
+  const fetchAllRestaurants = async () => {
     setLoading(true);
+    setError(false);
     try {
       const res = await api.get("/public/allRestaurants");
-      setRestaurant(res.data.data);
-    } catch (error) {
-      console.log(error);
-      toast.error(error?.response?.data?.message || "Unknown Error");
+      setRestaurants(res.data.data || []);
+    } catch (err) {
+      console.log(err);
+      setError(true);
+      toast.error(err?.response?.data?.message || "Unable to load restaurants");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetctAllRestaurants();
+    fetchAllRestaurants();
   }, []);
 
-  const handleRestaurantClick = (restaurantinfo) => {
-    console.log("Restaurant Clicked");
-    navigate("/restaurantMenu", { state: restaurantinfo });
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (sortBoxRef.current && !sortBoxRef.current.contains(e.target)) {
+        setSortOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Reset how many cards are shown whenever the active filters change.
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [query, activeCategory, sortBy]);
+
+  const categories = useMemo(() => {
+    const unique = Array.from(
+      new Set(
+        restaurants
+          .map((r) => r.cuisine?.trim())
+          .filter((c) => c && c !== "N/A"),
+      ),
+    ).sort((a, b) => a.localeCompare(b));
+    return ["All", ...unique];
+  }, [restaurants]);
+
+  const filteredRestaurants = useMemo(() => {
+    const term = query.trim().toLowerCase();
+
+    let list = restaurants.filter((r) => {
+      const matchesCategory =
+        activeCategory === "All" || r.cuisine?.trim() === activeCategory;
+      const matchesSearch =
+        !term ||
+        r.restaurantName?.toLowerCase().includes(term) ||
+        r.cuisine?.toLowerCase().includes(term) ||
+        r.address?.toLowerCase().includes(term);
+      return matchesCategory && matchesSearch;
+    });
+
+    if (sortBy === "name-asc") {
+      list = [...list].sort((a, b) =>
+        (a.restaurantName || "").localeCompare(b.restaurantName || ""),
+      );
+    } else if (sortBy === "newest") {
+      list = [...list].sort(
+        (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0),
+      );
+    }
+
+    return list;
+  }, [restaurants, query, activeCategory, sortBy]);
+
+  const visibleRestaurants = filteredRestaurants.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredRestaurants.length;
+
+  const handleRestaurantClick = (restaurantInfo) => {
+    navigate("/restaurantMenu", { state: restaurantInfo });
   };
 
-  if (loading) {
-    return (
-      <div className="h-[80vh]">
-        <Loading />
-      </div>
-    );
-  }
+  const handleClearFilters = () => {
+    setQuery("");
+    setActiveCategory("All");
+    setSortBy("recommended");
+  };
 
- return (
-  <>
-    <div className="px-6 md:px-16 py-12 bg-(--color-background) min-h-screen">
-      
- <div className="mb-16 relative text-center py-10 bg-(--color-section-light) rounded-3xl">
-  <h1 className="text-4xl md:text-6xl font-extrabold text-(--color-primary)">
-    Hungry?
-    <span className="block text-(--color-text)/90">
-      Let’s Find Something Tasty
-    </span>
-  </h1>
+  const activeSortLabel =
+    SORT_OPTIONS.find((opt) => opt.value === sortBy)?.label || "Recommended";
 
-  <p className="text-(--color-text) mt-4 text-lg max-w-2xl mx-auto">
-    Explore top restaurants, trending dishes, and exclusive offers near you.
-  </p>
-</div>
+  return (
+    <main className="min-h-screen bg-(--color-background) px-4 pb-20 pt-10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        {/* PAGE HEADER */}
+        <div className="mb-8 text-center">
+          <p className="text-sm font-semibold uppercase tracking-wider text-(--color-primary)">
+            Explore Restaurants
+          </p>
+          <h1 className="mt-2 text-3xl font-extrabold sm:text-4xl">
+            Find Your Next Favorite Place to Eat
+          </h1>
+          <p className="mx-auto mt-2 max-w-xl text-(--color-text-secondary)">
+            Discover delicious food from restaurants around you.
+          </p>
+        </div>
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-        {restaurant &&
-          restaurant.map((EachRestaurant, idx) => (
-            <div
-              key={idx}
-              onClick={() => handleRestaurantClick(EachRestaurant)}
-              className="group relative bg-white/70 backdrop-blur-lg border border-(--color-border) rounded-3xl shadow-md hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 overflow-hidden cursor-pointer"
+        {/* SEARCH */}
+        <div className="mx-auto mb-6 max-w-2xl">
+          <div className="flex items-center gap-2 rounded-full border border-(--color-accent) bg-white p-2 shadow-sm focus-within:ring-2 focus-within:ring-(--color-primary)">
+            <FaMagnifyingGlass
+              className="ml-2 shrink-0 text-(--color-text-secondary)"
+              aria-hidden="true"
+            />
+            <label htmlFor="restaurant-search" className="sr-only">
+              Search restaurants, cuisines or dishes
+            </label>
+            <input
+              id="restaurant-search"
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search restaurants, cuisines or dishes..."
+              className="min-w-0 flex-1 bg-transparent py-2 text-sm text-(--color-text) outline-none sm:text-base"
+            />
+            {query && (
+              <button
+                type="button"
+                onClick={() => setQuery("")}
+                aria-label="Clear search"
+                className="mr-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-(--color-text-secondary) transition hover:bg-(--color-background) hover:text-(--color-text)"
+              >
+                <FaXmark />
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* CATEGORY FILTERS + SORT */}
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="-mx-4 flex snap-x gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:px-0">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActiveCategory(cat)}
+                aria-pressed={activeCategory === cat}
+                className={`shrink-0 snap-start rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                  activeCategory === cat
+                    ? "border-(--color-primary) bg-(--color-primary) text-white"
+                    : "border-(--color-border) bg-white text-(--color-text) hover:border-(--color-primary)/50"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          <div ref={sortBoxRef} className="relative shrink-0 self-start sm:self-auto">
+            <button
+              type="button"
+              onClick={() => setSortOpen((prev) => !prev)}
+              aria-haspopup="listbox"
+              aria-expanded={sortOpen}
+              className="flex items-center gap-2 rounded-full border border-(--color-border) bg-white px-4 py-2 text-sm font-semibold text-(--color-text) shadow-sm transition hover:border-(--color-primary)/50"
             >
-              
-              {/* Image Section */}
-              <div className="relative h-64 overflow-hidden">
-                <img
-                  src={EachRestaurant.photo.url}
-                  alt=""
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
-                />
+              <FaSliders className="text-(--color-text-secondary)" aria-hidden="true" />
+              Sort by: {activeSortLabel}
+              <FaChevronDown className="text-xs text-(--color-text-secondary)" aria-hidden="true" />
+            </button>
 
-                {/* Soft Gradient Overlay */}
-                <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent"></div>
+            {sortOpen && (
+              <ul
+                role="listbox"
+                className="absolute right-0 z-20 mt-2 w-48 overflow-hidden rounded-2xl border border-(--color-border) bg-white py-1 shadow-lg"
+              >
+                {SORT_OPTIONS.map((opt) => (
+                  <li key={opt.value}>
+                    <button
+                      type="button"
+                      role="option"
+                      aria-selected={sortBy === opt.value}
+                      onClick={() => {
+                        setSortBy(opt.value);
+                        setSortOpen(false);
+                      }}
+                      className={`flex w-full items-center px-4 py-2.5 text-left text-sm transition hover:bg-(--color-background) ${
+                        sortBy === opt.value
+                          ? "font-semibold text-(--color-primary)"
+                          : "text-(--color-text)"
+                      }`}
+                    >
+                      {opt.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
 
-                {/* City Badge */}
-                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-semibold shadow-md">
-                  📍 {EachRestaurant.city}
-                </div>
+        {/* RESULT COUNT */}
+        {!loading && !error && (
+          <p className="mb-4 text-sm font-medium text-(--color-text-secondary)">
+            {filteredRestaurants.length}{" "}
+            {filteredRestaurants.length === 1 ? "restaurant" : "restaurants"}{" "}
+            found
+          </p>
+        )}
 
-                {/* Restaurant Name */}
-                <div className="absolute bottom-5 left-5 text-white">
-                  <h2 className="text-2xl font-bold tracking-wide">
-                    {EachRestaurant.restaurantName}
-                  </h2>
-                  <p className="text-sm opacity-90">
-                    {EachRestaurant.cuisine}
-                  </p>
+        {/* LOADING SKELETONS */}
+        {loading && (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {Array.from({ length: PAGE_SIZE }).map((_, idx) => (
+              <div
+                key={idx}
+                className="overflow-hidden rounded-2xl border border-(--color-border) bg-white shadow-sm"
+              >
+                <div className="h-44 animate-pulse bg-(--color-section-light)" />
+                <div className="space-y-3 p-4">
+                  <div className="h-4 w-3/4 animate-pulse rounded bg-(--color-section-light)" />
+                  <div className="h-3 w-1/2 animate-pulse rounded bg-(--color-section-light)" />
+                  <div className="h-3 w-2/3 animate-pulse rounded bg-(--color-section-light)" />
+                  <div className="h-9 w-full animate-pulse rounded-full bg-(--color-section-light)" />
                 </div>
               </div>
+            ))}
+          </div>
+        )}
 
-              {/* Content Section */}
-              <div className="p-6 space-y-3">
-                <p className="text-(--color-text-secondary) text-sm line-clamp-1">
-                  {EachRestaurant.address}
-                </p>
+        {/* ERROR STATE */}
+        {!loading && error && (
+          <div className="mx-auto max-w-md rounded-2xl border border-dashed border-(--color-border) bg-white p-10 text-center">
+            <FaTriangleExclamation
+              className="mx-auto mb-3 text-3xl text-(--color-primary)"
+              aria-hidden="true"
+            />
+            <h2 className="text-lg font-bold">We couldn't load restaurants.</h2>
+            <p className="mt-1 text-sm text-(--color-text-secondary)">
+              Please try again.
+            </p>
+            <button
+              type="button"
+              onClick={fetchAllRestaurants}
+              className="mt-5 rounded-full bg-(--color-primary) px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-(--color-primary-hover)"
+            >
+              Try Again
+            </button>
+          </div>
+        )}
 
-                <p className="text-(--color-text-secondary) text-sm">
-                  📞 {EachRestaurant.mobileNumber}
-                </p>
+        {/* EMPTY STATE */}
+        {!loading && !error && filteredRestaurants.length === 0 && (
+          <div className="mx-auto max-w-md rounded-2xl border border-dashed border-(--color-accent) bg-white p-10 text-center">
+            <FaBowlFood className="mx-auto mb-3 text-3xl text-(--color-primary)" aria-hidden="true" />
+            <h2 className="text-lg font-bold">No restaurants found</h2>
+            <p className="mt-1 text-sm text-(--color-text-secondary)">
+              Try changing your search or filters.
+            </p>
+            <button
+              type="button"
+              onClick={handleClearFilters}
+              className="mt-5 rounded-full bg-(--color-primary) px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-(--color-primary-hover)"
+            >
+              Clear Filters
+            </button>
+          </div>
+        )}
 
-                <div className="flex justify-between items-center pt-4">
-                  <span className="text-xs bg-green-100 text-green-600 px-4 py-1 rounded-full font-semibold tracking-wide">
-                    Open Now
-                  </span>
-
-                  <div className="flex items-center gap-2 text-(--color-primary) font-semibold group-hover:gap-3 transition-all duration-300">
-                    View Menu
-                    <FaArrowRight className="text-sm group-hover:translate-x-1 transition-transform duration-300" />
+        {/* RESTAURANT GRID */}
+        {!loading && !error && visibleRestaurants.length > 0 && (
+          <>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {visibleRestaurants.map((r) => (
+                <article
+                  key={r._id}
+                  onClick={() => handleRestaurantClick(r)}
+                  className="group cursor-pointer overflow-hidden rounded-2xl border border-(--color-border) bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
+                >
+                  <div className="relative h-44 overflow-hidden bg-(--color-section-light)">
+                    {r.photo?.url ? (
+                      <img
+                        src={r.photo.url}
+                        alt={`${r.restaurantName || "Restaurant"} storefront`}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-4xl text-(--color-primary)">
+                        <FaBowlFood aria-hidden="true" />
+                      </div>
+                    )}
                   </div>
-                </div>
-              </div>
 
-              {/* Animated Border Glow */}
-              <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-(--color-primary) group-hover:shadow-[0_0_25px_var(--color-primary)] transition-all duration-500"></div>
+                  <div className="space-y-2 p-4">
+                    <h3 className="truncate text-lg font-bold">
+                      {r.restaurantName}
+                    </h3>
+                    <p className="truncate text-sm text-(--color-text-secondary)">
+                      {r.cuisine}
+                    </p>
+                    {r.address && (
+                      <p className="flex items-center gap-1 truncate text-xs text-(--color-text-secondary)">
+                        <FaLocationDot className="shrink-0" aria-hidden="true" />
+                        {r.address}
+                      </p>
+                    )}
+
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRestaurantClick(r);
+                      }}
+                      className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-(--color-primary) py-2.5 text-sm font-semibold text-white transition hover:bg-(--color-primary-hover)"
+                    >
+                      View Menu
+                      <FaArrowRightLong className="text-xs transition group-hover:translate-x-1" aria-hidden="true" />
+                    </button>
+                  </div>
+                </article>
+              ))}
             </div>
-          ))}
-      </div>
-    </div>
-  </>
-);
 
+            {hasMore && (
+              <div className="mt-10 flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => setVisibleCount((prev) => prev + PAGE_SIZE)}
+                  className="rounded-full border border-(--color-primary) px-8 py-2.5 text-sm font-semibold text-(--color-primary) transition hover:bg-(--color-primary) hover:text-white"
+                >
+                  Load More
+                </button>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </main>
+  );
 };
 
 export default OrderNow;
