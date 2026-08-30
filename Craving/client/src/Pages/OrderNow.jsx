@@ -78,7 +78,7 @@ const OrderNow = () => {
                 />
 
                 {/* Soft Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent"></div>
 
                 {/* City Badge */}
                 <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-semibold shadow-md">

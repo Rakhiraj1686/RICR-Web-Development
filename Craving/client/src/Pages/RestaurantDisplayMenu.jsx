@@ -79,22 +79,22 @@ const RestaurantDisplayMenu = () => {
     <>
       
       {/* ================= HEADER SECTION ================= */}
-      <div className="relative w-full h-[680px] overflow-hidden group">
+      <div className="relative w-full h-170 overflow-hidden group">
         {/* Background Image with Slow Cinematic Zoom */}
         <img
           src={data.photo.url}
           alt=""
-          className="w-full h-full object-cover scale-125 group-hover:scale-140 transition duration-[4000ms] ease-out"
+          className="w-full h-full object-cover scale-125 group-hover:scale-140 transition duration-4000 ease-out"
         />
 
         {/* Multi-Layer Cinematic Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/85 to-black/40"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-linear-to-t from-black via-black/85 to-black/40"></div>
+        <div className="absolute inset-0 bg-linear-to-r from-black/70 via-transparent to-transparent"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(230,57,70,0.22),transparent_60%)]"></div>
 
         {/* Ambient Glow Effects */}
-        <div className="absolute -bottom-32 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-(--color-primary)/20 blur-[150px] rounded-full"></div>
-        <div className="absolute top-0 right-0 w-[500px] h-[300px] bg-(--color-accent)/15 blur-[120px] rounded-full"></div>
+        <div className="absolute -bottom-32 left-1/2 -translate-x-1/2 w-200 h-100 bg-(--color-primary)/20 blur-[150px] rounded-full"></div>
+        <div className="absolute top-0 right-0 w-125 h-75 bg-(--color-accent)/15 blur-[120px] rounded-full"></div>
 
         {/* Floating Luxury Glass Card */}
         <div className="absolute bottom-24 left-6 md:left-24 text-white max-w-5xl backdrop-blur-2xl bg-white/5 border border-white/10 p-10 md:p-14 rounded-[40px] shadow-[0_20px_80px_rgba(0,0,0,0.6)] transition-all duration-700">
@@ -127,11 +127,11 @@ const RestaurantDisplayMenu = () => {
           </div>
 
           {/* Animated Gradient Divider */}
-          <div className="w-40 h-1 mt-10 rounded-full bg-gradient-to-r from-(--color-primary) via-(--color-secondary) to-(--color-accent) animate-pulse"></div>
+          <div className="w-40 h-1 mt-10 rounded-full bg-linear-to-r from-(--color-primary) via-(--color-secondary) to-(--color-accent) animate-pulse"></div>
         </div>
 
         {/* Smooth Fade to White Section */}
-        <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-white to-transparent"></div>
+        <div className="absolute bottom-0 left-0 w-full h-40 bg-linear-to-t from-white to-transparent"></div>
       </div>
 
       {/* ================= MENU SECTION ================= */}
@@ -167,7 +167,7 @@ const RestaurantDisplayMenu = () => {
                   </div>
 
                   {/* Content */}
-                  <div className="p-6 flex flex-col justify-between h-[260px]">
+                  <div className="p-6 flex flex-col justify-between h-65">
                     <div>
                       <h3 className="text-xl font-bold text-(--color-text) mb-2">
                         {EachItem.itemName}
@@ -227,7 +227,7 @@ const RestaurantDisplayMenu = () => {
 
       {/* ================= FLOATING CART ================= */}
       {cart && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] md:w-[650px] z-50">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] md:w-162.5 z-50">
           <div className="bg-(--color-background) text-(--color-text) rounded-3xl shadow-2xl px-8 py-5 flex justify-between items-center backdrop-blur-lg">
             <div className="flex items-center gap-5">
               <span className="font-semibold text-lg">

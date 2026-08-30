@@ -61,6 +61,7 @@ export const PartnerProtect = async(req,res,next) =>{
     next(error);
   }
 }
+
 export const ManagerProtect = async(req,res,next) =>{
   try {
     if(req.user.role !== "manager") {

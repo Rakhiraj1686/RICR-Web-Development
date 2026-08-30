@@ -597,7 +597,7 @@ const Home = () => {
         ref={ctaRef}
         className="fade-in-section px-4 pb-20 sm:px-6 lg:px-8"
       >
-        <div className="relative mx-auto max-w-6xl overflow-hidden rounded-3xl bg-gradient-to-r from-(--color-primary) to-(--color-secondary) px-6 py-14 text-center text-white sm:px-10">
+        <div className="relative mx-auto max-w-6xl overflow-hidden rounded-3xl bg-linear-to-r from-(--color-primary) to-(--color-secondary) px-6 py-14 text-center text-white sm:px-10">
           <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-(--color-accent)/30 blur-3xl" />
           <div className="pointer-events-none absolute -left-16 -bottom-16 h-56 w-56 rounded-full bg-white/20 blur-3xl" />
           <div className="relative">

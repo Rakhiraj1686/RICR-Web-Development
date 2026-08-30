@@ -64,7 +64,7 @@ const Header = () => {
           <img
             src={transparent}
             alt="Craving logo"
-            className="h-10 w-16 object-cover invert-100 sm:h-11 sm:w-[4.5rem]"
+            className="h-10 w-16 object-cover invert-100 sm:h-11 sm:w-18"
           />
         </Link>
 
@@ -102,7 +102,7 @@ const Header = () => {
           >
             <FaCartShopping size={15} />
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-(--color-secondary) px-1 text-[10px] font-bold leading-none text-white">
+              <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-(--color-secondary) px-1 text-[10px] font-bold leading-none text-white">
                 {cartCount > 9 ? "9+" : cartCount}
               </span>
             )}
@@ -115,7 +115,7 @@ const Header = () => {
                 onClick={handleProfileClick}
                 className="flex items-center gap-1.5 rounded-full bg-white/10 py-1.5 pl-3 pr-2 text-sm font-semibold text-white transition hover:bg-white/20"
               >
-                <span className="max-w-[7rem] truncate">
+                <span className="max-w-28 truncate">
                   {user?.fullName}
                 </span>
                 <FaChevronDown size={10} />
