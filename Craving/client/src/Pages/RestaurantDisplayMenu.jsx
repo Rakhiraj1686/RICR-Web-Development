@@ -176,7 +176,7 @@ const RestaurantDisplayMenu = () => {
   return (
     <>
       {/* ================= HERO ================= */}
-      <div className="relative h-[380px] w-full overflow-hidden sm:h-[440px] md:h-[500px]">
+      <div className="relative h-95 w-full overflow-hidden sm:h-110 md:h-125">
         {data.photo?.url ? (
           <img
             src={data.photo.url}
@@ -188,7 +188,7 @@ const RestaurantDisplayMenu = () => {
             <FaBowlFood />
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/40 to-black/10" />
 
         <div className="absolute bottom-0 left-0 w-full px-4 pb-8 text-white sm:px-6 sm:pb-10 lg:px-8">
           <div className="mx-auto max-w-6xl">
@@ -286,7 +286,7 @@ const RestaurantDisplayMenu = () => {
 
           {/* Category navigation */}
           {!loading && !loadError && cuisineTabs.length > 1 && (
-            <div className="sticky top-[57px] z-20 -mx-4 mb-8 overflow-x-auto bg-(--color-background)/95 px-4 py-3 backdrop-blur-sm sm:top-[65px]">
+            <div className="sticky top-14.25 z-20 -mx-4 mb-8 overflow-x-auto bg-(--color-background)/95 px-4 py-3 backdrop-blur-sm sm:top-16.25">
               <div className="mx-auto flex max-w-6xl gap-2">
                 {cuisineTabs.map((tab) => (
                   <button

@@ -28,24 +28,24 @@ const userSchema = mongoose.Schema(
     },
     dob: {
       type: String,
-      required: true,
-      default: "N/A",
+      required: false,
+      default: "",
     },
     gender: {
       type: String,
-      enum: ["male", "female", "others"],
-      required: true,
-      default:"N/A",
+      enum: ["male", "female", "others", ""],
+      required: false,
+      default: "",
     },
     address: {
       type: String,
-      required: true,
-      default: "N/A",
+      required: false,
+      default: "",
     },
     pin: {
       type: String,
-      required: true,
-      default: "N/A",
+      required: false,
+      default: "",
     },
     photo: {
       url: {
@@ -60,30 +60,30 @@ const userSchema = mongoose.Schema(
     geolocation: {
       lat: {
         type: String,
-        required: true,
-        default: "N/A",
+        required: false,
+        default: "",
       },
       lon: {
         type: String,
-        required: true,
-        default: "N/A",
+        required: false,
+        default: "",
       },
     },
     paymentDetails: {
       UPI: {
         type: String,
-        required: true,
-        default: "N/A",
+        required: false,
+        default: "",
       },
       account_number: {
         type: String,
-        required: true,
-        default: "N/A",
+        required: false,
+        default: "",
       },
       IFSC: {
         type: String,
-        required: true,
-        default: "N/A",
+        required: false,
+        default: "",
       },
     },
     restaurantName: {
@@ -91,40 +91,40 @@ const userSchema = mongoose.Schema(
       required() {
         return this.role === "manager";
       },
-      default:"N/A",
+      default: "",
     },
     cuisine: {
       type: String,
       required() {
         return this.role === "manager";
       },
-      default:"N/A",
+      default: "",
     },
     document: {
       gst: {
         type: String,
-        required: true,
-        default: "N/A",
+        required: false,
+        default: "",
       },
       dl: {
         type: String,
-        required: true,
-        default: "N/A",
+        required: false,
+        default: "",
       },
       fssai: {
         type: String,
-        required: true,
-        default: "N/A",
+        required: false,
+        default: "",
       },
       uidai: {
         type: String,
-        required: true,
-        default: "N/A",
+        required: false,
+        default: "",
       },
       pan: {
         type: String,
-        required: true,
-        default: "N/A",
+        required: false,
+        default: "",
       },
     },
     isActive: {

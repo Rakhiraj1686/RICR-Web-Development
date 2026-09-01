@@ -1,8 +1,10 @@
 import React from "react";
 import { TbChartTreemap } from "react-icons/tb";
 import { ImProfile } from "react-icons/im";
+import { BiSolidFoodMenu } from "react-icons/bi";
 import { TiShoppingCart } from "react-icons/ti";
-import { FaHistory } from "react-icons/fa";
+import { FaMoneyBillWave } from "react-icons/fa";
+import { RiCustomerService2Fill } from "react-icons/ri";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdLogout } from "react-icons/md";
 import api from "../../Config/Api";
@@ -10,43 +12,52 @@ import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const RiderSideBar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
-  const { setUser, setIsLogin } = useAuth();
+const RestaurantSideBar = ({
+  active,
+  setActive,
+  isCollapsed,
+  setIsCollapsed,
+  showCollapseToggle = true,
+}) => {
   const navigate = useNavigate();
-
+  const { setUser, setIsLogin } = useAuth();
   const menuItems = [
-    { key: "overview", title: "Overview", icon: <TbChartTreemap /> },
+    { key: "overview", title: "Overview", icon: <TbChartTreemap/> },
     { key: "profile", title: "Profile", icon: <ImProfile /> },
-    { key: "current-order", title: "Current Order", icon: <TiShoppingCart /> },
-    { key: "order-history", title: "Order History", icon: <FaHistory /> },
+    { key: "menu", title: "Menu", icon: <BiSolidFoodMenu /> },
+    { key: "orders", title: "Orders", icon: <TiShoppingCart /> },
+    { key: "earnings", title: "Earnings", icon: <FaMoneyBillWave /> },
+    { key: "helpdesk", title: "Help Desk", icon: <RiCustomerService2Fill /> },
   ];
-
   const handleLogout = async () => {
     try {
       const res = await api.get("/auth/logout");
       toast.success(res.data.message);
       setUser("");
       setIsLogin(false);
-      navigate("/");
       sessionStorage.removeItem("CravingUser");
+      navigate("/login");
     } catch (error) {
       toast.error(error?.response?.data?.message || "Unknown Error");
     }
   };
-
   return (
     <>
-      <div className="p-2 flex flex-col justify-between h-full">
+      <div className="box-border h-full overflow-hidden p-2 flex flex-col justify-between">
         <div>
-          <div className="h-10 text-xl font-bold flex gap-5 items-center mb-3">
-            <button
-              className="ms-2 hover:scale-105"
-              onClick={() => setIsCollapsed(!isCollapsed)}
-            >
-              <GiHamburgerMenu />
-            </button>
+          <div className="h-10 text-lg font-bold flex gap-2 items-center mb-3">
+            {showCollapseToggle && (
+              <button
+                className="ms-2 hover:scale-105"
+                onClick={() => setIsCollapsed(!isCollapsed)}
+              >
+                <GiHamburgerMenu />
+              </button>
+            )}
             {!isCollapsed && (
-              <span className="overflow-hidden text-nowrap">Rider Dashboard</span>
+              <span className="overflow-hidden text-nowrap">
+                Restaurant Dashboard
+              </span>
             )}
           </div>
           <hr />
@@ -85,4 +96,4 @@ const RiderSideBar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
   );
 };
 
-export default RiderSideBar;
+export default RestaurantSideBar;

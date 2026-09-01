@@ -50,7 +50,7 @@ const RiderDashboard = () => {
           />
         </div>
         <div className={`${isCollapsed ? "w-58/60" : "w-48/60"} duration-300`}>
-          {active === "overview" && <RiderOverview />}
+          {active === "overview" && <RiderOverview setActive={setActive} />}
           {active === "profile" && <RiderProfile />}
           {active === "current-order" && <RiderCurrentOrder />}
           {active === "order-history" && <RiderOrderHistory />}
