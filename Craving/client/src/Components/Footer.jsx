@@ -14,8 +14,9 @@ const Footer = () => {
 
   return (
     <footer className="bg-(--color-text) px-4 pt-12 pb-6 text-white sm:px-6 lg:px-8">
-      <div className="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        <div>
+      <div className="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-5">
+        {/* Brand */}
+        <div className="sm:col-span-2 lg:col-span-1">
           <h3 className="text-xl font-extrabold text-(--color-accent)">
             Craving
           </h3>
@@ -54,62 +55,88 @@ const Footer = () => {
           </div>
         </div>
 
+        {/* Quick Links */}
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-wider text-white/60">
             Quick Links
           </h4>
           <ul className="mt-4 space-y-2 text-sm">
             <li>
-              <Link to="/" className="text-white/80 hover:text-white">
+              <Link to="/" className="text-white/80 hover:text-(--color-accent)">
                 Home
               </Link>
             </li>
             <li>
-              <Link to="/order-now" className="text-white/80 hover:text-white">
-                Order Now
+              <Link to="/order-now" className="text-white/80 hover:text-(--color-accent)">
+                Restaurants
               </Link>
             </li>
             <li>
-              <Link to="/about" className="text-white/80 hover:text-white">
+              <Link to="/about" className="text-white/80 hover:text-(--color-accent)">
                 About
               </Link>
             </li>
             <li>
-              <Link to="/contact" className="text-white/80 hover:text-white">
+              <Link to="/contact" className="text-white/80 hover:text-(--color-accent)">
                 Contact
               </Link>
             </li>
           </ul>
         </div>
 
+        {/* Account */}
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-wider text-white/60">
-            Customer Support
+            Account
           </h4>
           <ul className="mt-4 space-y-2 text-sm">
             <li>
-              <Link to="/contact" className="text-white/80 hover:text-white">
-                Help Center
-              </Link>
-            </li>
-            <li>
-              <Link to="/contact" className="text-white/80 hover:text-white">
-                Contact Support
-              </Link>
-            </li>
-            <li>
-              <Link to="/login" className="text-white/80 hover:text-white">
+              <Link to="/login" className="text-white/80 hover:text-(--color-accent)">
                 Login
               </Link>
             </li>
             <li>
-              <Link to="/register" className="text-white/80 hover:text-white">
+              <Link to="/register" className="text-white/80 hover:text-(--color-accent)">
                 Register
+              </Link>
+            </li>
+            <li>
+              <Link to="/userdashboard" className="text-white/80 hover:text-(--color-accent)">
+                Customer Dashboard
               </Link>
             </li>
           </ul>
         </div>
 
+        {/* For Partners */}
+        <div>
+          <h4 className="text-sm font-semibold uppercase tracking-wider text-white/60">
+            For Partners
+          </h4>
+          <p className="mt-2 text-xs text-white/50">
+            Restaurants and riders sign up through the same Register page —
+            just pick your role.
+          </p>
+          <ul className="mt-3 space-y-2 text-sm">
+            <li>
+              <Link to="/register" className="text-white/80 hover:text-(--color-accent)">
+                Become a Partner
+              </Link>
+            </li>
+            <li>
+              <Link to="/restaurantdashboard" className="text-white/80 hover:text-(--color-accent)">
+                Restaurant Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link to="/riderdashboard" className="text-white/80 hover:text-(--color-accent)">
+                Rider Dashboard
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        {/* Contact */}
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-wider text-white/60">
             Get in Touch

@@ -4,6 +4,7 @@ import RiderOverview from "../../Components/riderDashboard/RiderOverview";
 import RiderProfile from "../../Components/riderDashboard/RiderProfile";
 import RiderCurrentOrder from "../../Components/riderDashboard/RiderCurrentOrder";
 import RiderOrderHistory from "../../Components/riderDashboard/RiderOrderHistory";
+import DashboardLayout from "../../Components/DashboardLayout";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -35,28 +36,25 @@ const RiderDashboard = () => {
   }
 
   return (
-    <>
-      <div className="w-full h-[90vh] flex">
-        <div
-          className={`bg-(--color-background) duration-300 ${
-            isCollapsed ? "w-2/60" : "w-12/60"
-          }`}
-        >
-          <RiderSideBar
-            active={active}
-            setActive={setActive}
-            isCollapsed={isCollapsed}
-            setIsCollapsed={setIsCollapsed}
-          />
-        </div>
-        <div className={`${isCollapsed ? "w-58/60" : "w-48/60"} duration-300`}>
-          {active === "overview" && <RiderOverview setActive={setActive} />}
-          {active === "profile" && <RiderProfile />}
-          {active === "current-order" && <RiderCurrentOrder />}
-          {active === "order-history" && <RiderOrderHistory />}
-        </div>
-      </div>
-    </>
+    <DashboardLayout
+      title="Rider Dashboard"
+      isCollapsed={isCollapsed}
+      sidebarWidthClass="w-12/60"
+      collapsedWidthClass="w-2/60"
+      sidebar={
+        <RiderSideBar
+          active={active}
+          setActive={setActive}
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
+        />
+      }
+    >
+      {active === "overview" && <RiderOverview setActive={setActive} />}
+      {active === "profile" && <RiderProfile />}
+      {active === "current-order" && <RiderCurrentOrder />}
+      {active === "order-history" && <RiderOrderHistory />}
+    </DashboardLayout>
   );
 };
 

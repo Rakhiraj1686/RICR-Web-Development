@@ -399,7 +399,7 @@ const UserPayment = () => {
 
           <div className="overflow-x-auto">
 
-            <table className="w-full min-w-[720px]">
+            <table className="w-full min-w-180">
 
               <thead>
                 <tr className="border-b border-(--color-border) bg-(--color-background)">

@@ -5,6 +5,7 @@ import UserProfile from "../../Components/userDashboard/UserProfile";
 import UserOrder from "../../Components/userDashboard/UserOrder";
 import UserPayment from "../../Components/userDashboard/UserPayment";
 import UserHelpdesk from "../../Components/userDashboard/UserHelpdesk";
+import DashboardLayout from "../../Components/DashboardLayout";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate,useLocation } from "react-router-dom";
 
@@ -36,27 +37,26 @@ const UserDashboard = () => {
     );
   }
   return (
-    <>
-      <div className="w-full h-[92vh] flex">
-        <div
-          className={`bg-(--color-background) duration-300 ${isCollapsed ? "w-3/60" : "w-12/60"}`}
-        >
-          <UserSidebar
-            active={active}
-            setActive={setActive}
-            isCollapsed={isCollapsed}
-            setIsCollapsed={setIsCollapsed}
-          />
-        </div>
-        <div className={` duration-300 ${isCollapsed ? "w-57/60" : "w-48/60"}`}>
-          {active === "overview" && <UserOverview />}
-          {active === "profile" && <UserProfile />}
-          {active === "order" && <UserOrder />}
-          {active === "payment" && <UserPayment />}
-          {active === "helpdesk" && <UserHelpdesk />}
-        </div>
-      </div>
-    </>
+    <DashboardLayout
+      title="User Dashboard"
+      isCollapsed={isCollapsed}
+      sidebarWidthClass="w-12/60"
+      collapsedWidthClass="w-3/60"
+      sidebar={
+        <UserSidebar
+          active={active}
+          setActive={setActive}
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
+        />
+      }
+    >
+      {active === "overview" && <UserOverview />}
+      {active === "profile" && <UserProfile />}
+      {active === "order" && <UserOrder />}
+      {active === "payment" && <UserPayment />}
+      {active === "helpdesk" && <UserHelpdesk />}
+    </DashboardLayout>
   );
 };
 

@@ -8,6 +8,7 @@ import RestaurantMenu from "../../Components/restaurantDashboard/RestaurantMenu"
 import RestaurantOrders from "../../Components/restaurantDashboard/RestaurantOrders";
 import RestaurantEarnings from "../../Components/restaurantDashboard/RestaurantEarnings";
 import RestaurantHelpDesk from "../../Components/restaurantDashboard/RestaurantHelpDesk";
+import DashboardLayout from "../../Components/DashboardLayout";
 
 
 const ResturantDashboard = () => {
@@ -36,30 +37,29 @@ const ResturantDashboard = () => {
     );
   }
   return (
-    <>
-      <div className="flex h-[92.5vh] w-full overflow-hidden">
-        <div
-          className={`h-full bg-(--color-background) duration-300 ${isCollapsed ? "w-3/60" : "w-10/60"}`}
-        >
-          <RestaurantSidebar
-            active={active}
-            setActive={setActive}
-            isCollapsed={isCollapsed}
-            setIsCollapsed={setIsCollapsed}
-          />
-        </div>
-        <div
-          className={`h-full overflow-y-auto bg-(--color-primary)/10 duration-300 ${isCollapsed ? "w-57/60" : "w-50/60"}`}
-        >
-          {active === "overview" && <RestaurantOverview />}
-          {active === "profile" && <RestaurantProfile />}
-          {active === "menu" && <RestaurantMenu />}
-          {active === "orders" && <RestaurantOrders />}
-          {active === "earnings" && <RestaurantEarnings />}
-          {active === "helpdesk" && <RestaurantHelpDesk />}
-        </div>
+    <DashboardLayout
+      title="Restaurant Dashboard"
+      isCollapsed={isCollapsed}
+      sidebarWidthClass="w-10/60"
+      collapsedWidthClass="w-3/60"
+      sidebar={
+        <RestaurantSidebar
+          active={active}
+          setActive={setActive}
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
+        />
+      }
+    >
+      <div className="h-full bg-(--color-primary)/10">
+        {active === "overview" && <RestaurantOverview setActive={setActive} />}
+        {active === "profile" && <RestaurantProfile />}
+        {active === "menu" && <RestaurantMenu />}
+        {active === "orders" && <RestaurantOrders />}
+        {active === "earnings" && <RestaurantEarnings />}
+        {active === "helpdesk" && <RestaurantHelpDesk />}
       </div>
-    </>
+    </DashboardLayout>
   );
 };
 

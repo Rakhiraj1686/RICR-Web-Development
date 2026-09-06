@@ -12,14 +12,14 @@ import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const UserSidebar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
-  const {setUser,setIsLogin} = useAuth();
+  const { setUser, setIsLogin } = useAuth();
   const navigate = useNavigate();
 
   const menuItems = [
-    { key: "overview", title: "overview", icon: <PiSquaresFourBold /> },
+    { key: "overview", title: "Overview", icon: <PiSquaresFourBold /> },
     { key: "profile", title: "Profile", icon: <CgProfile /> },
-    { key: "order", title: "Order", icon: <GiShoppingCart /> },
-    { key: "payment", title: "Payment", icon: <RiSecurePaymentLine /> },
+    { key: "order", title: "Orders", icon: <GiShoppingCart /> },
+    { key: "payment", title: "Payments", icon: <RiSecurePaymentLine /> },
     { key: "helpdesk", title: "Help Desk", icon: <RiCustomerService2Fill /> },
   ];
 
@@ -29,63 +29,75 @@ const UserSidebar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
       toast.success(res.data.message);
       setUser("");
       setIsLogin(false);
-      navigate("/Home")
       sessionStorage.removeItem("CravingUser");
+      navigate("/");
     } catch (error) {
       toast.error(error?.response?.data?.message || "Unknown error");
     }
   };
 
   return (
-    <>
-      <div className="p-2 flex flex-col justify-between h-full">
-        <div className="p-3">
-          <div className="h-10 text-2xl font-bold flex items-center gap-1 p-1">
+    <div className="flex h-full flex-col justify-between bg-linear-to-b from-white via-white to-(--color-background) p-3">
+      <div className="space-y-4">
+        <div className="flex items-center justify-between rounded-2xl border border-(--color-border) bg-(--color-background) p-2 shadow-sm">
+          <div className="flex items-center gap-2 overflow-hidden">
             <button
-              className="hover:scale-105 px-2"
+              type="button"
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-(--color-primary)/10 text-lg text-(--color-primary) transition hover:scale-105"
               onClick={() => setIsCollapsed(!isCollapsed)}
+              aria-label="Toggle sidebar"
             >
               <GiHamburgerMenu />
             </button>
+
             {!isCollapsed && (
-              <span className="overflow-hidden text-nowrap">
-                USER DASHBOARD
-              </span>
+              <div className="min-w-0">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-(--color-text)/70">
+                  User
+                </p>
+                <p className="truncate text-sm font-black text-(--color-text)">
+                  Dashboard
+                </p>
+              </div>
             )}
-          </div>
-          <hr />
-{/*  */}
-          <div className="grid gap-6 py-6 p-2 text-xl ">
-            {menuItems.map((item, idx) => (
-              <button
-                className={`flex gap-6 items-center rounded-xl h-12 px-3 text-nowrap duration-300 ${
-                  active === item.key
-                    ? "bg-(--color-primary) text-white"
-                    : " hover:bg-(--color-background)"
-                }`}
-                onClick={() => setActive(item.key)}
-                key={idx}
-              >
-                {" "}
-                {item.icon}
-                {!isCollapsed && item.title}
-              </button>
-            ))}
           </div>
         </div>
 
-        <div>
-          <button
-            className={`flex gap-6 items-center rounded-xl h-12 px-3 text-nowrap duration-300  w-full p-3 text-red-500 hover:bg-red-500 hover:text-white text-lg`}
-            onClick={handleLogout}
-          >
-            {" "}
-            <LuLogOut />
-            {!isCollapsed && "Logout"}
-          </button>
-        </div>
+        <nav className="space-y-2">
+          {menuItems.map((item) => {
+            const isActive = active === item.key;
+
+            return (
+              <button
+                key={item.key}
+                type="button"
+                onClick={() => setActive(item.key)}
+                className={`flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-sm font-medium transition-all duration-200 ${
+                  isActive
+                    ? "bg-(--color-primary) text-white shadow-md shadow-(--color-primary)/20"
+                    : "text-(--color-text) hover:bg-(--color-primary)/5 hover:text-(--color-primary)"
+                } ${isCollapsed ? "justify-center" : ""}`}
+                title={item.title}
+              >
+                <span className={`text-lg ${isActive ? "text-white" : "text-(--color-primary)"}`}>
+                  {item.icon}
+                </span>
+                {!isCollapsed && <span className="truncate">{item.title}</span>}
+              </button>
+            );
+          })}
+        </nav>
       </div>
-    </>
+
+      <button
+        type="button"
+        onClick={handleLogout}
+        className="mt-4 flex w-full items-center gap-3 rounded-2xl border border-red-200 bg-red-50 px-3 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-500 hover:text-white"
+      >
+        <LuLogOut className="text-lg" />
+        {!isCollapsed && "Logout"}
+      </button>
+    </div>
   );
 };
 
