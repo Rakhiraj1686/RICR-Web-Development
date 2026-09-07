@@ -174,7 +174,7 @@ return ( <div className="h-full overflow-y-auto rounded-[22px] bg-[radial-gradie
             </div>
 
             <div>
-              <p className="font-bold">Ready for Deliveries</p>
+              <p className="font-bold">Ready for Deliverie</p>
               <p className="text-sm text-(--color-text-secondary)">
                 You can receive new delivery requests.
               </p>
