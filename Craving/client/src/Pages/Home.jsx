@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import api from "../Config/Api";
+import { Button, Card, SkeletonGrid, EmptyState } from "../Components/ui";
+import RestaurantCard from "../Components/cards/RestaurantCard";
 import {
   FaMagnifyingGlass,
   FaFire,
@@ -13,7 +15,6 @@ import {
   FaLeaf,
   FaHandPointer,
   FaShieldHeart,
-  FaLocationDot,
   FaTruckFast,
   FaTag,
   FaGift,
@@ -235,18 +236,12 @@ const Home = () => {
             </p>
 
             <div className="flex flex-wrap gap-3 pt-2">
-              <button
-                onClick={() => navigate("/order-now")}
-                className="rounded-full bg-(--color-primary) px-6 py-3 font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-(--color-primary-hover) hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary) focus-visible:ring-offset-2"
-              >
+              <Button size="lg" onClick={() => navigate("/order-now")}>
                 Explore Restaurants
-              </button>
-              <button
-                onClick={() => navigate("/order-now")}
-                className="rounded-full border border-(--color-primary) px-6 py-3 font-semibold text-(--color-primary) transition hover:-translate-y-0.5 hover:bg-(--color-primary) hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary) focus-visible:ring-offset-2"
-              >
+              </Button>
+              <Button variant="outline" size="lg" onClick={() => navigate("/order-now")}>
                 Order Now
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -328,12 +323,9 @@ const Home = () => {
                 placeholder="Search for restaurants, dishes or cuisines..."
                 className="min-w-0 flex-1 bg-transparent py-2 text-left text-sm text-(--color-text) outline-none sm:text-base"
               />
-              <button
-                type="submit"
-                className="shrink-0 rounded-full bg-(--color-primary) px-4 py-2 text-sm font-semibold text-white transition hover:bg-(--color-primary-hover) sm:px-6"
-              >
+              <Button type="submit" size="md" className="shrink-0">
                 Search
-              </button>
+              </Button>
             </form>
 
             {showSuggestions && query.trim() && (
@@ -427,76 +419,25 @@ const Home = () => {
                 Discover the places everyone is craving.
               </p>
             </div>
-            <button
-              onClick={() => navigate("/order-now")}
-              className="rounded-full bg-(--color-secondary) px-5 py-2 text-sm font-semibold text-(--color-text) transition hover:bg-(--color-secondary-hover) hover:text-white"
-            >
+            <Button variant="secondary" size="md" onClick={() => navigate("/order-now")}>
               View All
-            </button>
+            </Button>
           </div>
 
           {loadingRestaurants ? (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {Array.from({ length: 4 }).map((_, idx) => (
-                <div
-                  key={idx}
-                  className="h-72 animate-pulse rounded-2xl bg-(--color-background)"
-                />
-              ))}
-            </div>
+            <SkeletonGrid count={4} className="sm:grid-cols-2 lg:grid-cols-4" />
           ) : featuredRestaurants.length > 0 ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {featuredRestaurants.map((r) => (
-                <article
-                  key={r._id}
-                  onClick={() => handleRestaurantClick(r)}
-                  className="group cursor-pointer overflow-hidden rounded-2xl border border-(--color-accent)/50 bg-(--color-background) shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-                >
-                  <div className="relative h-40 overflow-hidden bg-(--color-accent)/30">
-                    {r.photo?.url ? (
-                      <img
-                        src={r.photo.url}
-                        alt={r.restaurantName}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center text-4xl text-(--color-primary)">
-                        <FaBowlFood aria-hidden="true" />
-                      </div>
-                    )}
-                    <span className="absolute right-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-bold text-(--color-primary)">
-                      Open Now
-                    </span>
-                  </div>
-                  <div className="space-y-2 p-4">
-                    <h3 className="truncate font-bold">{r.restaurantName}</h3>
-                    <p className="truncate text-sm text-(--color-text-secondary)">
-                      {r.cuisine}
-                    </p>
-                    {r.address && (
-                      <p className="flex items-center gap-1 truncate text-xs text-(--color-text-secondary)">
-                        <FaLocationDot className="shrink-0" aria-hidden="true" />
-                        {r.address}
-                      </p>
-                    )}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleRestaurantClick(r);
-                      }}
-                      className="mt-2 w-full rounded-full bg-(--color-primary) py-2 text-sm font-semibold text-white transition hover:bg-(--color-primary-hover)"
-                    >
-                      View Menu
-                    </button>
-                  </div>
-                </article>
+                <RestaurantCard key={r._id} restaurant={r} onOpen={handleRestaurantClick} />
               ))}
             </div>
           ) : (
-            <div className="rounded-2xl border border-dashed border-(--color-accent) bg-(--color-background) p-10 text-center text-(--color-text-secondary)">
-              No restaurants are live yet — check back soon!
-            </div>
+            <EmptyState
+              icon={<FaBowlFood />}
+              title="No restaurants are live yet"
+              description="Check back soon — new kitchens are joining Craving all the time."
+            />
           )}
         </div>
       </section>
@@ -526,9 +467,10 @@ const Home = () => {
                     ? "text-(--color-secondary)"
                     : "text-(--color-accent)";
               return (
-                <div
+                <Card
                   key={offer.title}
-                  className="flex flex-col justify-between rounded-2xl border border-(--color-accent)/40 bg-(--color-card) p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+                  interactive
+                  className="flex flex-col justify-between p-6"
                 >
                   <div>
                     <span
@@ -541,13 +483,15 @@ const Home = () => {
                       {offer.text}
                     </p>
                   </div>
-                  <button
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="mt-5 self-start"
                     onClick={() => navigate("/order-now")}
-                    className="mt-5 self-start rounded-full bg-(--color-secondary) px-4 py-2 text-sm font-semibold text-(--color-text) transition hover:bg-(--color-secondary-hover) hover:text-white"
                   >
                     Claim Now
-                  </button>
-                </div>
+                  </Button>
+                </Card>
               );
             })}
           </div>
@@ -569,18 +513,15 @@ const Home = () => {
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {WHY_CHOOSE.map((item) => (
-              <div
-                key={item.title}
-                className="rounded-2xl border border-(--color-accent)/50 bg-(--color-background) p-6 text-center transition hover:-translate-y-1 hover:shadow-md"
-              >
-                <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white text-2xl text-(--color-primary) shadow-sm">
+              <Card key={item.title} interactive className="p-6 text-center">
+                <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-(--color-background) text-2xl text-(--color-primary) shadow-sm">
                   {item.icon}
                 </span>
                 <h3 className="mt-4 font-bold">{item.title}</h3>
                 <p className="mt-2 text-sm text-(--color-text-secondary)">
                   {item.text}
                 </p>
-              </div>
+              </Card>
             ))}
           </div>
         </div>
@@ -602,7 +543,7 @@ const Home = () => {
           <div className="flex flex-col gap-6 sm:flex-row sm:items-stretch">
             {STEPS.map((s, idx) => (
               <React.Fragment key={s.step}>
-                <div className="flex-1 rounded-2xl border border-(--color-accent)/50 bg-white p-6 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                <Card interactive className="flex-1 p-6 text-center">
                   <span className="text-4xl font-black text-(--color-primary)">
                     {s.step}
                   </span>
@@ -610,7 +551,7 @@ const Home = () => {
                   <p className="mt-2 text-sm text-(--color-text-secondary)">
                     {s.text}
                   </p>
-                </div>
+                </Card>
                 {idx < STEPS.length - 1 && (
                   <div className="flex items-center justify-center text-(--color-accent) sm:rotate-0">
                     <FaArrowRightLong className="hidden text-2xl sm:block" aria-hidden="true" />
@@ -652,12 +593,9 @@ const Home = () => {
                 </li>
               ))}
             </ul>
-            <button
-              onClick={() => navigate("/order-now")}
-              className="mt-7 rounded-full bg-(--color-primary) px-7 py-3 font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-(--color-primary-hover) hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary) focus-visible:ring-offset-2"
-            >
+            <Button size="lg" onClick={() => navigate("/order-now")} className="mt-7">
               Start Ordering
-            </button>
+            </Button>
           </div>
         </div>
       </section>
@@ -677,12 +615,13 @@ const Home = () => {
             <p className="mx-auto mt-3 max-w-xl text-white/85">
               Your next delicious meal is just a few clicks away.
             </p>
-            <button
+            <Button
+              size="lg"
               onClick={() => navigate("/order-now")}
-              className="mt-7 rounded-full bg-white px-8 py-3 font-bold text-(--color-primary) transition hover:bg-white/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-(--color-primary)"
+              className="mt-7 !bg-white !text-(--color-primary) hover:!bg-white/90"
             >
               Explore Restaurants
-            </button>
+            </Button>
           </div>
         </div>
       </section>
