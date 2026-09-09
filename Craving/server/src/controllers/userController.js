@@ -159,7 +159,7 @@ export const UserAllOrders = async (req, res, next) => {
   try {
     const currentUser = req.user;
     const orders = await order.find({ userId: currentUser._id })
-      .populate("restaurantID")
+      .populate("restaurantId")
       .populate("riderId")
       .sort({ createdAt: -1 });
     res

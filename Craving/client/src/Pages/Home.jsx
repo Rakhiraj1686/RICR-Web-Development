@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import api from "../Config/Api";
 import { Button, Card, SkeletonGrid, EmptyState } from "../Components/ui";
-import RestaurantCard from "../Components/cards/RestaurantCard";
+import RestaurantCard from "../Components/RestaurantCard";
 import {
   FaMagnifyingGlass,
   FaFire,

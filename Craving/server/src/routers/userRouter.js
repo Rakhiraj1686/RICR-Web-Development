@@ -19,6 +19,6 @@ router.patch("/resetPassword", Protect, UserResetPassword);
 
 router.post("/placeorder",Protect,UserPlaceOrder);
 
-router.get("placeOrders", Protect,UserAllOrders)
+router.get("/placedorders", Protect,UserAllOrders)
 
 export default router;

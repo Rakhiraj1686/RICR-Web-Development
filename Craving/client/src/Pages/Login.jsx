@@ -4,9 +4,12 @@ import toast from "react-hot-toast";
 import api from "../Config/Api";
 import { useAuth } from "../context/AuthContext";
 import ForgetPasswordModal from "../Components/publicModals/ForgetPasswordModal";
+import { Input, Button } from "../Components/ui";
 import {
   FaEye,
   FaEyeSlash,
+  FaEnvelope,
+  FaLock,
   FaUtensils,
   FaPizzaSlice,
   FaBurger,
@@ -159,58 +162,42 @@ const Login = () => {
             )}
 
             <form onSubmit={handleLoginNow} className="space-y-5" noValidate>
-              <div>
-                <label
-                  htmlFor="login-email"
-                  className="mb-1.5 block text-sm font-semibold text-(--color-text)"
-                >
-                  Email Address
-                </label>
-                <input
-                  id="login-email"
-                  type="email"
-                  name="email"
-                  placeholder="Enter your email address"
-                  value={formData.email}
-                  onChange={handleChange}
-                  disabled={isLoading}
-                  required
-                  autoComplete="email"
-                  className="h-12 w-full rounded-xl border border-(--color-border) px-4 text-(--color-text) outline-none transition focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 disabled:cursor-not-allowed disabled:bg-(--color-background)"
-                />
-              </div>
+              <Input
+                label="Email Address"
+                type="email"
+                name="email"
+                placeholder="Enter your email address"
+                value={formData.email}
+                onChange={handleChange}
+                disabled={isLoading}
+                required
+                autoComplete="email"
+                iconLeft={<FaEnvelope />}
+              />
 
-              <div>
-                <label
-                  htmlFor="login-password"
-                  className="mb-1.5 block text-sm font-semibold text-(--color-text)"
-                >
-                  Password
-                </label>
-                <div className="relative">
-                  <input
-                    id="login-password"
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    placeholder="Enter your password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    disabled={isLoading}
-                    required
-                    autoComplete="current-password"
-                    className="h-12 w-full rounded-xl border border-(--color-border) px-4 pr-12 text-(--color-text) outline-none transition focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 disabled:cursor-not-allowed disabled:bg-(--color-background)"
-                  />
+              <Input
+                label="Password"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
+                disabled={isLoading}
+                required
+                autoComplete="current-password"
+                iconLeft={<FaLock />}
+                iconRight={
                   <button
                     type="button"
                     onClick={() => setShowPassword((prev) => !prev)}
                     aria-label={showPassword ? "Hide password" : "Show password"}
                     aria-pressed={showPassword}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-(--color-text-secondary) transition hover:text-(--color-text)"
+                    className="pointer-events-auto transition hover:text-(--color-text)"
                   >
                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                   </button>
-                </div>
-              </div>
+                }
+              />
 
               <div className="flex justify-end">
                 <button
@@ -222,13 +209,9 @@ const Login = () => {
                 </button>
               </div>
 
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="flex h-12 w-full items-center justify-center rounded-xl bg-(--color-primary) font-bold text-white shadow-sm transition hover:bg-(--color-primary-hover) focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary) focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70"
-              >
+              <Button type="submit" fullWidth size="lg" loading={isLoading}>
                 {isLoading ? "Logging in..." : "Login"}
-              </button>
+              </Button>
 
               <p className="pt-2 text-center text-sm text-(--color-text-secondary)">
                 Don't have an account?{" "}

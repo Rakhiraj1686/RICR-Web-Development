@@ -2,9 +2,14 @@ import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import api from "../Config/Api";
+import { Input, Button } from "../Components/ui";
 import {
   FaEye,
   FaEyeSlash,
+  FaUser as FaUserIcon,
+  FaEnvelope,
+  FaPhone,
+  FaLock,
   FaUtensils,
   FaPizzaSlice,
   FaBurger,
@@ -234,13 +239,9 @@ const Register = () => {
                 Your Craving account is ready. Log in to start exploring
                 restaurants near you.
               </p>
-              <button
-                type="button"
-                onClick={() => navigate("/login")}
-                className="mt-7 w-full max-w-xs rounded-xl bg-(--color-primary) px-6 py-3 font-bold text-white shadow-sm transition hover:bg-(--color-primary-hover)"
-              >
+              <Button size="lg" className="mt-7 w-full max-w-xs" onClick={() => navigate("/login")}>
                 Go to Login
-              </button>
+              </Button>
               <button
                 type="button"
                 onClick={() => setIsSuccess(false)}
@@ -307,114 +308,73 @@ const Register = () => {
                 </div>
 
                 {/* Full name */}
-                <div>
-                  <label
-                    htmlFor="reg-fullName"
-                    className="mb-1.5 block text-sm font-semibold text-(--color-text)"
-                  >
-                    Full Name
-                  </label>
-                  <input
-                    id="reg-fullName"
-                    type="text"
-                    name="fullName"
-                    placeholder="Enter your full name"
-                    value={formData.fullName}
-                    onChange={handleChange}
-                    disabled={isLoading}
-                    autoComplete="name"
-                    className="h-12 w-full rounded-xl border border-(--color-border) px-4 text-(--color-text) outline-none transition focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 disabled:cursor-not-allowed disabled:bg-(--color-background)"
-                  />
-                  {validationError.fullName && (
-                    <p className="mt-1.5 text-xs font-medium text-(--color-primary)">
-                      {validationError.fullName}
-                    </p>
-                  )}
-                </div>
+                <Input
+                  label="Full Name"
+                  type="text"
+                  name="fullName"
+                  placeholder="Enter your full name"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                  autoComplete="name"
+                  iconLeft={<FaUserIcon />}
+                  error={validationError.fullName}
+                />
 
                 {/* Email */}
-                <div>
-                  <label
-                    htmlFor="reg-email"
-                    className="mb-1.5 block text-sm font-semibold text-(--color-text)"
-                  >
-                    Email Address
-                  </label>
-                  <input
-                    id="reg-email"
-                    type="email"
-                    name="email"
-                    placeholder="Enter your email address"
-                    value={formData.email}
-                    onChange={handleChange}
-                    disabled={isLoading}
-                    autoComplete="email"
-                    className="h-12 w-full rounded-xl border border-(--color-border) px-4 text-(--color-text) outline-none transition focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 disabled:cursor-not-allowed disabled:bg-(--color-background)"
-                  />
-                  {validationError.email && (
-                    <p className="mt-1.5 text-xs font-medium text-(--color-primary)">
-                      {validationError.email}
-                    </p>
-                  )}
-                </div>
+                <Input
+                  label="Email Address"
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email address"
+                  value={formData.email}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                  autoComplete="email"
+                  iconLeft={<FaEnvelope />}
+                  error={validationError.email}
+                />
 
                 {/* Mobile number */}
-                <div>
-                  <label
-                    htmlFor="reg-mobile"
-                    className="mb-1.5 block text-sm font-semibold text-(--color-text)"
-                  >
-                    Phone Number
-                  </label>
-                  <input
-                    id="reg-mobile"
-                    type="tel"
-                    name="mobileNumber"
-                    placeholder="Enter your phone number"
-                    maxLength="10"
-                    value={formData.mobileNumber}
-                    onChange={handleChange}
-                    disabled={isLoading}
-                    autoComplete="tel"
-                    className="h-12 w-full rounded-xl border border-(--color-border) px-4 text-(--color-text) outline-none transition focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 disabled:cursor-not-allowed disabled:bg-(--color-background)"
-                  />
-                  {validationError.mobileNumber && (
-                    <p className="mt-1.5 text-xs font-medium text-(--color-primary)">
-                      {validationError.mobileNumber}
-                    </p>
-                  )}
-                </div>
+                <Input
+                  label="Phone Number"
+                  type="tel"
+                  name="mobileNumber"
+                  placeholder="Enter your phone number"
+                  maxLength="10"
+                  value={formData.mobileNumber}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                  autoComplete="tel"
+                  iconLeft={<FaPhone />}
+                  error={validationError.mobileNumber}
+                />
 
                 {/* Password */}
                 <div>
-                  <label
-                    htmlFor="reg-password"
-                    className="mb-1.5 block text-sm font-semibold text-(--color-text)"
-                  >
-                    Password
-                  </label>
-                  <div className="relative">
-                    <input
-                      id="reg-password"
-                      type={showPassword ? "text" : "password"}
-                      name="password"
-                      placeholder="Create a password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      disabled={isLoading}
-                      autoComplete="new-password"
-                      className="h-12 w-full rounded-xl border border-(--color-border) px-4 pr-12 text-(--color-text) outline-none transition focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 disabled:cursor-not-allowed disabled:bg-(--color-background)"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword((prev) => !prev)}
-                      aria-label={showPassword ? "Hide password" : "Show password"}
-                      aria-pressed={showPassword}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-(--color-text-secondary) transition hover:text-(--color-text)"
-                    >
-                      {showPassword ? <FaEyeSlash /> : <FaEye />}
-                    </button>
-                  </div>
+                  <Input
+                    label="Password"
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Create a password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                    autoComplete="new-password"
+                    iconLeft={<FaLock />}
+                    error={validationError.password}
+                    iconRight={
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        aria-label={showPassword ? "Hide password" : "Show password"}
+                        aria-pressed={showPassword}
+                        className="transition hover:text-(--color-text)"
+                      >
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                      </button>
+                    }
+                  />
 
                   {formData.password && (
                     <div className="mt-2">
@@ -439,68 +399,47 @@ const Register = () => {
                       </p>
                     </div>
                   )}
-                  {validationError.password && (
-                    <p className="mt-1.5 text-xs font-medium text-(--color-primary)">
-                      {validationError.password}
-                    </p>
-                  )}
                 </div>
 
                 {/* Confirm password */}
-                <div>
-                  <label
-                    htmlFor="reg-confirmPassword"
-                    className="mb-1.5 block text-sm font-semibold text-(--color-text)"
-                  >
-                    Confirm Password
-                  </label>
-                  <div className="relative">
-                    <input
-                      id="reg-confirmPassword"
-                      type={showConfirmPassword ? "text" : "password"}
-                      name="confirmPassword"
-                      placeholder="Confirm your password"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      disabled={isLoading}
-                      autoComplete="new-password"
-                      className="h-12 w-full rounded-xl border border-(--color-border) px-4 pr-12 text-(--color-text) outline-none transition focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 disabled:cursor-not-allowed disabled:bg-(--color-background)"
-                    />
+                <Input
+                  label="Confirm Password"
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  placeholder="Confirm your password"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                  autoComplete="new-password"
+                  iconLeft={<FaLock />}
+                  error={validationError.confirmPassword}
+                  iconRight={
                     <button
                       type="button"
                       onClick={() => setShowConfirmPassword((prev) => !prev)}
-                      aria-label={
-                        showConfirmPassword ? "Hide password" : "Show password"
-                      }
+                      aria-label={showConfirmPassword ? "Hide password" : "Show password"}
                       aria-pressed={showConfirmPassword}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-(--color-text-secondary) transition hover:text-(--color-text)"
+                      className="transition hover:text-(--color-text)"
                     >
                       {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                     </button>
-                  </div>
-                  {validationError.confirmPassword && (
-                    <p className="mt-1.5 text-xs font-medium text-(--color-primary)">
-                      {validationError.confirmPassword}
-                    </p>
-                  )}
-                </div>
+                  }
+                />
 
                 <div className="flex gap-3 pt-2">
-                  <button
+                  <Button
                     type="button"
+                    variant="outline"
+                    size="lg"
+                    className="flex-1"
                     onClick={handleClearForm}
                     disabled={isLoading}
-                    className="h-12 flex-1 rounded-xl border border-(--color-border) font-semibold text-(--color-text) transition hover:bg-(--color-background) disabled:cursor-not-allowed"
                   >
                     Clear
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    className="flex h-12 flex-2 items-center justify-center rounded-xl bg-(--color-primary) font-bold text-white shadow-sm transition hover:bg-(--color-primary-hover) focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary) focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70"
-                  >
+                  </Button>
+                  <Button type="submit" size="lg" className="flex-2" loading={isLoading}>
                     {isLoading ? "Creating Account..." : "Create Account"}
-                  </button>
+                  </Button>
                 </div>
 
                 <p className="pt-2 text-center text-sm text-(--color-text-secondary)">
