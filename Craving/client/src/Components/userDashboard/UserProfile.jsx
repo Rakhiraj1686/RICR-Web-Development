@@ -72,6 +72,12 @@ const UserProfile = () => {
       })
     : "N/A";
 
+  // Real completeness check instead of an always-"Complete" label —
+  // only true once the fields the app actually asks for are all filled in.
+  const isProfileComplete = Boolean(
+    user?.fullName && user?.email && user?.mobileNumber && user?.photo?.url
+  );
+
   return (
     <>
       <div className="h-full overflow-y-auto bg-gradient-to-br from-(--color-section-light) via-(--color-background) to-(--color-section-light) p-4 sm:p-6">
@@ -192,7 +198,7 @@ const UserProfile = () => {
                     Profile Status
                   </p>
                   <p className="mt-1 font-bold text-(--color-text)">
-                    Complete
+                    {isProfileComplete ? "Complete" : "Incomplete"}
                   </p>
                 </div>
 
@@ -207,12 +213,12 @@ const UserProfile = () => {
                   <FaEnvelope />
                 </div>
 
-                <div>
+                <div className="min-w-0">
                   <p className="text-xs font-semibold uppercase tracking-wide text-(--color-text-secondary)">
-                    Email Status
+                    Email
                   </p>
-                  <p className="mt-1 font-bold text-(--color-text)">
-                    Verified
+                  <p className="mt-1 truncate font-bold text-(--color-text)">
+                    {user?.email || "Not Added"}
                   </p>
                 </div>
 

@@ -52,6 +52,8 @@ const Register = () => {
     password: "",
     confirmPassword: "",
     role: "",
+    restaurantName: "",
+    cuisine: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -68,11 +70,22 @@ const Register = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    setValidationError((prev) => {
+      if (!prev[name]) return prev;
+      const next = { ...prev };
+      delete next[name];
+      return next;
+    });
     if (formError) setFormError("");
   };
 
   const handleRoleSelect = (value) => {
     setFormData((prev) => ({ ...prev, role: value }));
+    setValidationError((prev) => {
+      const next = { ...prev };
+      delete next.role;
+      return next;
+    });
   };
 
   const handleClearForm = () => {
@@ -83,24 +96,28 @@ const Register = () => {
       password: "",
       confirmPassword: "",
       role: "",
+      restaurantName: "",
+      cuisine: "",
     });
     setValidationError({});
     setFormError("");
   };
 
   const validate = () => {
-    let Error = {};
+    const Error = {};
+    const fullName = formData.fullName.trim();
+    const email = formData.email.trim();
 
-    if (formData.fullName.length < 3) {
-      Error.fullName = "Name should be More Than 3 Characters";
+    if (fullName.length < 3) {
+      Error.fullName = "Name should be at least 3 characters";
     } else {
-      if (!/^[A-Za-z ]+$/.test(formData.fullName)) {
-        Error.fullName = "Only Contain A-Z , a-z and space";
+      if (!/^[A-Za-z]+(?:[ '-][A-Za-z]+)*$/.test(fullName)) {
+        Error.fullName = "Name can contain letters, spaces, apostrophes, and hyphens";
       }
     }
 
-    if (!/^[\w.]+@(gmail|outlook|ricr|yahoo)\.(com|in|co.in)$/.test(formData.email)) {
-      Error.email = "Use Proper Email Format";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      Error.email = "Enter a valid email address";
     }
 
     if (!/^[6-9]\d{9}$/.test(formData.mobileNumber)) {
@@ -119,16 +136,26 @@ const Register = () => {
       Error.role = "Please Choose any one";
     }
 
+    if (formData.role === "manager") {
+      if (!formData.restaurantName.trim()) {
+        Error.restaurantName = "Restaurant name is required";
+      }
+      if (!formData.cuisine.trim()) {
+        Error.cuisine = "Cuisine is required";
+      }
+    }
+
     setValidationError(Error);
-    return Object.keys(Error).length === 0;
+    return Error;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormError("");
 
-    if (!validate()) {
-      toast.error("Fill the Form Correctly");
+    const errors = validate();
+    if (Object.keys(errors).length > 0) {
+      toast.error(Object.values(errors)[0]);
       return;
     }
 
@@ -306,6 +333,35 @@ const Register = () => {
                     </p>
                   )}
                 </div>
+
+                {formData.role === "manager" && (
+                  <>
+                    <Input
+                      label="Restaurant Name"
+                      type="text"
+                      name="restaurantName"
+                      placeholder="Enter your restaurant name"
+                      value={formData.restaurantName}
+                      onChange={handleChange}
+                      disabled={isLoading}
+                      autoComplete="organization"
+                      iconLeft={<FaStore />}
+                      error={validationError.restaurantName}
+                    />
+
+                    <Input
+                      label="Cuisine"
+                      type="text"
+                      name="cuisine"
+                      placeholder="e.g. Indian, Italian, Chinese"
+                      value={formData.cuisine}
+                      onChange={handleChange}
+                      disabled={isLoading}
+                      iconLeft={<FaUtensils />}
+                      error={validationError.cuisine}
+                    />
+                  </>
+                )}
 
                 {/* Full name */}
                 <Input

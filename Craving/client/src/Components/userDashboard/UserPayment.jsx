@@ -70,7 +70,7 @@ const UserPayment = () => {
         desc: `A/C ending ${String(
           user.paymentDetails.account_number
         ).slice(-4)}`,
-        tag: "Verified",
+        tag: "On file",
         icon: <MdAccountBalance />,
         iconBg: "bg-blue-100",
         iconColor: "text-blue-600",

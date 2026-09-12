@@ -9,31 +9,32 @@ import RestaurantOrders from "../../Components/restaurantDashboard/RestaurantOrd
 import RestaurantEarnings from "../../Components/restaurantDashboard/RestaurantEarnings";
 import RestaurantHelpDesk from "../../Components/restaurantDashboard/RestaurantHelpDesk";
 import DashboardLayout from "../../Components/DashboardLayout";
-
+import { EmptyState } from "../../Components/ui";
+import { FaTriangleExclamation } from "react-icons/fa6";
 
 const ResturantDashboard = () => {
   const { role, isLogin } = useAuth();
   const navigate = useNavigate();
   const [active, setActive] = useState("overview");
   const [isCollapsed, setIsCollapsed] = useState(false);
+
   useEffect(() => {
     if (!isLogin) {
       navigate("/login");
     }
-  });
+  }, [isLogin, navigate]);
 
   if (role !== "manager") {
     return (
-      <>
-        <div className="p-3">
-          <div className="border rounded shadow p-5 w-4xl mx-auto text-center bg-(--color-background)">
-            <div className="text-5xl text-red-600">⊗</div>
-            <div className="text-xl">
-              You are not login as Resturant Manager. Please Login again.
-            </div>
-          </div>
-        </div>
-      </>
+      <div className="flex min-h-[60vh] items-center justify-center px-4">
+        <EmptyState
+          icon={<FaTriangleExclamation />}
+          title="Not logged in as a restaurant manager"
+          description="This dashboard is only available to restaurant manager accounts. Please log in again with a manager account."
+          actionLabel="Go to Login"
+          onAction={() => navigate("/login")}
+        />
+      </div>
     );
   }
   return (
@@ -42,14 +43,17 @@ const ResturantDashboard = () => {
       isCollapsed={isCollapsed}
       sidebarWidthClass="w-10/60"
       collapsedWidthClass="w-3/60"
-      sidebar={
+      sidebar={({ closeMobile }) => (
         <RestaurantSidebar
           active={active}
-          setActive={setActive}
+          setActive={(key) => {
+            setActive(key);
+            closeMobile();
+          }}
           isCollapsed={isCollapsed}
           setIsCollapsed={setIsCollapsed}
         />
-      }
+      )}
     >
       <div className="h-full bg-(--color-primary)/10">
         {active === "overview" && <RestaurantOverview setActive={setActive} />}

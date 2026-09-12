@@ -8,7 +8,15 @@ export const UserRegister = async (req, res, next) => {
   try {
     console.log(req.body);
     //accept data from Fronted
-    const { fullName, email, mobileNumber, password, role } = req.body;
+    const {
+      fullName,
+      email,
+      mobileNumber,
+      password,
+      role,
+      restaurantName,
+      cuisine,
+    } = req.body;
 
     //Verify that all data exist
     if (!fullName || !email || !mobileNumber || !password || !role) {
@@ -47,6 +55,8 @@ export const UserRegister = async (req, res, next) => {
       mobileNumber,
       password: hashPassword,
       role,
+      restaurantName,
+      cuisine,
       photo,
     });
 
@@ -84,6 +94,12 @@ export const UserLogin = async (req, res, next) => {
       const error = new Error("Password didn't match");
       error.statusCode = 401;
       return next(error);
+    }
+
+    // Backfill accounts created before role became required.
+    if (!existingUser.role) {
+      existingUser.role = "customer";
+      await existingUser.save();
     }
 
     //Token Genration will be done here

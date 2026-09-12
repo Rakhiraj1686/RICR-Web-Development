@@ -9,6 +9,7 @@ import {
   RestaurantChangePhoto,
   RestaurantResetPassword,
   GetAllPlacedOrder,
+  RestaurantUpdateOrderStatus,
 } from "../controllers/restaurantController.js";
 import { ManagerProtect, Protect } from "../middlewares/authMiddleware.js";
 
@@ -49,5 +50,11 @@ router.patch(
 );
 
 router.get("/placedOrders", Protect, ManagerProtect, GetAllPlacedOrder);
+router.patch(
+  "/orders/:id/status",
+  Protect,
+  ManagerProtect,
+  RestaurantUpdateOrderStatus,
+);
 
 export default router;

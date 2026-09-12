@@ -618,7 +618,7 @@ const Home = () => {
             <Button
               size="lg"
               onClick={() => navigate("/order-now")}
-              className="mt-7 !bg-white !text-(--color-primary) hover:!bg-white/90"
+              className="mt-7 bg-white! text-(--color-primary)! hover:bg-white/90!"
             >
               Explore Restaurants
             </Button>

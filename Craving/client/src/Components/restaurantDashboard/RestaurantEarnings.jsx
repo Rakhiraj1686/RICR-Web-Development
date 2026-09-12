@@ -1,459 +1,270 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
-  FaRupeeSign,
-  FaArrowUp,
-  FaArrowDown,
   FaWallet,
   FaClock,
   FaCheckCircle,
   FaReceipt,
   FaChartLine,
   FaCalendarAlt,
-  FaDownload,
-  FaFilter,
-  FaArrowRight,
 } from "react-icons/fa";
+import api from "../../Config/Api";
+import { SkeletonText, EmptyState, ErrorState } from "../ui";
+
+const DAY_MS = 24 * 60 * 60 * 1000;
 
 const RestaurantEarnings = () => {
-  const [period, setPeriod] = useState("This Week");
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  const fetchOrders = async () => {
+    setLoading(true);
+    setError(false);
+    try {
+      const res = await api.get("/restaurant/placedOrders");
+      setOrders(Array.isArray(res?.data?.data) ? res.data.data : []);
+    } catch (err) {
+      console.log(err);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  // Every number below is derived from real orders. There is no payout/
+  // settlement model on the backend yet, so this intentionally does not
+  // show a "next settlement date" or payout status — that would have to be
+  // invented.
+  const { totalEarnings, weekEarnings, avgOrderValue, billedCount, chartDays, paidOrders, inFlightValue } =
+    useMemo(() => {
+      const paid = orders.filter((o) => o?.orderValue?.paymentStatus === "paid");
+      const delivered = paid.filter((o) => o.status === "delivered");
+      const total = delivered.reduce((sum, o) => sum + Number(o.orderValue?.total || 0), 0);
+
+      const now = Date.now();
+      const weekOrders = delivered.filter((o) => now - new Date(o.createdAt).getTime() <= 7 * DAY_MS);
+      const week = weekOrders.reduce((sum, o) => sum + Number(o.orderValue?.total || 0), 0);
+
+      const inFlight = paid
+        .filter((o) => !["delivered", "cancelled", "refused", "damaged"].includes(o.status))
+        .reduce((sum, o) => sum + Number(o.orderValue?.total || 0), 0);
+
+      const avg = delivered.length > 0 ? Math.round(total / delivered.length) : 0;
+
+      // Last 7 days of revenue, oldest first, for the bar chart.
+      const days = Array.from({ length: 7 }).map((_, i) => {
+        const dayStart = new Date(now - (6 - i) * DAY_MS);
+        dayStart.setHours(0, 0, 0, 0);
+        const dayEnd = dayStart.getTime() + DAY_MS;
+        const dayTotal = delivered
+          .filter((o) => {
+            const t = new Date(o.createdAt).getTime();
+            return t >= dayStart.getTime() && t < dayEnd;
+          })
+          .reduce((sum, o) => sum + Number(o.orderValue?.total || 0), 0);
+        return { label: dayStart.toLocaleDateString("en-IN", { weekday: "short" }), value: dayTotal };
+      });
+
+      return {
+        totalEarnings: total,
+        weekEarnings: week,
+        avgOrderValue: avg,
+        billedCount: delivered.length,
+        chartDays: days,
+        paidOrders: delivered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 8),
+        inFlightValue: inFlight,
+      };
+    }, [orders]);
+
+  const maxDayValue = Math.max(...chartDays.map((d) => d.value), 1);
 
   const stats = [
-    {
-      title: "Total Earnings",
-      value: "₹0",
-      subtitle: "All-time revenue",
-      icon: FaWallet,
-      iconBg: "bg-red-50",
-      iconColor: "text-[--color-primary]",
-    },
-    {
-      title: "This Week",
-      value: "₹0",
-      subtitle: "Weekly revenue",
-      icon: FaChartLine,
-      iconBg: "bg-green-50",
-      iconColor: "text-green-600",
-    },
-    {
-      title: "Pending Settlement",
-      value: "₹0",
-      subtitle: "Awaiting settlement",
-      icon: FaClock,
-      iconBg: "bg-orange-50",
-      iconColor: "text-orange-500",
-    },
-    {
-      title: "Completed Payouts",
-      value: "₹0",
-      subtitle: "Successfully settled",
-      icon: FaCheckCircle,
-      iconBg: "bg-blue-50",
-      iconColor: "text-blue-600",
-    },
+    { title: "Total Earnings", value: `₹${totalEarnings.toLocaleString("en-IN")}`, subtitle: "From delivered & paid orders", icon: FaWallet, iconBg: "bg-red-50", iconColor: "text-(--color-primary)" },
+    { title: "This Week", value: `₹${weekEarnings.toLocaleString("en-IN")}`, subtitle: "Last 7 days", icon: FaChartLine, iconBg: "bg-green-50", iconColor: "text-green-600" },
+    { title: "In Progress", value: `₹${inFlightValue.toLocaleString("en-IN")}`, subtitle: "Paid orders not yet delivered", icon: FaClock, iconBg: "bg-orange-50", iconColor: "text-orange-500" },
+    { title: "Avg. Order Value", value: `₹${avgOrderValue.toLocaleString("en-IN")}`, subtitle: `Across ${billedCount} delivered order${billedCount === 1 ? "" : "s"}`, icon: FaCheckCircle, iconBg: "bg-blue-50", iconColor: "text-blue-600" },
   ];
 
+  if (error) {
+    return (
+      <div className="min-h-full bg-(--color-background) p-4 sm:p-6 lg:p-8">
+        <ErrorState title="Unable to load earnings" description="Please check your connection and try again." onRetry={fetchOrders} className="rounded-3xl border border-(--color-border) bg-white" />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-full overflow-y-auto bg-[#FFF8F0]">
+    <div className="min-h-full overflow-y-auto bg-(--color-background)">
       <div className="mx-auto max-w-400 p-4 sm:p-6 lg:p-8">
-
-        {/* =====================================================
-            PAGE HEADER
-        ====================================================== */}
-        <div className="mb-7 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-
-          <div>
-            <div className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[--color-primary]">
-              <FaWallet />
-              Financial Dashboard
-            </div>
-
-            <h1 className="text-3xl font-black tracking-tight text-[#1F2937] sm:text-4xl">
-              Earnings & Transactions
-            </h1>
-
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-[#6B7280] sm:text-base">
-              Track your restaurant revenue, payouts and settlement
-              history from one place.
-            </p>
+        {/* HEADER */}
+        <div className="mb-7">
+          <div className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-(--color-primary)">
+            <FaWallet />
+            Financial Dashboard
           </div>
-
-          <button
-            type="button"
-            className="flex w-fit items-center gap-2 rounded-xl border border-[#E5E7EB] bg-white px-5 py-3 text-sm font-bold text-[#374151] shadow-sm transition-all duration-200 hover:border-[--color-primary]/30 hover:bg-[#FFF8F0]"
-          >
-            <FaDownload className="text-xs" />
-            Export Report
-          </button>
-
+          <h1 className="text-3xl font-black tracking-tight text-(--color-text) sm:text-4xl">
+            Earnings & Transactions
+          </h1>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-(--color-text-secondary) sm:text-base">
+            Revenue calculated from your restaurant's delivered and paid orders.
+          </p>
         </div>
 
-
-        {/* =====================================================
-            EARNINGS SUMMARY
-        ====================================================== */}
+        {/* STATS */}
         <div className="mb-7 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-
-          {stats.map((stat) => {
-            const Icon = stat.icon;
-
-            return (
-              <div
-                key={stat.title}
-                className="group relative overflow-hidden rounded-[22px] border border-[#E5E7EB] bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-              >
-
-                <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[#FFF8F0] transition-transform duration-500 group-hover:scale-150" />
-
-                <div className="relative flex items-start justify-between">
-
-                  <div>
-                    <p className="text-sm font-semibold text-[#6B7280]">
-                      {stat.title}
-                    </p>
-
-                    <p className="mt-3 text-3xl font-black tracking-tight text-[#1F2937]">
-                      {stat.value}
-                    </p>
-
-                    <div className="mt-2 flex items-center gap-1.5">
-                      <span className="text-xs font-medium text-[#9CA3AF]">
-                        {stat.subtitle}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div
-                    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${stat.iconBg} ${stat.iconColor} text-lg transition-transform duration-300 group-hover:scale-110`}
-                  >
-                    <Icon />
-                  </div>
-
+          {stats.map((stat) => (
+            <div key={stat.title} className="rounded-[22px] border border-(--color-border) bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-sm font-semibold text-(--color-text-secondary)">{stat.title}</p>
+                  {loading ? (
+                    <SkeletonText className="mt-3 w-20" />
+                  ) : (
+                    <p className="mt-3 text-3xl font-black tracking-tight text-(--color-text)">{stat.value}</p>
+                  )}
+                  <p className="mt-2 text-xs font-medium text-(--color-text-muted)">{stat.subtitle}</p>
                 </div>
-
+                <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${stat.iconBg} ${stat.iconColor} text-lg`}>
+                  <stat.icon />
+                </div>
               </div>
-            );
-          })}
-
+            </div>
+          ))}
         </div>
 
-
-        {/* =====================================================
-            MAIN GRID
-        ====================================================== */}
+        {/* MAIN GRID */}
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
-
-          {/* ===================================================
-              REVENUE CHART
-          ==================================================== */}
-          <section className="rounded-[26px] border border-[#E5E7EB] bg-white p-5 shadow-sm sm:p-6 xl:col-span-2">
-
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-
+          {/* REVENUE CHART — real last-7-days data, simple inline bars */}
+          <section className="rounded-[26px] border border-(--color-border) bg-white p-5 shadow-sm sm:p-6 xl:col-span-2">
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-(--color-primary-soft) text-(--color-primary)">
+                <FaChartLine />
+              </div>
               <div>
-                <div className="flex items-center gap-3">
-
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#FFF0E7] text-[--color-primary]">
-                    <FaChartLine />
-                  </div>
-
-                  <div>
-                    <h2 className="text-lg font-extrabold text-[#1F2937] sm:text-xl">
-                      Revenue Overview
-                    </h2>
-
-                    <p className="mt-0.5 text-xs text-[#6B7280]">
-                      Track your earnings over time
-                    </p>
-                  </div>
-
-                </div>
+                <h2 className="text-lg font-extrabold text-(--color-text) sm:text-xl">Last 7 Days</h2>
+                <p className="mt-0.5 text-xs text-(--color-text-secondary)">Revenue from delivered orders, by day</p>
               </div>
-
-              <select
-                value={period}
-                onChange={(e) => setPeriod(e.target.value)}
-                className="rounded-xl border border-[#E5E7EB] bg-[#FFF8F0] px-4 py-2.5 text-sm font-semibold text-[#374151] outline-none transition focus:border-[--color-primary] focus:ring-2 focus:ring-[--color-primary]/10"
-              >
-                <option>This Week</option>
-                <option>This Month</option>
-                <option>Last 3 Months</option>
-                <option>This Year</option>
-              </select>
-
             </div>
 
-
-            {/* Chart Placeholder */}
-            <div className="relative mt-6 flex min-h-82.5 items-center justify-center overflow-hidden rounded-[22px] bg-[#FFF8F0]">
-
-              {/* Decorative chart lines */}
-              <div className="absolute inset-x-8 top-12 space-y-12 opacity-40">
-                <div className="border-t border-dashed border-[#D1D5DB]" />
-                <div className="border-t border-dashed border-[#D1D5DB]" />
-                <div className="border-t border-dashed border-[#D1D5DB]" />
-                <div className="border-t border-dashed border-[#D1D5DB]" />
-              </div>
-
-              <div className="relative z-10 max-w-sm px-6 text-center">
-
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-sm">
-                  <FaChartLine className="text-xl text-[--color-primary]" />
+            {loading ? (
+              <SkeletonText lines={4} className="mt-8" />
+            ) : totalEarnings === 0 && weekEarnings === 0 ? (
+              <div className="mt-6 flex min-h-52 items-center justify-center rounded-[22px] bg-(--color-background) text-center">
+                <div className="max-w-sm px-5">
+                  <p className="font-bold text-(--color-text)">No revenue yet</p>
+                  <p className="mt-2 text-sm text-(--color-text-secondary)">
+                    Your revenue chart will fill in as orders are delivered and paid.
+                  </p>
                 </div>
-
-                <h3 className="mt-5 text-lg font-extrabold text-[#1F2937]">
-                  Revenue data will appear here
-                </h3>
-
-                <p className="mt-2 text-sm leading-6 text-[#6B7280]">
-                  Your earnings chart will automatically display once
-                  transaction data becomes available.
-                </p>
-
               </div>
-
-            </div>
-
+            ) : (
+              <div className="mt-8 flex h-52 items-end justify-between gap-3 px-2">
+                {chartDays.map((day) => (
+                  <div key={day.label} className="flex flex-1 flex-col items-center gap-2">
+                    <div className="flex h-40 w-full items-end justify-center">
+                      <div
+                        className="w-full max-w-10 rounded-t-lg bg-(--color-primary) transition-all"
+                        style={{ height: `${Math.max((day.value / maxDayValue) * 100, day.value > 0 ? 6 : 2)}%` }}
+                        title={`₹${day.value}`}
+                      />
+                    </div>
+                    <span className="text-[11px] font-semibold text-(--color-text-secondary)">{day.label}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
 
-
-          {/* ===================================================
-              SETTLEMENT CARD
-          ==================================================== */}
-          <section className="rounded-[26px] border border-[#E5E7EB] bg-white p-5 shadow-sm sm:p-6">
-
+          {/* SETTLEMENT — honest about what isn't tracked yet */}
+          <section className="rounded-[26px] border border-(--color-border) bg-white p-5 shadow-sm sm:p-6">
             <div className="flex items-center gap-3">
-
               <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-50 text-orange-500">
                 <FaClock />
               </div>
-
               <div>
-                <h2 className="text-lg font-extrabold text-[#1F2937]">
-                  Settlement
-                </h2>
-
-                <p className="mt-0.5 text-xs text-[#6B7280]">
-                  Payout information
-                </p>
+                <h2 className="text-lg font-extrabold text-(--color-text)">Payouts</h2>
+                <p className="mt-0.5 text-xs text-(--color-text-secondary)">Settlement information</p>
               </div>
-
             </div>
 
-
-            <div className="mt-6 rounded-2xl bg-[#FFF8F0] p-5">
-
-              <p className="text-xs font-bold uppercase tracking-wider text-[#9CA3AF]">
-                Pending Amount
+            <div className="mt-6 rounded-2xl bg-(--color-background) p-5">
+              <p className="text-xs font-bold uppercase tracking-wider text-(--color-text-muted)">
+                Value tied up in active orders
               </p>
-
-              <div className="mt-2 flex items-center gap-1">
-
-                <FaRupeeSign className="text-xl text-[#1F2937]" />
-
-                <span className="text-3xl font-black text-[#1F2937]">
-                  0
-                </span>
-
-              </div>
-
-              <div className="mt-4 flex items-center gap-2 text-xs text-[#6B7280]">
+              <p className="mt-2 text-2xl font-black text-(--color-text)">
+                ₹{inFlightValue.toLocaleString("en-IN")}
+              </p>
+              <div className="mt-4 flex items-center gap-2 text-xs text-(--color-text-secondary)">
                 <FaCalendarAlt />
-                No pending settlements
+                From orders paid but not yet delivered
               </div>
-
             </div>
 
-
-            <div className="mt-4 space-y-3">
-
-              <div className="flex items-center justify-between rounded-xl border border-[#E5E7EB] p-3">
-                <span className="text-xs font-medium text-[#6B7280]">
-                  Next settlement
-                </span>
-
-                <span className="text-xs font-bold text-[#374151]">
-                  No data
-                </span>
-              </div>
-
-              <div className="flex items-center justify-between rounded-xl border border-[#E5E7EB] p-3">
-                <span className="text-xs font-medium text-[#6B7280]">
-                  Settlement status
-                </span>
-
-                <span className="rounded-full bg-gray-100 px-2.5 py-1 text-[10px] font-bold text-gray-500">
-                  No transactions
-                </span>
-              </div>
-
-            </div>
-
+            <p className="mt-4 text-xs leading-5 text-(--color-text-muted)">
+              Automatic payout scheduling isn't set up for your account yet — reach out through
+              the Help Desk for questions about a specific settlement.
+            </p>
           </section>
-
         </div>
 
-
-        {/* =====================================================
-            TRANSACTIONS
-        ====================================================== */}
-        <section className="mt-6 rounded-[26px] border border-[#E5E7EB] bg-white shadow-sm">
-
-          <div className="border-b border-[#E5E7EB] p-5 sm:p-6">
-
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-
+        {/* TRANSACTIONS — real delivered orders */}
+        <section className="mt-6 rounded-[26px] border border-(--color-border) bg-white shadow-sm">
+          <div className="border-b border-(--color-border) p-5 sm:p-6">
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                <FaReceipt />
+              </div>
               <div>
-                <div className="flex items-center gap-3">
+                <h2 className="text-lg font-extrabold text-(--color-text) sm:text-xl">Recent Transactions</h2>
+                <p className="mt-0.5 text-xs text-(--color-text-secondary)">Your most recently delivered, paid orders</p>
+              </div>
+            </div>
+          </div>
 
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                    <FaReceipt />
-                  </div>
-
-                  <div>
-                    <h2 className="text-lg font-extrabold text-[#1F2937] sm:text-xl">
-                      Transaction History
-                    </h2>
-
-                    <p className="mt-0.5 text-xs text-[#6B7280]">
-                      View your earnings and payout transactions
+          <div className="p-5 sm:p-6">
+            {loading ? (
+              <SkeletonText lines={5} />
+            ) : paidOrders.length === 0 ? (
+              <EmptyState
+                icon={<FaReceipt />}
+                title="No transactions yet"
+                description="Completed, paid orders will be listed here once your restaurant starts receiving payments."
+              />
+            ) : (
+              <div className="divide-y divide-(--color-border)">
+                {paidOrders.map((order) => (
+                  <div key={order._id} className="flex items-center justify-between gap-3 py-3">
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-bold text-(--color-text)">
+                        {order.orderNumber || `#${order._id?.slice(-8)}`}
+                      </p>
+                      <p className="text-xs text-(--color-text-secondary)">
+                        {new Date(order.createdAt).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}
+                      </p>
+                    </div>
+                    <p className="shrink-0 font-bold text-green-600">
+                      +₹{Number(order.orderValue?.total || 0).toLocaleString("en-IN")}
                     </p>
                   </div>
-
-                </div>
+                ))}
               </div>
-
-
-              <button
-                type="button"
-                className="flex w-fit items-center gap-2 rounded-xl border border-[#E5E7EB] px-4 py-2.5 text-sm font-bold text-[#374151] transition hover:bg-[#FFF8F0]"
-              >
-                <FaFilter className="text-xs" />
-                Filter
-              </button>
-
-            </div>
-
+            )}
           </div>
-
-
-          {/* Transaction Empty State */}
-          <div className="p-5 sm:p-8">
-
-            <div className="flex min-h-70 items-center justify-center rounded-[22px] border border-dashed border-[#E5E7EB] bg-[#FFF8F0]">
-
-              <div className="max-w-md px-5 text-center">
-
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-sm">
-                  <FaReceipt className="text-xl text-[#9CA3AF]" />
-                </div>
-
-                <h3 className="mt-5 text-lg font-extrabold text-[#1F2937]">
-                  No transactions yet
-                </h3>
-
-                <p className="mt-2 text-sm leading-6 text-[#6B7280]">
-                  Completed orders and payout transactions will be
-                  displayed here once your restaurant starts receiving
-                  payments.
-                </p>
-
-              </div>
-
-            </div>
-
-          </div>
-
         </section>
 
-
-        {/* =====================================================
-            EARNING INSIGHTS
-        ====================================================== */}
-        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-
-          <div className="rounded-[22px] border border-[#E5E7EB] bg-white p-5 shadow-sm">
-
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-50 text-green-600">
-              <FaArrowUp />
-            </div>
-
-            <h3 className="mt-4 text-sm font-extrabold text-[#1F2937]">
-              Revenue Growth
-            </h3>
-
-            <p className="mt-1 text-xs leading-5 text-[#6B7280]">
-              Compare your earnings across different time periods once
-              transaction data becomes available.
-            </p>
-
+        {/* FOOTER NOTE */}
+        <div className="mt-6 flex items-center gap-3 rounded-2xl border border-(--color-border) bg-white p-4">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-(--color-primary-soft) text-(--color-primary)">
+            <FaWallet className="text-sm" />
           </div>
-
-
-          <div className="rounded-[22px] border border-[#E5E7EB] bg-white p-5 shadow-sm">
-
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50 text-orange-500">
-              <FaClock />
-            </div>
-
-            <h3 className="mt-4 text-sm font-extrabold text-[#1F2937]">
-              Settlement Tracking
-            </h3>
-
-            <p className="mt-1 text-xs leading-5 text-[#6B7280]">
-              Keep track of pending and completed settlements from your
-              restaurant account.
-            </p>
-
-          </div>
-
-
-          <div className="rounded-[22px] border border-[#E5E7EB] bg-white p-5 shadow-sm">
-
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-              <FaReceipt />
-            </div>
-
-            <h3 className="mt-4 text-sm font-extrabold text-[#1F2937]">
-              Transaction Records
-            </h3>
-
-            <p className="mt-1 text-xs leading-5 text-[#6B7280]">
-              Your complete transaction history will be available here
-              for easy tracking and reporting.
-            </p>
-
-          </div>
-
+          <p className="text-xs text-(--color-text-secondary)">
+            Earnings are calculated from your delivered, paid restaurant orders.
+          </p>
         </div>
-
-
-        {/* =====================================================
-            FOOTER NOTE
-        ====================================================== */}
-        <div className="mt-6 flex flex-col gap-3 rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
-
-          <div className="flex items-center gap-3">
-
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FFF0E7] text-[--color-primary]">
-              <FaWallet className="text-sm" />
-            </div>
-
-            <p className="text-xs text-[#6B7280]">
-              Earnings are calculated from completed restaurant orders.
-            </p>
-
-          </div>
-
-          <button
-            type="button"
-            className="flex items-center gap-2 text-xs font-bold text-[--color-primary] transition hover:translate-x-0.5"
-          >
-            Learn more
-            <FaArrowRight className="text-[9px]" />
-          </button>
-
-        </div>
-
       </div>
     </div>
   );

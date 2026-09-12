@@ -7,19 +7,25 @@ import { cn } from "../../utils/cn";
  * cards (restaurant/food cards) — static cards (KPI tiles) should leave it
  * off so the dashboard doesn't feel like it's inviting clicks everywhere.
  */
-export const Card = ({ interactive = false, className = "", children, ...props }) => (
-  <div
-    className={cn(
-      "rounded-[var(--radius-lg)] border border-(--color-border) bg-(--color-card) shadow-[var(--shadow-sm)]",
-      interactive &&
-        "transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]",
-      className
-    )}
-    {...props}
-  >
-    {children}
-  </div>
-);
+export const Card = React.forwardRef(function Card(
+  { interactive = false, className = "", children, ...props },
+  ref
+) {
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        "rounded-[var(--radius-lg)] border border-(--color-border) bg-(--color-card) shadow-[var(--shadow-sm)]",
+        interactive &&
+          "transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+});
 
 export const CardBody = ({ className = "", children }) => (
   <div className={cn("p-4", className)}>{children}</div>

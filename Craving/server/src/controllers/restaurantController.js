@@ -1,4 +1,5 @@
 import Menu from "../models/menuSchema.js";
+import Order from "../models/orderModel.js";
 import { UploadMultipleToCloudinary } from "../utils/imageUploader.js";
 import cloudinary from "../config/cloudinary.js";
 
@@ -353,7 +354,7 @@ export const GetAllPlacedOrder = async (req, res, next) => {
   try {
     const currentUser = req.user;
 
-    const allOrders = await Order.find({ restaurantID: currentUser._id })
+    const allOrders = await Order.find({ restaurantId: currentUser._id })
       .populate("userId")
       .populate("riderId")
       .sort({ createdAt: -1 });
@@ -364,6 +365,35 @@ export const GetAllPlacedOrder = async (req, res, next) => {
         message: "All Placed Orders Fetched Successfully",
         data: allOrders,
       });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Restaurant-controlled transitions only. pickedUp/onTheWay/delivered are
+// the rider's responsibility once the order leaves the kitchen, so a
+// restaurant manager can't set those from here.
+const RESTAURANT_ALLOWED_STATUSES = ["accepted", "preparing", "ready", "refused"];
+
+export const RestaurantUpdateOrderStatus = async (req, res, next) => {
+  try {
+    const currentUser = req.user;
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!RESTAURANT_ALLOWED_STATUSES.includes(status)) {
+      return res.status(400).json({ message: "Invalid status for a restaurant to set." });
+    }
+
+    const order = await Order.findOne({ _id: id, restaurantId: currentUser._id });
+    if (!order) {
+      return res.status(404).json({ message: "Order not found." });
+    }
+
+    order.status = status;
+    await order.save();
+
+    res.status(200).json({ message: "Order status updated successfully", data: order });
   } catch (error) {
     next(error);
   }

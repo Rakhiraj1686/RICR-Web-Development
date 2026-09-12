@@ -31,10 +31,21 @@ import { useContext } from "react";
 
 const AuthContext = React.createContext();
 
+const getStoredUser = () => {
+  const storedUser = sessionStorage.getItem("CravingUser");
+
+  if (!storedUser || storedUser === "undefined") return "";
+
+  try {
+    return JSON.parse(storedUser) || "";
+  } catch {
+    sessionStorage.removeItem("CravingUser");
+    return "";
+  }
+};
+
 export const AuthProvider = (props) => {
-  const [user, setUser] = useState(
-    JSON.parse(sessionStorage.getItem("CravingUser")) || "",
-  );
+  const [user, setUser] = useState(getStoredUser);
   const [isLogin, setIsLogin] = useState(!!user);
   const [role, setRole] = useState(user?.role || "");
 

@@ -57,13 +57,19 @@ const Login = () => {
 
     try {
       const res = await api.post("/auth/login", formData);
+      const loggedInUser = res?.data?.data;
+
+      if (!loggedInUser?.role) {
+        throw new Error("Login response did not include a user role");
+      }
+
       toast.success(res.data.message);
-      setUser(res.data.data);
+      setUser(loggedInUser);
       setIsLogin(true);
-      sessionStorage.setItem("CravingUser", JSON.stringify(res.data.data));
+      sessionStorage.setItem("CravingUser", JSON.stringify(loggedInUser));
       handleClearForm();
-      setRole(res.data.data.role);
-      const target = DASHBOARD_ROUTE_BY_ROLE[res.data.data.role];
+      setRole(loggedInUser.role);
+      const target = DASHBOARD_ROUTE_BY_ROLE[loggedInUser.role];
       if (target) navigate(target);
     } catch (error) {
       console.log(error);
