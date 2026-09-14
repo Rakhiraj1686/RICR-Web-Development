@@ -35,7 +35,17 @@ export const RazorPayCreateOrder = async (req, res, next) => {
 
     res.status(200).json({ message: "Redirecting for Payment", data: order });
   } catch (error) {
-    next(error);
+    console.error("Razorpay order creation failed:", {
+      statusCode: error.statusCode,
+      description: error.error?.description,
+      message: error.message,
+    });
+
+    const razorpayError = new Error(
+      error.error?.description || "Unable to create Razorpay order",
+    );
+    razorpayError.statusCode = error.statusCode === 401 ? 502 : 500;
+    next(razorpayError);
   }
 };
 

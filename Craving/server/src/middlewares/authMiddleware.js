@@ -51,8 +51,8 @@ export const AdminProtect = async(req,res,next) =>{
 
 export const PartnerProtect = async(req,res,next) =>{
   try {
-    if(req.user.role !== "partener") {
-      const error = new Error("Unauthorized! only partener can do this");
+    if(req.user.role !== "partner") {
+      const error = new Error("Unauthorized! only partner can do this");
       error.statusCode= 401;
       return next(error);
     }

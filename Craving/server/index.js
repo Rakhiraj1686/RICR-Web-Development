@@ -10,6 +10,7 @@ import UserRouter from "./src/routers/userRouter.js";
 import RestaurantRouter from "./src/routers/restaurantRouter.js"
 import RiderRouter from "./src/routers/riderRouter.js";
 import PaymentRouter from "./src/routers/paymentRouter.js";
+import AdminRouter from "./src/routers/adminRouter.js";
 import { verifyRazorPayConnect } from "./src/config/razorpay.js";
 const app = express();
 
@@ -25,6 +26,8 @@ app.use("/restaurant",RestaurantRouter);
 app.use("/rider", RiderRouter);
 app.use("/payment", PaymentRouter);
 
+app.use("/admin", AdminRouter);
+
 app.get("/", (req, res) => {
   console.log("server is working");
 });
@@ -34,7 +37,13 @@ app.use((err, req, res, next) => {
   const StatusCode = err.statusCode || 500;
   console.log("Error Found", {ErrorMessage,StatusCode});
 
-  res.status(200).json({ message: ErrorMessage });
+  // This used to always respond 200, even on error — axios only rejects a
+  // request on a non-2xx status, so every catch block across the frontend
+  // that expects a failed login/update/etc. to actually throw was silently
+  // never triggered by the status code itself (some "worked" only because
+  // the response body was missing the expected `data` and the code went on
+  // to crash on `undefined`, landing in the catch block by accident).
+  res.status(StatusCode).json({ message: ErrorMessage });
 });
 
 const port = process.env.PORT || 5000;

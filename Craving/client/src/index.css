@@ -26,6 +26,15 @@
   --color-border: #E5E7EB;
 }
 
+:root[data-theme="dark"] {
+  --color-background: #1F2937;
+  --color-section-light: #273449;
+  --color-card: #374151;
+  --color-text: #F9FAFB;
+  --color-text-secondary: #D1D5DB;
+  --color-border: #4B5563;
+}
+
 html {
   scroll-behavior: smooth;
 }

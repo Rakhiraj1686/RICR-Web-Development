@@ -17,7 +17,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import api from "../../Config/Api";
 import toast from "react-hot-toast";
-import ResetPasswordModal from "../userDashboard/modals/ResetPasswordModal";
+import ResetPasswordModal from "./modals/ResetPasswordModal";
+import EditProfileModal from "./modals/EditProfileModal";
 
 const maskLicense = (dl) => {
   if (!dl || dl === "N/A") return null;
@@ -240,7 +241,7 @@ const RiderProfile = () => {
       </div>
 
       {showEditModal && (
-        <EditRiderProfileModal onClose={() => setShowEditModal(false)} />
+        <EditProfileModal onClose={() => setShowEditModal(false)} />
       )}
       {showPasswordModal && (
         <ResetPasswordModal onClose={() => setShowPasswordModal(false)} />
@@ -275,141 +276,5 @@ const StatCard = ({ icon, label, value }) => (
   </div>
 );
 
-// Edit form intentionally limited to fullName/email/mobileNumber — the only
-// fields the existing /user/update endpoint actually persists.
-const EditRiderProfileModal = ({ onClose }) => {
-  const { user, setUser } = useAuth();
-  const [formData, setFormData] = useState({
-    fullName: user?.fullName || "",
-    email: user?.email || "",
-    mobileNumber: user?.mobileNumber || "",
-  });
-  const [errors, setErrors] = useState({});
-  const [saving, setSaving] = useState(false);
-
-  const handleChange = (e) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    setErrors((prev) => ({ ...prev, [e.target.name]: undefined }));
-  };
-
-  const validate = () => {
-    const next = {};
-    if (!formData.fullName.trim()) next.fullName = "Name is required.";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim()))
-      next.email = "Enter a valid email address.";
-    if (!/^\d{10}$/.test(formData.mobileNumber.trim()))
-      next.mobileNumber = "Enter a valid 10-digit phone number.";
-    setErrors(next);
-    return Object.keys(next).length === 0;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validate()) return;
-    setSaving(true);
-    try {
-      const res = await api.put("/user/update", formData);
-      setUser(res.data.data || { ...user, ...formData });
-      toast.success("Profile updated successfully");
-      onClose();
-    } catch (error) {
-      console.log(error);
-      toast.error("Unable to update your profile.");
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-      <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl">
-        <div className="mb-5 flex items-center justify-between">
-          <h3 className="text-lg font-bold text-(--color-text)">Edit Profile</h3>
-          <button
-            onClick={onClose}
-            aria-label="Close"
-            className="flex h-8 w-8 items-center justify-center rounded-full text-(--color-text-secondary) hover:bg-(--color-background)"
-          >
-            <FaXmark />
-          </button>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-          <div>
-            <label htmlFor="fullName" className="mb-1.5 block text-sm font-semibold">
-              Full Name
-            </label>
-            <input
-              id="fullName"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              disabled={saving}
-              className={`h-12 w-full rounded-xl border-2 px-4 outline-none disabled:bg-gray-100 ${
-                errors.fullName ? "border-red-400" : "border-(--color-border) focus:border-(--color-primary)"
-              }`}
-            />
-            {errors.fullName && <p className="mt-1 text-xs text-red-600">{errors.fullName}</p>}
-          </div>
-
-          <div>
-            <label htmlFor="email" className="mb-1.5 block text-sm font-semibold">
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              disabled={saving}
-              className={`h-12 w-full rounded-xl border-2 px-4 outline-none disabled:bg-gray-100 ${
-                errors.email ? "border-red-400" : "border-(--color-border) focus:border-(--color-primary)"
-              }`}
-            />
-            {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
-          </div>
-
-          <div>
-            <label htmlFor="mobileNumber" className="mb-1.5 block text-sm font-semibold">
-              Phone Number
-            </label>
-            <input
-              id="mobileNumber"
-              name="mobileNumber"
-              value={formData.mobileNumber}
-              onChange={handleChange}
-              disabled={saving}
-              className={`h-12 w-full rounded-xl border-2 px-4 outline-none disabled:bg-gray-100 ${
-                errors.mobileNumber ? "border-red-400" : "border-(--color-border) focus:border-(--color-primary)"
-              }`}
-            />
-            {errors.mobileNumber && (
-              <p className="mt-1 text-xs text-red-600">{errors.mobileNumber}</p>
-            )}
-          </div>
-
-          <div className="flex gap-3 pt-2">
-            <button
-              type="button"
-              onClick={onClose}
-              disabled={saving}
-              className="flex-1 rounded-xl border border-(--color-border) py-3 font-semibold text-(--color-text-secondary) transition hover:bg-(--color-background)"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={saving}
-              className="flex-1 rounded-xl bg-(--color-primary) py-3 font-semibold text-white transition hover:bg-(--color-primary-hover) disabled:cursor-not-allowed disabled:bg-gray-300"
-            >
-              {saving ? "Saving Changes..." : "Save Changes"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
 
 export default RiderProfile;

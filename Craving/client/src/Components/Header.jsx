@@ -2,12 +2,15 @@ import React, { useEffect, useMemo, useState } from "react";
 import transparent from "../assets/transparent.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 import {
   FaMagnifyingGlass,
   FaCartShopping,
   FaBars,
   FaXmark,
   FaChevronDown,
+  FaMoon,
+  FaSun,
 } from "react-icons/fa6";
 
 const NAV_LINKS = [
@@ -35,6 +38,7 @@ const getCartCount = () => {
 
 const Header = () => {
   const { user, isLogin } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -85,6 +89,15 @@ const Header = () => {
         </nav>
 
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+          <button
+            type="button"
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            onClick={toggleTheme}
+            className="flex h-9 w-9 items-center justify-center rounded-full text-white transition hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          >
+            {theme === "dark" ? <FaSun size={15} /> : <FaMoon size={15} />}
+          </button>
+
           <button
             type="button"
             aria-label="Search restaurants"

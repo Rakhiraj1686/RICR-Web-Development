@@ -29,7 +29,7 @@ const [viewDetailsModalOpen, setViewDetailsModalOpen] = useState(false);
 const fetchOrderHistory = async () => {
 setIsLoading(true);
 try {
-  const res = await api.get("/rider/orderHistory");
+  const res = await api.get("/rider/completedOrder");
 
   const data = Array.isArray(res?.data?.data) ? res.data.data : [];
 

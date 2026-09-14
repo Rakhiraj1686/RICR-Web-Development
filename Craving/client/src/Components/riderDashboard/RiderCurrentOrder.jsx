@@ -18,6 +18,8 @@ import api from "../../Config/Api";
 import Loading from "../Loading";
 import ViewDetailsModal from "./modals/ViewDetailsModal";
 import { useAuth } from "../../context/AuthContext";
+import toast from "react-hot-toast";
+import { Button } from "../ui";
 
 const RiderCurrentOrder = () => {
   const { user } = useAuth();
@@ -28,6 +30,7 @@ const RiderCurrentOrder = () => {
   const [isRefreshingLocation, setIsRefreshingLocation] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [viewDetailsModalOpen, setViewDetailsModalOpen] = useState(false);
+  const [actionOrderId, setActionOrderId] = useState(null);
   const [riderLocation, setRiderLocation] = useState(
     user?.geoLocation || null,
   );
@@ -200,6 +203,40 @@ const RiderCurrentOrder = () => {
 
     return () => clearInterval(interval);
   }, [fetchOngoingOrder]);
+
+  const handleAcceptOrder = async (orderId) => {
+    setActionOrderId(orderId);
+    try {
+      const res = await api.patch(`/rider/orders/${orderId}/accept`);
+      toast.success(res?.data?.message || "Order accepted");
+      fetchOngoingOrder();
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "This order is no longer available.");
+      fetchOngoingOrder();
+    } finally {
+      setActionOrderId(null);
+    }
+  };
+
+  const handleUpdateStatus = async (orderId, status) => {
+    setActionOrderId(orderId);
+    try {
+      const res = await api.patch(`/rider/orders/${orderId}/status`, { status });
+      toast.success(res?.data?.message || "Order updated");
+      setCurrentOrder((prev) => prev.map((o) => (o._id === orderId ? { ...o, status } : o)));
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Couldn't update this order.");
+    } finally {
+      setActionOrderId(null);
+    }
+  };
+
+  // What a rider can do next, based on the order's current status.
+  const getNextAction = (status) => {
+    if (status === "pickedUp") return { label: "Mark On The Way", nextStatus: "onTheWay" };
+    if (status === "onTheWay") return { label: "Mark Delivered", nextStatus: "delivered" };
+    return null;
+  };
 
   if (isLoading) {
     return (
@@ -530,13 +567,26 @@ const RiderCurrentOrder = () => {
                           </a>
                         )}
 
+                        {getNextAction(order?.status) && (
+                          <Button
+                            size="md"
+                            className="flex-1"
+                            loading={actionOrderId === order._id}
+                            onClick={() =>
+                              handleUpdateStatus(order._id, getNextAction(order.status).nextStatus)
+                            }
+                          >
+                            {getNextAction(order.status).label}
+                          </Button>
+                        )}
+
                         <button
                           type="button"
                           onClick={() => {
                             setSelectedOrder(order);
                             setViewDetailsModalOpen(true);
                           }}
-                          className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-(--color-primary) px-4 py-3 text-sm font-bold text-white transition hover:bg-(--color-primary-hover)"
+                          className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-(--color-border) px-4 py-3 text-sm font-bold text-(--color-text) transition hover:bg-(--color-section-light)"
                         >
                           View Full Details
                           <FaArrowRight />
@@ -683,17 +733,25 @@ const RiderCurrentOrder = () => {
                           </td>
 
                           <td className="px-5 py-4 text-right">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setSelectedOrder(order);
-                                setViewDetailsModalOpen(true);
-                              }}
-                              className="inline-flex items-center gap-2 rounded-xl bg-(--color-primary) px-4 py-2.5 text-sm font-bold text-white transition hover:bg-(--color-primary-hover)"
-                            >
-                              Details
-                              <FaArrowRight className="text-xs" />
-                            </button>
+                            <div className="flex items-center justify-end gap-2">
+                              <Button
+                                size="sm"
+                                loading={actionOrderId === order._id}
+                                onClick={() => handleAcceptOrder(order._id)}
+                              >
+                                Accept
+                              </Button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setSelectedOrder(order);
+                                  setViewDetailsModalOpen(true);
+                                }}
+                                className="inline-flex items-center gap-2 rounded-xl border border-(--color-border) px-4 py-2.5 text-sm font-bold text-(--color-text) transition hover:bg-(--color-section-light)"
+                              >
+                                Details
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       ))}
@@ -801,17 +859,26 @@ const RiderCurrentOrder = () => {
                       </div>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSelectedOrder(order);
-                        setViewDetailsModalOpen(true);
-                      }}
-                      className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-(--color-primary) px-4 py-3 text-sm font-bold text-white transition hover:bg-(--color-primary-hover)"
-                    >
-                      View Order Details
-                      <FaArrowRight />
-                    </button>
+                    <div className="mt-4 flex gap-2">
+                      <Button
+                        size="md"
+                        className="flex-1"
+                        loading={actionOrderId === order._id}
+                        onClick={() => handleAcceptOrder(order._id)}
+                      >
+                        Accept
+                      </Button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedOrder(order);
+                          setViewDetailsModalOpen(true);
+                        }}
+                        className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-(--color-border) px-4 py-3 text-sm font-bold text-(--color-text) transition hover:bg-(--color-section-light)"
+                      >
+                        Details
+                      </button>
+                    </div>
                   </article>
                 ))}
               </div>
