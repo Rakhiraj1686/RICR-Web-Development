@@ -77,7 +77,7 @@ const OrderDetailsModal = ({ open, onClose, order }) => {
                 <div key={step} className="relative flex gap-3 pb-5 last:pb-0">
                   {!isLast && (
                     <span
-                      className={`absolute left-[11px] top-6 h-full w-0.5 ${
+                      className={`absolute left-2.75 top-6 h-full w-0.5 ${
                         isDone ? "bg-(--color-primary)" : "bg-(--color-border)"
                       }`}
                     />
