@@ -89,14 +89,14 @@ const UserSidebar = ({ active, setActive, isCollapsed, setIsCollapsed }) => {
         </nav>
       </div>
 
-      <button
+      {/* <button
         type="button"
         onClick={handleLogout}
         className="mt-4 flex w-full items-center gap-3 rounded-2xl border border-red-200 bg-red-50 px-3 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-500 hover:text-white"
       >
         <LuLogOut className="text-lg" />
         {!isCollapsed && "Logout"}
-      </button>
+      </button> */}
     </div>
   );
 };
